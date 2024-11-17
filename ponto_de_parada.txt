@@ -25,13 +25,14 @@ Passos Realizados:
 21. Atualizado README.md com informações sobre o algoritmo de IA refinado
 22. Implementado tratamento de erros mais robusto
 23. Atualizado README.md com informações sobre o tratamento de erros robusto
+24. Adicionadas opções avançadas de personalização para os perfis de IA (agressividade, defesa, prioridades de habilidades)
+25. Atualizado README.md com informações sobre as novas opções de personalização da IA
 
 Passos Pendentes:
-1. Testar extensivamente todas as funcionalidades, especialmente o sistema de IA refinado e o tratamento de erros
+1. Testar extensivamente todas as funcionalidades, especialmente o sistema de IA refinado com as novas opções de personalização
 2. Ajustar os parâmetros de detecção automática de PVP/PVE para maior precisão
-3. Adicionar mais opções de personalização para os perfis de IA
-4. Considerar a adição de uma funcionalidade de exportação/importação de perfis de IA treinados
-5. Coletar feedback de usuários e fazer ajustes conforme necessário
+3. Considerar a adição de uma funcionalidade de exportação/importação de perfis de IA treinados
+4. Coletar feedback de usuários e fazer ajustes conforme necessário
 
 Próximo passo:
 Fazer commit e push das alterações recentes para o repositório GitHub.
