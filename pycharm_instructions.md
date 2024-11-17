@@ -1,5 +1,4 @@
-
-# Instruções para Gerar o Programa usando PyCharm
+# Instruções para Gerar e Executar o Programa usando PyCharm
 
 Este guia fornecerá instruções passo a passo sobre como configurar e executar o projeto Skill Rotation Macro for Throne and Liberty usando o PyCharm.
 
@@ -28,7 +27,7 @@ Este guia fornecerá instruções passo a passo sobre como configurar e executar
 
 4. Instale as dependências:
    - Abra um terminal no PyCharm (View > Tool Windows > Terminal)
-   - Execute o comando: `pip install pynput pyautogui opencv-python pillow numpy`
+   - Execute o comando: `pip install pynput pyautogui opencv-python pillow numpy PySimpleGUI keyboard`
 
 5. Configure a execução do script:
    - Clique com o botão direito em "skill_rotation_macro.py" no navegador de projetos
@@ -36,8 +35,22 @@ Este guia fornecerá instruções passo a passo sobre como configurar e executar
 
 6. Execute o programa:
    - Clique no botão de play verde no canto superior direito ou use o atalho Shift+F10
+   - O programa iniciará uma interface de linha de comando interativa
 
-7. Para executar os testes:
+7. Usar o programa via linha de comando:
+   - Digite 'iniciar' para iniciar o macro
+   - Digite 'parar' para parar o macro
+   - Digite 'gravar' para iniciar a gravação de novas habilidades
+   - Digite 'parar_gravacao' para finalizar a gravação
+   - Digite 'mostrar' para exibir as habilidades atuais
+   - Digite 'sair' para encerrar o programa
+
+8. Para executar a interface gráfica:
+   - Clique com o botão direito em "gui.py" no navegador de projetos
+   - Selecione "Run 'gui'"
+   - Use a interface gráfica para controlar o macro, criar e editar perfis, e gravar novas sequências de habilidades
+
+9. Para executar os testes:
    - Clique com o botão direito em "comprehensive_test.py" no navegador de projetos
    - Selecione "Run 'Unittests in comprehensive_test'"
 
@@ -46,10 +59,13 @@ Este guia fornecerá instruções passo a passo sobre como configurar e executar
 - Certifique-se de que todas as dependências estejam instaladas corretamente.
 - Se encontrar problemas com bibliotecas gráficas em um ambiente sem interface gráfica, considere usar Xvfb para simular um display.
 - Para desenvolvimento contínuo, use o controle de versão integrado do PyCharm para fazer commits e push das suas alterações.
+- Ao usar o modo de gravação, pressione as teclas das habilidades na ordem desejada e forneça os tempos de cooldown quando solicitado.
+- Em alguns sistemas operacionais, pode ser necessário executar o programa com privilégios de administrador devido ao uso da biblioteca keyboard.
 
 ## Solução de Problemas
 
 - Se encontrar erros relacionados a módulos não encontrados, verifique se todas as dependências foram instaladas corretamente no ambiente virtual.
 - Para problemas específicos do PyCharm, consulte a [documentação oficial do PyCharm](https://www.jetbrains.com/help/pycharm/quick-start-guide.html).
+- Se o macro não funcionar corretamente no jogo, verifique se as teclas configuradas correspondem às teclas de habilidade no jogo.
 
 Lembre-se de sempre testar o programa em um ambiente seguro antes de usá-lo no jogo real.
