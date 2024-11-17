@@ -1,7 +1,7 @@
 
 # Skill Rotation Macro for Throne and Liberty (macrotl)
 
-This script provides a customizable skill rotation macro for the game Throne and Liberty, with support for multiple profiles, a recording feature, logging, and hotkeys for profile switching.
+This script provides a customizable skill rotation macro for the game Throne and Liberty, with support for multiple profiles, a recording feature, logging, hotkeys for profile switching, and a graphical user interface.
 
 ## Installation
 
@@ -18,16 +18,15 @@ This script provides a customizable skill rotation macro for the game Throne and
    ```
    python skill_rotation_macro.py
    ```
-2. The default activation key is F1. Hold it to start the skill rotation.
-3. Press 'r' to start/stop recording a new skill sequence.
-4. Press keys 1-5 to switch between or create new profiles.
+2. Use the graphical interface to:
+   - Switch between profiles
+   - Set activation keys
+   - Record skill sequences
+   - Start and stop the macro
 
 ## Configuration
 
-Edit `config.json` to customize:
-- Activation key
-- Skill sequence and cooldowns
-- Multiple profiles
+The `config.json` file is automatically managed through the GUI, but you can also edit it manually if needed.
 
 ## Features
 
@@ -36,7 +35,7 @@ Edit `config.json` to customize:
 - Recording mode for easy skill sequence creation
 - Configurable activation key and skill cooldowns
 - Logging system for debugging and usage tracking
-- Hotkeys (1-5) for quick profile switching
+- Graphical user interface for easy configuration and control
 
 ## Logging
 
