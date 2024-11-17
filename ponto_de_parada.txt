@@ -5,15 +5,14 @@ Passos Realizados:
 1. Criado o arquivo principal skill_rotation_macro.py
 2. Criado o arquivo de configuração config.json
 3. Criado o arquivo README.md com instruções de uso
-4. Tentativa de inicializar um novo repositório Git (não necessário, pois já existe um)
+4. Atualizado o remote origin para o novo repositório: https://github.com/InovarBug/macrotl
+5. Adicionado os novos arquivos ao staging area
+6. Feito commit das alterações
+7. Feito push para o novo repositório no GitHub
+8. Verificado que todos os arquivos foram enviados corretamente
 
 Passos Pendentes:
-1. Atualizar o remote origin para o novo repositório: https://github.com/InovarBug/macrotl
-2. Adicionar os novos arquivos ao staging area
-3. Fazer commit das alterações
-4. Fazer push para o novo repositório no GitHub
-5. Verificar se todos os arquivos foram enviados corretamente
-6. Implementar melhorias sugeridas (opcional):
+1. Implementar melhorias sugeridas (opcional):
    a. Interface gráfica
    b. Sistema de logging
    c. Hotkeys para troca de perfis
@@ -21,4 +20,4 @@ Passos Pendentes:
    e. Integração com OCR
 
 Próximo passo:
-Atualizar o remote origin para o novo repositório.
+Decidir se deseja implementar alguma das melhorias sugeridas ou se o projeto está completo neste estágio.
