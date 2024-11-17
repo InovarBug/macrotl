@@ -2,21 +2,20 @@
 Ponto de Parada - Macro de Rotação de Skills para Throne and Liberty
 
 Passos Realizados:
-1-31. [Passos anteriores mantidos...]
-32. Implementada uma versão simplificada da classe SkillRotationMacro para testes
-33. Criado arquivo de testes gui_test.py para testar a funcionalidade da interface gráfica
-34. Resolvidos problemas de dependência de ambiente gráfico nos testes
-35. Corrigidos erros nos testes e na implementação da classe SkillRotationMacro
-36. Todos os testes passando com sucesso
+1-36. [Passos anteriores mantidos...]
+37. Implementada a interface gráfica real usando tkinter
+38. Integrada a interface gráfica com a lógica existente
+39. Adicionadas funcionalidades para salvar e carregar configurações
 
 Passos Pendentes:
-1. Implementar a interface gráfica real usando tkinter
-2. Integrar a interface gráfica com a lógica existente
-3. Realizar testes manuais da interface gráfica
-4. Implementar funcionalidades adicionais (se necessário)
-5. Otimizar o desempenho do macro
-6. Criar documentação detalhada para usuários finais
-7. Considerar a criação de um instalador ou pacote distribuível
+1. Realizar testes manuais da interface gráfica
+2. Implementar a funcionalidade de detecção automática de PVP/PVE
+3. Refinar a visualização da rotação de habilidades
+4. Implementar tooltips para explicar as diferentes funcionalidades na interface
+5. Adicionar opções de personalização visual (temas, cores) para a interface gráfica
+6. Otimizar o desempenho do macro
+7. Criar documentação detalhada para usuários finais
+8. Considerar a criação de um instalador ou pacote distribuível
 
 Próximo passo:
-Implementar a interface gráfica real usando tkinter e integrá-la com a lógica existente.
+Realizar testes manuais da interface gráfica para garantir que todas as funcionalidades estão operando corretamente.
