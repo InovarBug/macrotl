@@ -14,12 +14,15 @@ Passos Realizados:
 10. Implementado hotkeys para troca de perfis
 11. Atualizado README.md com as novas funcionalidades
 12. Implementado interface gráfica usando tkinter
-13. Atualizado README.md com informações sobre a interface gráfica
+13. Implementado ajuste dinâmico de cooldowns
+14. Implementado funcionalidade básica de IA para aprendizado e execução de rotação de habilidades
+15. Atualizado README.md com informações sobre a funcionalidade de IA
 
 Passos Pendentes:
-1. Implementar melhorias adicionais (opcional):
-   a. Ajuste dinâmico de cooldowns
-   b. Integração com OCR
+1. Testar extensivamente todas as funcionalidades, especialmente o sistema de IA
+2. Refinar o algoritmo de IA para melhorar a precisão da rotação de habilidades
+3. Implementar tratamento de erros mais robusto
+4. Considerar a adição de uma funcionalidade de exportação/importação de perfis de IA treinados
 
 Próximo passo:
 Fazer commit e push das alterações recentes para o repositório GitHub.
