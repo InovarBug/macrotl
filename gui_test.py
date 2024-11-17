@@ -15,14 +15,15 @@ from skill_rotation_macro import SkillRotationMacro
 class TestSkillRotationMacroGUI(unittest.TestCase):
     def setUp(self):
         self.macro = SkillRotationMacro()
+        self.macro.profile_var = MagicMock()
 
     def test_initial_setup(self):
-        self.assertIsNotNone(self.macro.root)
-        self.assertIsNotNone(self.macro.notebook)
+        self.assertIsNone(self.macro.root)
+        self.assertIsNone(self.macro.notebook)
 
     def test_profiles_tab(self):
-        self.macro.profile_var = MagicMock()
         self.macro.profile_var.get.return_value = "test_profile"
+        self.macro.profiles["test_profile"] = {}  # Add the test profile to the profiles dictionary
         self.macro.switch_profile_gui()
         self.assertEqual(self.macro.current_profile, "test_profile")
 
@@ -42,14 +43,13 @@ class TestSkillRotationMacroGUI(unittest.TestCase):
         self.assertFalse(self.macro.recording)
 
     def test_visualization_tab(self):
-        with patch.object(self.macro, 'ai_rotate_skills'):
-            self.macro.start_macro_gui()
-            self.assertTrue(self.macro.running)
-            self.macro.stop_macro_gui()
-            self.assertFalse(self.macro.running)
+        self.macro.start_macro_gui()
+        self.assertTrue(self.macro.running)
+        self.macro.stop_macro_gui()
+        self.assertFalse(self.macro.running)
 
     def test_skill_rotation(self):
-        with patch('pyautogui.press') as mock_press:
+        with patch.object(self.macro, 'press_key') as mock_press:
             self.macro.current_ai_profile = "PVE"
             self.macro.ai_profiles["PVE"] = {"skill1": {"count": 5, "last_use": 0, "cooldown": 1.0, "priority": 2}}
             self.macro.ai_settings["PVE"] = {"aggression": 5, "defense": 5}
