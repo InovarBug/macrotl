@@ -29,6 +29,7 @@ Este script fornece um macro de rotação de habilidades personalizável para o 
    - Selecionar manualmente o modo PVP ou PVE
    - Ativar/desativar a detecção automática de PVP/PVE
    - Configurar as opções avançadas de IA
+   - Exportar e importar perfis de IA
 
 ## Recursos
 
@@ -48,6 +49,7 @@ Este script fornece um macro de rotação de habilidades personalizável para o 
 - Seleção manual de modo PVP/PVE
 - Detecção automática de modo PVP/PVE (experimental)
 - Tratamento de erros robusto
+- Exportação e importação de perfis de IA treinados
 
 ## Sistema de IA Avançado
 
@@ -68,8 +70,6 @@ O sistema de IA utiliza um algoritmo refinado para a rotação de habilidades:
    - Defesa: Aumenta a probabilidade de usar habilidades defensivas
    - Prioridade de habilidades: Permite definir a importância relativa de cada habilidade
 
-Este sistema resulta em uma rotação de habilidades mais dinâmica e adaptável, que tenta imitar mais de perto o estilo de jogo do usuário, enquanto permite ajustes finos para diferentes situações de jogo.
-
 ## Aprendizado de IA
 
 1. Selecione o perfil de IA desejado (PVP ou PVE) na interface ou use os botões de seleção manual.
@@ -81,7 +81,12 @@ Este sistema resulta em uma rotação de habilidades mais dinâmica e adaptável
 
 ## Detecção Automática de PVP/PVE
 
-A funcionalidade de detecção automática usa processamento de imagem para tentar identificar se você está em modo PVP ou PVE. Esta é uma funcionalidade experimental e pode não ser 100% precisa. Use a seleção manual se preferir um controle mais preciso.
+A funcionalidade de detecção automática usa processamento de imagem para tentar identificar se você está em modo PVP ou PVE. Esta funcionalidade foi aprimorada para maior precisão, mas ainda pode ser considerada experimental. Use a seleção manual se preferir um controle mais preciso.
+
+## Exportação e Importação de Perfis de IA
+
+- Para exportar um perfil de IA treinado, clique no botão "Export AI Profile". O perfil será salvo como um arquivo JSON.
+- Para importar um perfil de IA, clique no botão "Import AI Profile" e selecione o arquivo JSON do perfil que deseja importar.
 
 ## Tratamento de Erros
 
@@ -91,6 +96,14 @@ O script inclui um sistema de tratamento de erros robusto:
 - Mensagens de erro são exibidas na interface gráfica para informar o usuário sobre problemas.
 - O script tenta lidar graciosamente com erros comuns, como arquivos de configuração ausentes ou mal formatados.
 - Em caso de erro fatal, o script tenta salvar as configurações e fechar de forma segura.
+
+## Testes Automatizados
+
+O projeto inclui um conjunto de testes automatizados para garantir o funcionamento correto das principais funcionalidades. Para executar os testes:
+
+```
+python test_skill_rotation_macro.py
+```
 
 ## Logging
 
