@@ -2,24 +2,22 @@
 Ponto de Parada - Macro de Rotação de Skills para Throne and Liberty
 
 Passos Realizados:
-1-48. [Passos anteriores mantidos...]
-49. Implementada funcionalidade para salvar e carregar diferentes configurações de visualização e temas:
-    - Adicionado sistema de temas com capacidade de salvar e carregar
-    - Criada interface para escolher cores personalizadas para cada elemento do tema
-    - Implementada funcionalidade para salvar temas personalizados
-    - Adicionada opção para carregar temas salvos
-    - Criado arquivo themes.json para armazenar os temas salvos
-    - Atualizada a aba de customização na interface gráfica para incluir as novas funcionalidades
+1-49. [Passos anteriores mantidos...]
+50. Implementado sistema de atalhos de teclado para funções comuns:
+    - Adicionados atalhos para salvar configuração, iniciar/parar gravação, alternar perfis, iniciar/parar macro, alternar detecção automática e alternar temas
+    - Criada uma nova aba na interface gráfica para exibir os atalhos disponíveis
+    - Implementado um listener de teclado para capturar os atalhos globalmente
+51. Atualizado o repositório GitHub com todas as alterações recentes
 
 Passos Pendentes:
-1. Implementar um sistema de atalhos de teclado para funções comuns
-2. Realizar testes de usabilidade com um grupo de usuários e coletar feedback
-3. Implementar possíveis melhorias de desempenho adicionais com base nos resultados dos testes
-4. Atualizar a documentação conforme necessário com base no feedback dos usuários
-5. Considerar a tradução da documentação para outros idiomas
-6. Criar um instalador para o executável (por exemplo, usando NSIS para Windows)
-7. Realizar testes extensivos do tratamento de erros implementado
-8. Testar extensivamente as novas funcionalidades de temas
+1. Realizar testes de usabilidade com um grupo de usuários e coletar feedback
+2. Implementar possíveis melhorias de desempenho adicionais com base nos resultados dos testes
+3. Atualizar a documentação conforme necessário com base no feedback dos usuários
+4. Considerar a tradução da documentação para outros idiomas
+5. Criar um instalador para o executável (por exemplo, usando NSIS para Windows)
+6. Realizar testes extensivos do tratamento de erros implementado
+7. Testar extensivamente as novas funcionalidades de temas e atalhos de teclado
+8. Implementar um sistema de atualizações automáticas
 
 Próximo passo:
-Implementar um sistema de atalhos de teclado para funções comuns, melhorando assim a eficiência e a facilidade de uso do macro.
+Realizar testes de usabilidade com um grupo de usuários e coletar feedback para identificar possíveis melhorias e problemas.
