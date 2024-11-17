@@ -13,7 +13,7 @@ from PIL import ImageGrab, ImageTk
 class SkillRotationMacro:
     def __init__(self):
         # ... [previous initialization code] ...
-        self.auto_detect_mode = False
+        self.skill_colors = {}  # To store unique colors for each skill
         self.setup_logging()
         self.setup_gui()
 
@@ -23,64 +23,65 @@ class SkillRotationMacro:
         viz_frame = ttk.Frame(self.notebook)
         self.notebook.add(viz_frame, text='Visualization')
 
-        self.canvas = tk.Canvas(viz_frame, width=400, height=400)
-        self.canvas.pack()
+        self.canvas = tk.Canvas(viz_frame, width=400, height=400, bg='white')
+        self.canvas.pack(pady=10)
 
-        ttk.Button(viz_frame, text="Start Macro", command=self.start_macro_gui).pack(side=tk.LEFT, padx=5, pady=5)
-        ttk.Button(viz_frame, text="Stop Macro", command=self.stop_macro_gui).pack(side=tk.LEFT, padx=5, pady=5)
+        control_frame = ttk.Frame(viz_frame)
+        control_frame.pack(fill=tk.X, padx=10, pady=5)
+
+        ttk.Button(control_frame, text="Start Macro", command=self.start_macro_gui).pack(side=tk.LEFT, padx=5)
+        ttk.Button(control_frame, text="Stop Macro", command=self.stop_macro_gui).pack(side=tk.LEFT, padx=5)
         
         self.auto_detect_var = tk.BooleanVar(value=self.auto_detect_mode)
-        ttk.Checkbutton(viz_frame, text="Auto-detect PVP/PVE", variable=self.auto_detect_var, 
-                        command=self.toggle_auto_detect).pack(side=tk.LEFT, padx=5, pady=5)
+        ttk.Checkbutton(control_frame, text="Auto-detect PVP/PVE", variable=self.auto_detect_var, 
+                        command=self.toggle_auto_detect).pack(side=tk.LEFT, padx=5)
 
-    def toggle_auto_detect(self):
-        self.auto_detect_mode = self.auto_detect_var.get()
-        if self.auto_detect_mode:
-            self.root.after(1000, self.detect_pvp_pve)
-        self.logger.info(f"Auto-detect PVP/PVE mode: {'ON' if self.auto_detect_mode else 'OFF'}")
+        self.current_profile_label = ttk.Label(viz_frame, text=f"Current Profile: {self.current_ai_profile}")
+        self.current_profile_label.pack(pady=5)
 
-    def detect_pvp_pve(self):
-        if self.auto_detect_mode:
-            # Capture the screen
-            screenshot = np.array(ImageGrab.grab(bbox=(0, 0, 1920, 1080)))
-            screenshot = cv2.cvtColor(screenshot, cv2.COLOR_RGB2BGR)
+        self.skill_info_frame = ttk.Frame(viz_frame)
+        self.skill_info_frame.pack(fill=tk.X, padx=10, pady=5)
 
-            # Define color ranges for PVP and PVE indicators
-            lower_pvp = np.array([0, 0, 150])  # Red color range for PVP
-            upper_pvp = np.array([50, 50, 255])
-            lower_pve = np.array([0, 150, 0])  # Green color range for PVE
-            upper_pve = np.array([50, 255, 50])
+    def visualize_skill_use(self, skill):
+        self.canvas.delete("all")
+        
+        # Create a circular layout for skills
+        center_x, center_y = 200, 200
+        radius = 150
+        num_skills = len(self.ai_profiles[self.current_ai_profile])
+        angle_step = 360 / num_skills
 
-            # Create masks
-            mask_pvp = cv2.inRange(screenshot, lower_pvp, upper_pvp)
-            mask_pve = cv2.inRange(screenshot, lower_pve, upper_pve)
+        for i, (skill_name, skill_data) in enumerate(self.ai_profiles[self.current_ai_profile].items()):
+            angle = i * angle_step
+            x = center_x + radius * np.cos(np.radians(angle))
+            y = center_y + radius * np.sin(np.radians(angle))
+            
+            # Assign a unique color to each skill if not already assigned
+            if skill_name not in self.skill_colors:
+                self.skill_colors[skill_name] = f'#{random.randint(0, 0xFFFFFF):06x}'
 
-            # Count non-zero pixels in each mask
-            pvp_pixels = cv2.countNonZero(mask_pvp)
-            pve_pixels = cv2.countNonZero(mask_pve)
+            color = self.skill_colors[skill_name]
+            
+            # Draw skill circle
+            self.canvas.create_oval(x-20, y-20, x+20, y+20, fill=color)
+            self.canvas.create_text(x, y, text=skill_name, font=("Arial", 10, "bold"))
 
-            # Determine the mode based on pixel count
-            threshold = 1000  # Adjust this value based on testing
-            if pvp_pixels > pve_pixels and pvp_pixels > threshold:
-                new_profile = "PVP"
-            elif pve_pixels > pvp_pixels and pve_pixels > threshold:
-                new_profile = "PVE"
-            else:
-                new_profile = self.current_ai_profile  # Keep current profile if unsure
+            # Highlight the used skill
+            if skill_name == skill:
+                self.canvas.create_oval(x-25, y-25, x+25, y+25, outline="red", width=3)
 
-            # Switch profile if needed
-            if new_profile != self.current_ai_profile:
-                self.current_ai_profile = new_profile
-                self.logger.info(f"Auto-switched to {new_profile} profile")
-                self.update_profile_display()
+        # Update skill info
+        for widget in self.skill_info_frame.winfo_children():
+            widget.destroy()
 
-            # Schedule next detection
-            self.root.after(1000, self.detect_pvp_pve)
+        for skill_name, skill_data in self.ai_profiles[self.current_ai_profile].items():
+            color = self.skill_colors[skill_name]
+            ttk.Label(self.skill_info_frame, text=f"{skill_name}: ", foreground=color).pack(side=tk.LEFT, padx=2)
+            ttk.Label(self.skill_info_frame, text=f"Count: {skill_data['count']}, ").pack(side=tk.LEFT)
+            ttk.Label(self.skill_info_frame, text=f"Priority: {skill_data['priority']}").pack(side=tk.LEFT, padx=(0, 10))
 
     def update_profile_display(self):
-        # Update any UI elements that display the current profile
-        # For example, you might want to update a label or change the color of something
-        pass
+        self.current_profile_label.config(text=f"Current Profile: {self.current_ai_profile}")
 
     # ... [rest of the class implementation] ...
 
