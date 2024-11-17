@@ -3,7 +3,16 @@
     "profiles": {
         "default": {
             "activation_key": "f1",
-            "skills": []
+            "skills": [
+                {
+                    "key": "3",
+                    "cooldown": 1.5
+                },
+                {
+                    "key": "4",
+                    "cooldown": 2.0
+                }
+            ]
         }
     }
 }

@@ -5,7 +5,9 @@ import json
 class SkillRotationMacro:
     def __init__(self):
         self.running = False
-        self.skills = []  # Lista de habilidades será carregada do arquivo de configuração
+        self.recording = False
+        self.skills = []
+        self.recorded_skills = []
         self.load_config()
 
     def load_config(self):
@@ -30,32 +32,88 @@ class SkillRotationMacro:
         print(f"Macro {'ativado' if self.running else 'desativado'}")
 
     def run_macro(self):
-        while True:
+        print("Simulando execução do macro por 5 segundos:")
+        start_time = time.time()
+        while time.time() - start_time < 5:
             if self.running:
                 for skill in self.skills:
-                    print(f"Simulando uso da habilidade: {skill['key']}")
+                    print(f"Usando habilidade: {skill['key']} (cooldown: {skill['cooldown']}s)")
                     time.sleep(skill['cooldown'])
             time.sleep(0.1)
 
-    def start(self):
-        print("Macro iniciado. Digite 'toggle' para ativar/desativar o macro, ou 'exit' para sair.")
-        import threading
-        macro_thread = threading.Thread(target=self.run_macro)
-        macro_thread.start()
+    def start_recording(self):
+        self.recording = True
+        self.recorded_skills = []
+        print("Gravação iniciada.")
 
-        while True:
-            command = input().strip().lower()
-            if command == 'toggle':
-                self.toggle_macro()
-            elif command == 'exit':
-                print("Encerrando o macro.")
-                self.running = False
-                break
-            else:
-                print("Comando não reconhecido. Use 'toggle' ou 'exit'.")
+    def stop_recording(self):
+        self.recording = False
+        print("Gravação finalizada.")
+        self.save_recorded_skills()
 
-        macro_thread.join()
+    def record_skill(self, key, cooldown):
+        self.recorded_skills.append({"key": key, "cooldown": float(cooldown)})
+        print(f"Habilidade registrada: Tecla {key}, Cooldown {cooldown}s")
+
+    def save_recorded_skills(self):
+        if self.recorded_skills:
+            self.skills = self.recorded_skills
+            self.update_config()
+            print("Novas habilidades salvas e ativadas.")
+        else:
+            print("Nenhuma habilidade foi gravada.")
+
+    def update_config(self):
+        try:
+            with open('config.json', 'r') as config_file:
+                config = json.load(config_file)
+            
+            current_profile = config.get('current_profile', 'default')
+            if 'profiles' not in config:
+                config['profiles'] = {}
+            if current_profile not in config['profiles']:
+                config['profiles'][current_profile] = {}
+            
+            config['profiles'][current_profile]['skills'] = self.skills
+
+            with open('config.json', 'w') as config_file:
+                json.dump(config, config_file, indent=4)
+            
+            print("Configuração atualizada com sucesso.")
+        except Exception as e:
+            print(f"Erro ao atualizar a configuração: {str(e)}")
+
+    def show_current_skills(self):
+        print("Habilidades atuais:")
+        for skill in self.skills:
+            print(f"Tecla: {skill['key']}, Cooldown: {skill['cooldown']}s")
+
+    def simulate_interactions(self):
+        print("Simulando interações com o macro:")
+        
+        print("\n1. Mostrando habilidades atuais")
+        self.show_current_skills()
+        
+        print("\n2. Iniciando o macro")
+        self.toggle_macro()
+        self.run_macro()
+        
+        print("\n3. Iniciando gravação")
+        self.start_recording()
+        self.record_skill("3", 1.5)
+        self.record_skill("4", 2.0)
+        self.stop_recording()
+        
+        print("\n4. Mostrando novas habilidades")
+        self.show_current_skills()
+        
+        print("\n5. Executando macro com novas habilidades")
+        if not self.running:
+            self.toggle_macro()
+        self.run_macro()
+        
+        print("\nSimulação concluída.")
 
 if __name__ == "__main__":
     macro = SkillRotationMacro()
-    macro.start()
+    macro.simulate_interactions()
