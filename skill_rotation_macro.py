@@ -2,6 +2,7 @@ import json
 import time
 import keyboard
 import threading
+import random
 from collections import Counter
 
 class SkillRotationMacro:
@@ -58,14 +59,29 @@ class SkillRotationMacro:
     def use_pve_skill(self, skill):
         keyboard.press_and_release(skill['key'])
         self.skill_usage[skill['key']] += 1
-        time.sleep(skill['cooldown'])
+        time.sleep(skill['cooldown'] * 1.2)  # Cooldown aumentado para PVE para simular combates mais longos
 
     def use_pvp_skill(self, skill):
-        # Lógica mais complexa para PVP pode ser implementada aqui
-        # Por exemplo, verificar a saúde do jogador antes de usar uma habilidade defensiva
-        keyboard.press_and_release(skill['key'])
-        self.skill_usage[skill['key']] += 1
+        # Lógica mais complexa para PVP
+        if skill.get('type') == 'defensive' and self.player_health() < 50:
+            # Prioriza habilidades defensivas quando a saúde está baixa
+            keyboard.press_and_release(skill['key'])
+            self.skill_usage[skill['key']] += 2  # Conta como uso duplo para enfatizar a importância
+        elif skill.get('type') == 'offensive' and self.player_health() > 70:
+            # Usa habilidades ofensivas quando a saúde está alta
+            keyboard.press_and_release(skill['key'])
+            self.skill_usage[skill['key']] += 1
+        else:
+            # Usa habilidades normalmente em outras situações
+            keyboard.press_and_release(skill['key'])
+            self.skill_usage[skill['key']] += 1
+        
         time.sleep(skill['cooldown'] * 0.8)  # Cooldown reduzido para PVP
+
+    def player_health(self):
+        # Simula a verificação da saúde do jogador
+        # Em uma implementação real, isso seria substituído por uma leitura real da saúde do jogador
+        return random.randint(1, 100)
 
     def load_profile(self, profile_name):
         if profile_name in self.config['profiles']:
