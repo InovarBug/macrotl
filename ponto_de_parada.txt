@@ -2,22 +2,21 @@
 Ponto de Parada - Macro de Rotação de Skills para Throne and Liberty
 
 Passos Realizados:
-1-41. [Passos anteriores mantidos...]
-42. Refinada a visualização da rotação de habilidades:
-    - Implementada uma visualização circular das habilidades
-    - Adicionadas cores únicas para cada habilidade
-    - Incluída uma seção de informações detalhadas sobre cada habilidade
-    - Melhorada a apresentação visual geral da interface
+1-42. [Passos anteriores mantidos...]
+43. Implementados tooltips para explicar as diferentes funcionalidades na interface:
+    - Adicionada uma classe ToolTip para gerenciar os tooltips
+    - Incluídos tooltips explicativos para todos os elementos principais da interface
+    - Melhorada a usabilidade e a compreensão das funcionalidades do macro
 
 Passos Pendentes:
-1. Realizar testes manuais da interface gráfica, incluindo a nova visualização de habilidades
-2. Implementar tooltips para explicar as diferentes funcionalidades na interface
-3. Adicionar opções de personalização visual (temas, cores) para a interface gráfica
-4. Otimizar o desempenho do macro, especialmente a detecção automática de PVP/PVE
-5. Criar documentação detalhada para usuários finais, incluindo instruções sobre a nova visualização
-6. Considerar a criação de um instalador ou pacote distribuível
-7. Implementar tratamento de erros mais robusto para a detecção automática e visualização
-8. Adicionar funcionalidade para salvar e carregar diferentes configurações de visualização
+1. Realizar testes manuais da interface gráfica, incluindo a nova funcionalidade de tooltips
+2. Adicionar opções de personalização visual (temas, cores) para a interface gráfica
+3. Otimizar o desempenho do macro, especialmente a detecção automática de PVP/PVE
+4. Criar documentação detalhada para usuários finais, incluindo instruções sobre todas as funcionalidades
+5. Considerar a criação de um instalador ou pacote distribuível
+6. Implementar tratamento de erros mais robusto para todas as funcionalidades
+7. Adicionar funcionalidade para salvar e carregar diferentes configurações de visualização
+8. Implementar um sistema de atalhos de teclado para funções comuns
 
 Próximo passo:
-Implementar tooltips para explicar as diferentes funcionalidades na interface, melhorando assim a experiência do usuário e a facilidade de uso do macro.
+Adicionar opções de personalização visual (temas, cores) para a interface gráfica, permitindo que os usuários customizem a aparência do macro de acordo com suas preferências.
