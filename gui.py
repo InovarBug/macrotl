@@ -149,31 +149,47 @@ class MacroGUI:
         ttk.Button(new_window, text='Criar', command=create_profile).pack(pady=10)
 
     def start_recording(self):
-        current_profile = self.profile_combo.get()
-        if not current_profile:
-            messagebox.showerror('Erro', 'Selecione um perfil antes de iniciar a gravação.')
-            return
         self.macro.start_recording()
         self.record_button['state'] = tk.DISABLED
         self.stop_record_button['state'] = tk.NORMAL
-        self.update_output(f'Gravação iniciada para o perfil "{current_profile}". Pressione as teclas para gravar a sequência.\n')
-        self.root.after(100, self.check_recording)
+        self.update_output('Gravação iniciada. Pressione as teclas para gravar.\n')
 
     def stop_recording(self):
-        recorded_skills = self.macro.stop_recording()
+        self.macro.stop_recording()
         self.record_button['state'] = tk.NORMAL
         self.stop_record_button['state'] = tk.DISABLED
-        self.update_output('Gravação finalizada.\n')
-        if recorded_skills:
-            self.update_output('Skills gravadas:\n')
-            for skill in recorded_skills:
-                self.update_output(f"Tecla: {skill['key']}, Cooldown: {skill['cooldown']:.2f}s\n")
-            current_profile = self.profile_combo.get()
-            self.macro.config['profiles'][current_profile]['skills'] = recorded_skills
-            self.macro.save_config()
-            self.update_output(f"Skills atualizadas para o perfil '{current_profile}'.\n")
+        recorded_skills = self.macro.recorded_skills
+        self.update_output(f'Gravação finalizada. {len(recorded_skills)} teclas gravadas.\n')
+        
+        # Mostrar janela para salvar o perfil gravado
+        save_window = tk.Toplevel(self.root)
+        save_window.title('Salvar Perfil Gravado')
+        save_window.grab_set()
+
+        ttk.Label(save_window, text='Nome do Perfil:').grid(row=0, column=0, padx=5, pady=5)
+        profile_name_entry = ttk.Entry(save_window, width=20)
+        profile_name_entry.grid(row=0, column=1, padx=5, pady=5)
+
+        ttk.Button(save_window, text='Salvar', command=lambda: self.save_recorded_profile(profile_name_entry.get(), save_window)).grid(row=1, column=0, columnspan=2, pady=10)
+
+    def save_recorded_profile(self, profile_name, save_window):
+        if profile_name:
+            recorded_skills = self.macro.recorded_skills
+            if recorded_skills:
+                self.macro.save_recorded_profile(profile_name)
+                self.update_output(f"Perfil '{profile_name}' salvo com sucesso.\n")
+                self.profile_combo['values'] = list(self.macro.config['profiles'].keys())
+                self.profile_combo.set(profile_name)
+                save_window.destroy()
+                
+                self.update_output('Skills gravadas:\n')
+                for skill in recorded_skills:
+                    self.update_output(f"Tecla: {skill['key']}, Cooldown: {skill['cooldown']:.2f}s\n")
+                self.update_output(f"Skills atualizadas para o perfil '{profile_name}'.\n")
+            else:
+                messagebox.showerror("Erro", "Nenhuma skill foi gravada.")
         else:
-            self.update_output('Nenhuma skill foi gravada.\n')
+            messagebox.showerror("Erro", "Por favor, insira um nome para o perfil.")
 
     def check_recording(self):
         if self.macro.recording:
