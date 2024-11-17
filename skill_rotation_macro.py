@@ -4,6 +4,8 @@ import json
 import logging
 from pynput import keyboard
 import pyautogui
+import tkinter as tk
+from tkinter import ttk, messagebox
 
 class SkillRotationMacro:
     def __init__(self):
@@ -13,6 +15,7 @@ class SkillRotationMacro:
         self.profiles = {}
         self.setup_logging()
         self.load_config()
+        self.setup_gui()
 
     def setup_logging(self):
         logging.basicConfig(filename='macro_log.txt', level=logging.INFO,
@@ -47,89 +50,106 @@ class SkillRotationMacro:
             json.dump(config, f, indent=4)
         self.logger.info("Configuration saved successfully")
 
-    def on_press(self, key):
-        try:
-            if key.char == self.profiles[self.current_profile]['activation_key']:
-                if self.recording:
-                    self.stop_recording()
-                else:
-                    self.running = True
-                    self.logger.info(f"Macro activated for profile: {self.current_profile}")
-                    self.rotate_skills()
-            elif key.char == 'r':  # Start/stop recording
-                self.toggle_recording()
-            elif key.char in ['1', '2', '3', '4', '5']:  # Switch profiles
-                self.switch_profile(int(key.char))
-        except AttributeError:
-            pass
+    def setup_gui(self):
+        self.root = tk.Tk()
+        self.root.title("Skill Rotation Macro")
+        self.root.geometry("400x300")
 
-    def on_release(self, key):
-        try:
-            if key.char == self.profiles[self.current_profile]['activation_key']:
-                self.running = False
-                self.logger.info("Macro deactivated")
-        except AttributeError:
-            pass
+        self.profile_var = tk.StringVar(value=self.current_profile)
+        self.activation_key_var = tk.StringVar(value=self.profiles[self.current_profile]['activation_key'])
+
+        ttk.Label(self.root, text="Current Profile:").grid(row=0, column=0, padx=5, pady=5)
+        ttk.Combobox(self.root, textvariable=self.profile_var, values=list(self.profiles.keys())).grid(row=0, column=1, padx=5, pady=5)
+        ttk.Button(self.root, text="Switch Profile", command=self.switch_profile_gui).grid(row=0, column=2, padx=5, pady=5)
+
+        ttk.Label(self.root, text="Activation Key:").grid(row=1, column=0, padx=5, pady=5)
+        ttk.Entry(self.root, textvariable=self.activation_key_var).grid(row=1, column=1, padx=5, pady=5)
+        ttk.Button(self.root, text="Set Key", command=self.set_activation_key).grid(row=1, column=2, padx=5, pady=5)
+
+        ttk.Button(self.root, text="Start Recording", command=self.start_recording_gui).grid(row=2, column=0, padx=5, pady=5)
+        ttk.Button(self.root, text="Stop Recording", command=self.stop_recording_gui).grid(row=2, column=1, padx=5, pady=5)
+
+        self.skill_listbox = tk.Listbox(self.root, width=40, height=10)
+        self.skill_listbox.grid(row=3, column=0, columnspan=3, padx=5, pady=5)
+        self.update_skill_listbox()
+
+        ttk.Button(self.root, text="Start Macro", command=self.start_macro_gui).grid(row=4, column=0, padx=5, pady=5)
+        ttk.Button(self.root, text="Stop Macro", command=self.stop_macro_gui).grid(row=4, column=1, padx=5, pady=5)
+
+    def update_skill_listbox(self):
+        self.skill_listbox.delete(0, tk.END)
+        for skill in self.profiles[self.current_profile]['skills']:
+            self.skill_listbox.insert(tk.END, f"Key: {skill['key']}, Cooldown: {skill['cooldown']}")
+
+    def switch_profile_gui(self):
+        new_profile = self.profile_var.get()
+        if new_profile in self.profiles:
+            self.current_profile = new_profile
+            self.activation_key_var.set(self.profiles[self.current_profile]['activation_key'])
+            self.update_skill_listbox()
+            self.logger.info(f"Switched to profile: {new_profile}")
+            messagebox.showinfo("Profile Switched", f"Switched to profile: {new_profile}")
+        else:
+            messagebox.showerror("Error", "Profile not found")
+
+    def set_activation_key(self):
+        new_key = self.activation_key_var.get()
+        self.profiles[self.current_profile]['activation_key'] = new_key
+        self.save_config()
+        self.logger.info(f"Activation key set to: {new_key}")
+        messagebox.showinfo("Activation Key Set", f"Activation key set to: {new_key}")
+
+    def start_recording_gui(self):
+        self.recording = True
+        self.recorded_skills = []
+        self.logger.info("Recording started")
+        messagebox.showinfo("Recording Started", "Press skills in the order you want them to be used.")
+
+    def stop_recording_gui(self):
+        if self.recording:
+            self.recording = False
+            self.profiles[self.current_profile]['skills'] = self.recorded_skills
+            self.save_config()
+            self.update_skill_listbox()
+            self.logger.info("Recording stopped. New skill rotation saved.")
+            messagebox.showinfo("Recording Stopped", "New skill rotation saved.")
+        else:
+            messagebox.showinfo("Not Recording", "Recording was not in progress.")
+
+    def start_macro_gui(self):
+        self.running = True
+        self.logger.info(f"Macro activated for profile: {self.current_profile}")
+        messagebox.showinfo("Macro Started", f"Macro activated for profile: {self.current_profile}")
+        self.root.after(100, self.rotate_skills)
+
+    def stop_macro_gui(self):
+        self.running = False
+        self.logger.info("Macro deactivated")
+        messagebox.showinfo("Macro Stopped", "Macro deactivated")
 
     def rotate_skills(self):
-        while self.running:
+        if self.running:
             for skill in self.profiles[self.current_profile]['skills']:
                 if not self.running:
                     break
                 pyautogui.press(skill['key'])
                 self.logger.debug(f"Pressed key: {skill['key']}")
-                time.sleep(skill['cooldown'])
+                self.root.after(int(skill['cooldown'] * 1000), self.rotate_skills)
+                return
+        self.root.after(100, self.rotate_skills)
 
-    def toggle_recording(self):
-        if self.recording:
-            self.stop_recording()
-        else:
-            self.start_recording()
-
-    def start_recording(self):
-        self.recording = True
-        self.recorded_skills = []
-        self.logger.info("Recording started")
-        print("Recording started. Press skills in the order you want them to be used.")
-
-    def stop_recording(self):
-        self.recording = False
-        self.profiles[self.current_profile]['skills'] = self.recorded_skills
-        self.save_config()
-        self.logger.info("Recording stopped. New skill rotation saved.")
-        print("Recording stopped. New skill rotation saved.")
-
-    def on_press_record(self, key):
+    def on_key_press(self, key):
         if self.recording:
             try:
                 self.recorded_skills.append({'key': key.char, 'cooldown': 1.0})
                 self.logger.debug(f"Recorded key: {key.char}")
-                print(f"Recorded key: {key.char}")
             except AttributeError:
                 pass
 
-    def switch_profile(self, profile_number):
-        profile_name = f"profile_{profile_number}"
-        if profile_name in self.profiles:
-            self.current_profile = profile_name
-            self.logger.info(f"Switched to profile: {profile_name}")
-            print(f"Switched to profile: {profile_name}")
-        else:
-            self.profiles[profile_name] = {
-                'activation_key': 'f1',
-                'skills': []
-            }
-            self.current_profile = profile_name
-            self.save_config()
-            self.logger.info(f"Created and switched to new profile: {profile_name}")
-            print(f"Created and switched to new profile: {profile_name}")
-
     def run(self):
         self.logger.info("Macro started")
-        print("Macro started. Press 1-5 to switch/create profiles.")
-        with keyboard.Listener(on_press=self.on_press, on_release=self.on_release) as listener:
-            with keyboard.Listener(on_press=self.on_press_record) as record_listener:
-                listener.join()
+        with keyboard.Listener(on_press=self.on_key_press) as listener:
+            self.root.mainloop()
 
 if __name__ == "__main__":
     macro = SkillRotationMacro()
