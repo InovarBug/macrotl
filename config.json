@@ -13,6 +13,12 @@
                     "cooldown": 2.0
                 }
             ]
+        },
+        "perfil1": {
+            "skills": []
+        },
+        "perfil2": {
+            "skills": []
         }
     }
 }

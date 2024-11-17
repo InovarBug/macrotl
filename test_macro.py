@@ -1,57 +1,28 @@
-
-import json
+import time
 from skill_rotation_macro import SkillRotationMacro
 
 def test_macro():
     # Criar instância do macro
     macro = SkillRotationMacro()
 
-    # Teste 1: Criar perfis
-    print("Teste 1: Criando perfis")
-    macro.create_profile("perfil1")
-    macro.create_profile("perfil2")
+    # Configurar algumas habilidades de teste
+    macro.skills = [
+        {'key': 'Q', 'cooldown': 5},
+        {'key': 'W', 'cooldown': 8},
+        {'key': 'E', 'cooldown': 12}
+    ]
 
-    # Teste 2: Listar perfis
-    print("\nTeste 2: Listando perfis")
-    macro.list_profiles()
+    print("Teste 1: Iniciando o macro")
+    macro.toggle_macro()  # Ativar o macro
 
-    # Teste 3: Gravar habilidades para perfil1
-    print("\nTeste 3: Gravando habilidades para perfil1")
-    macro.select_profile("perfil1")
-    macro.start_recording()
-    macro.record_skill("Q", 1.5)
-    macro.record_skill("W", 2.0)
-    macro.record_skill("E", 3.0)
-    macro.stop_recording()
+    print("Executando o macro por 30 segundos...")
+    time.sleep(30)
 
-    # Teste 4: Gravar habilidades para perfil2
-    print("\nTeste 4: Gravando habilidades para perfil2")
-    macro.select_profile("perfil2")
-    macro.start_recording()
-    macro.record_skill("R", 5.0)
-    macro.record_skill("T", 4.0)
-    macro.stop_recording()
+    print("Teste 2: Parando o macro")
+    macro.toggle_macro()  # Desativar o macro
 
-    # Teste 5: Executar macro com perfil1
-    print("\nTeste 5: Executando macro com perfil1")
-    macro.select_profile("perfil1")
-    macro.toggle_macro()
-    macro.run_macro()
-    macro.toggle_macro()
-
-    # Teste 6: Executar macro com perfil2
-    print("\nTeste 6: Executando macro com perfil2")
-    macro.select_profile("perfil2")
-    macro.toggle_macro()
-    macro.run_macro()
-    macro.toggle_macro()
-
-    # Teste 7: Excluir perfil
-    print("\nTeste 7: Excluindo perfil")
-    macro.delete_profile("perfil2")
-    macro.list_profiles()
-
-    print("\nTestes concluídos.")
+    print("Teste concluído.")
+    print("Verifique o arquivo 'macro_log.txt' para ver os logs de execução.")
 
 if __name__ == "__main__":
     test_macro()
