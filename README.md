@@ -1,67 +1,81 @@
-
 # Macro de Rotação de Skills para Throne and Liberty
 
-Este projeto implementa um macro de rotação de skills para o jogo Throne and Liberty, permitindo aos jogadores automatizar sequências de habilidades e personalizar suas rotações.
-
-## Funcionalidades
-
-- Execução automática de sequência de habilidades
-- Modo de gravação para criar sequências personalizadas
-- Configuração via arquivo JSON
-- Simulação de uso para teste
+Este projeto implementa um macro de rotação de skills para o jogo Throne and Liberty, com uma interface gráfica para fácil configuração e uso.
 
 ## Requisitos
 
-- Python 3.6+
-- Bibliotecas: json, time
+- Python 3.7 ou superior
+- PySimpleGUI
+- keyboard
 
 ## Instalação
 
-1. Clone o repositório:
+1. Clone este repositório:
    ```
-   git clone https://github.com/InovarBug/macrotl.git
+   git clone https://github.com/seu-usuario/macrotl.git
    ```
 
-2. Navegue até o diretório do projeto:
+2. Instale as dependências:
    ```
-   cd macrotl
+   pip install PySimpleGUI keyboard
    ```
 
 ## Uso
 
-1. Execute o script principal:
+1. Execute o arquivo gui.py para iniciar a interface gráfica:
    ```
-   python3 skill_rotation_macro.py
+   python gui.py
    ```
 
-2. O script iniciará uma interface de linha de comando com as seguintes opções:
-   - `iniciar`: Inicia a execução do macro com as habilidades atuais
-   - `parar`: Interrompe a execução do macro
-   - `gravar`: Inicia o modo de gravação para criar uma nova sequência de habilidades
-   - `finalizar`: Finaliza o modo de gravação e salva a nova sequência
-   - `sair`: Encerra o programa
+2. Na interface gráfica, você pode:
+   - Iniciar e parar o macro
+   - Selecionar um perfil existente
+   - Editar um perfil existente
+   - Criar um novo perfil
+   - Gravar uma nova sequência de habilidades
+   - Visualizar as habilidades atuais
 
-3. Para gravar uma nova sequência de habilidades:
-   a. Digite `gravar` para iniciar o modo de gravação
-   b. Insira a tecla da habilidade (por exemplo, "3")
-   c. Insira o tempo de recarga (cooldown) da habilidade em segundos (por exemplo, "1.5")
-   d. Repita os passos b e c para cada habilidade que deseja adicionar à sequência
-   e. Digite 'q' quando terminar de adicionar habilidades
-   f. A nova sequência será salva automaticamente e estará pronta para uso
+3. Para criar um novo perfil:
+   - Clique em "Novo Perfil"
+   - Digite um nome para o novo perfil
+   - Clique em "Criar"
 
-4. Para executar o macro com a nova sequência, digite `iniciar`
+4. Para gravar uma nova sequência de habilidades:
+   - Clique em "Iniciar Gravação"
+   - Pressione as teclas das habilidades na ordem desejada
+   - Clique em "Parar Gravação"
+   - Digite um nome para o perfil gravado
+   - Clique em "Salvar"
 
-5. Para interromper a execução do macro, digite `parar`
+5. Para editar um perfil existente:
+   - Selecione o perfil no menu suspenso
+   - Clique em "Editar Perfil"
+   - Modifique as teclas e tempos de cooldown conforme necessário
+   - Clique em "Salvar"
 
-6. Para encerrar o programa, digite `sair`
+6. Para iniciar o macro:
+   - Selecione o perfil desejado
+   - Clique em "Iniciar Macro"
 
-## Configuração
+7. Para parar o macro:
+   - Clique em "Parar Macro"
 
-As configurações do macro são armazenadas no arquivo `config.json`. Você pode editar este arquivo para ajustar as habilidades e seus tempos de recarga.
+## Notas
+
+- Certifique-se de que o jogo está em foco quando o macro estiver em execução.
+- Use o macro com responsabilidade e de acordo com os termos de serviço do jogo.
+- Este projeto é apenas para fins educacionais e de demonstração.
+
+## Solução de Problemas
+
+Se encontrar algum problema ao executar o macro, verifique se:
+- Todas as dependências estão instaladas corretamente
+- O jogo está em foco quando o macro é iniciado
+- As teclas configuradas correspondem às teclas de habilidade no jogo
 
 ## Contribuição
 
-Contribuições são bem-vindas! Por favor, sinta-se à vontade para submeter pull requests ou abrir issues para sugerir melhorias ou reportar bugs.
+Contribuições são bem-vindas! Sinta-se à vontade para abrir issues ou enviar pull requests com melhorias.
 
 ## Licença
 
