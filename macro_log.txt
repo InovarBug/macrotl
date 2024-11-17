@@ -11,3 +11,4 @@
 2024-11-17 15:15:34,619 - INFO - Macro activated for profile: default
 2024-11-17 15:15:34,619 - INFO - Macro deactivated
 2024-11-17 15:16:23,878 - ERROR - Profile not found: test_profile
+2024-11-17 15:30:16,115 - INFO - Switched to profile: test_profile
