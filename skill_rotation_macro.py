@@ -17,6 +17,10 @@ class SkillRotationMacro:
         self.skill_usage = Counter()
         self.ai_active = False
         self.ai_mode = 'PVE'  # Padrão para PVE
+        self.buff_active = False
+        self.buff_duration = 0
+        self.buff_start_time = 0
+        self.buff_reduction = 0
 
     def toggle_ai_mode(self):
         self.ai_mode = 'PVP' if self.ai_mode == 'PVE' else 'PVE'
@@ -52,14 +56,42 @@ class SkillRotationMacro:
                             self.use_pvp_skill(skill)
                     else:
                         keyboard.press_and_release(skill['key'])
-                        time.sleep(skill['cooldown'])
+                        cooldown = self.apply_buff_reduction(skill['cooldown'])
+                        time.sleep(cooldown)
                 else:
                     break
+            self.check_buff_duration()
+
+    def activate_buff(self, duration, reduction):
+        """Ativa o buff com a duração e redução especificadas."""
+        self.buff_active = True
+        self.buff_duration = duration
+        self.buff_start_time = time.time()
+        self.buff_reduction = reduction
+
+    def check_buff_duration(self):
+        """Verifica se o buff ainda está ativo e o desativa se o tempo expirou."""
+        if self.buff_active and time.time() - self.buff_start_time > self.buff_duration:
+            self.buff_active = False
+
+    def apply_buff_reduction(self, cooldown):
+        """Aplica a redução do buff ao cooldown da habilidade."""
+        if self.buff_active:
+            return cooldown * (1 - self.buff_reduction)
+        return cooldown
+
+    def get_buff_remaining_time(self):
+        """Retorna o tempo restante do buff em segundos."""
+        if self.buff_active:
+            remaining = self.buff_duration - (time.time() - self.buff_start_time)
+            return max(0, remaining)
+        return 0
 
     def use_pve_skill(self, skill):
         keyboard.press_and_release(skill['key'])
         self.skill_usage[skill['key']] += 1
-        time.sleep(skill['cooldown'] * 1.2)  # Cooldown aumentado para PVE para simular combates mais longos
+        cooldown = self.apply_buff_reduction(skill['cooldown'] * 1.2)  # Cooldown aumentado para PVE
+        time.sleep(cooldown)
 
     def use_pvp_skill(self, skill):
         # Lógica mais complexa para PVP
@@ -76,7 +108,8 @@ class SkillRotationMacro:
             keyboard.press_and_release(skill['key'])
             self.skill_usage[skill['key']] += 1
         
-        time.sleep(skill['cooldown'] * 0.8)  # Cooldown reduzido para PVP
+        cooldown = self.apply_buff_reduction(skill['cooldown'] * 0.8)  # Cooldown reduzido para PVP
+        time.sleep(cooldown)
 
     def player_health(self):
         # Simula a verificação da saúde do jogador

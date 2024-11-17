@@ -45,10 +45,27 @@ class MacroGUI:
         ttk.Button(frame, text='Analisar Uso', command=self.analyze_skill_usage).grid(column=0, row=7, pady=5, padx=5, sticky=tk.W)
         ttk.Button(frame, text='Sugerir Otimização', command=self.suggest_optimization).grid(column=1, row=7, pady=5, padx=5, sticky=tk.W)
 
-        self.output_text = tk.Text(frame, height=10, width=60, state=tk.DISABLED)
-        self.output_text.grid(column=0, row=8, columnspan=2, pady=10, sticky=(tk.W, tk.E))
+        ttk.Label(frame, text='Buff:').grid(column=0, row=8, sticky=tk.W, pady=5)
+        self.buff_button = ttk.Button(frame, text='Ativar Buff', command=self.toggle_buff)
+        self.buff_button.grid(column=1, row=8, pady=5, padx=5, sticky=tk.W)
 
-        ttk.Button(frame, text='Sair', command=self.root.quit).grid(column=0, row=9, columnspan=2, pady=5)
+        ttk.Label(frame, text='Duração do Buff (s):').grid(column=0, row=9, sticky=tk.W, pady=5)
+        self.buff_duration_entry = ttk.Entry(frame, width=10)
+        self.buff_duration_entry.grid(column=1, row=9, sticky=tk.W, pady=5)
+        self.buff_duration_entry.insert(0, '30')  # Valor padrão de 30 segundos
+
+        ttk.Label(frame, text='Redução do Cooldown (%):').grid(column=0, row=10, sticky=tk.W, pady=5)
+        self.buff_reduction_entry = ttk.Entry(frame, width=10)
+        self.buff_reduction_entry.grid(column=1, row=10, sticky=tk.W, pady=5)
+        self.buff_reduction_entry.insert(0, '50')  # Valor padrão de 50%
+
+        self.buff_time_label = ttk.Label(frame, text='Tempo restante do buff: 0s')
+        self.buff_time_label.grid(column=0, row=11, columnspan=2, pady=5)
+
+        self.output_text = tk.Text(frame, height=10, width=60, state=tk.DISABLED)
+        self.output_text.grid(column=0, row=12, columnspan=2, pady=10, sticky=(tk.W, tk.E))
+
+        ttk.Button(frame, text='Sair', command=self.root.quit).grid(column=0, row=13, columnspan=2, pady=5)
 
         for child in frame.winfo_children(): 
             child.grid_configure(padx=5, pady=5)
@@ -126,64 +143,78 @@ class MacroGUI:
         self.macro.start_recording()
         self.record_button['state'] = tk.DISABLED
         self.stop_record_button['state'] = tk.NORMAL
-        self.update_output('Gravação iniciada. Pressione as teclas das habilidades.\n')
+        self.update_output('Gravação iniciada. Pressione as teclas para gravar a sequência.\n')
 
     def stop_recording(self):
-        self.macro.stop_recording()
+        recorded_skills = self.macro.stop_recording()
         self.record_button['state'] = tk.NORMAL
         self.stop_record_button['state'] = tk.DISABLED
         self.update_output('Gravação finalizada.\n')
-        self.save_recorded_profile()
-        self.update_output('Gravação finalizada.\n')
-        self.save_recorded_profile()
+        self.update_output('Skills gravadas:\n')
+        for skill in recorded_skills:
+            self.update_output(f"Tecla: {skill['key']}, Cooldown: {skill['cooldown']:.2f}s\n")
 
     def show_current_skills(self):
         skills = self.macro.skills
-        if skills:
-            skill_info = "Habilidades atuais:\n"
-            for i, skill in enumerate(skills):
-                skill_info += f"Skill {i+1}: Tecla = {skill['key']}, Cooldown = {skill['cooldown']}s\n"
-            self.update_output(skill_info)
-        else:
-            self.update_output("Nenhuma habilidade configurada.\n")
-
-    def save_recorded_profile(self):
-        new_window = tk.Toplevel(self.root)
-        new_window.title('Salvar Perfil Gravado')
-
-        ttk.Label(new_window, text='Nome do perfil:').pack(pady=5)
-        name_entry = ttk.Entry(new_window)
-        name_entry.pack(pady=5)
-
-        def save_profile():
-            profile_name = name_entry.get()
-            if profile_name:
-                self.macro.save_recorded_profile(profile_name)
-                self.profile_combo['values'] = list(self.macro.config['profiles'].keys())
-                self.profile_combo.set(profile_name)
-                self.update_output(f"Perfil gravado '{profile_name}' salvo.\n")
-                new_window.destroy()
-            else:
-                messagebox.showerror('Erro', 'Nome de perfil inválido.')
-
-        ttk.Button(new_window, text='Salvar', command=save_profile).pack(pady=10)
+        self.update_output('Skills atuais:\n')
+        for skill in skills:
+            self.update_output(f"Tecla: {skill['key']}, Cooldown: {skill['cooldown']}s\n")
 
     def toggle_ai(self):
-        self.macro.toggle_ai()
-        if self.ai_button['text'] == 'Ativar IA':
+        self.macro.ai_active = not self.macro.ai_active
+        if self.macro.ai_active:
             self.ai_button['text'] = 'Desativar IA'
-            self.update_output("IA ativada\n")
+            self.update_output('IA ativada.\n')
         else:
             self.ai_button['text'] = 'Ativar IA'
-            self.update_output("IA desativada\n")
+            self.update_output('IA desativada.\n')
+
+    def toggle_buff(self):
+        if not self.macro.buff_active:
+            duration = float(self.buff_duration_entry.get())
+            reduction = float(self.buff_reduction_entry.get()) / 100
+            self.macro.activate_buff(duration, reduction)
+            self.buff_button['text'] = 'Desativar Buff'
+            self.update_output(f'Buff ativado por {duration} segundos com redução de {reduction*100}%.\n')
+            self.update_buff_time()
+        else:
+            self.macro.buff_active = False
+            self.buff_button['text'] = 'Ativar Buff'
+            self.update_output('Buff desativado.\n')
+            self.buff_time_label['text'] = 'Tempo restante do buff: 0s'
+
+    def update_buff_time(self):
+        if self.macro.buff_active:
+            remaining_time = self.macro.get_buff_remaining_time()
+            self.buff_time_label['text'] = f'Tempo restante do buff: {remaining_time:.1f}s'
+            if remaining_time > 0:
+                self.root.after(100, self.update_buff_time)
+            else:
+                self.buff_button['text'] = 'Ativar Buff'
+                self.buff_time_label['text'] = 'Tempo restante do buff: 0s'
 
     def analyze_skill_usage(self):
-        analysis = self.macro.analyze_skill_usage()
-        self.update_output(analysis)
+        usage = self.macro.skill_usage
+        total_uses = sum(usage.values())
+        self.update_output('Análise de uso de skills:\n')
+        for skill, count in usage.items():
+            percentage = (count / total_uses) * 100 if total_uses > 0 else 0
+            self.update_output(f"Skill {skill}: {count} usos ({percentage:.2f}%)\n")
 
     def suggest_optimization(self):
-        suggestion = self.macro.suggest_optimization()
-        self.update_output(suggestion)
+        usage = self.macro.skill_usage
+        total_uses = sum(usage.values())
+        if total_uses == 0:
+            self.update_output('Não há dados suficientes para sugerir otimizações.\n')
+            return
+
+        self.update_output('Sugestões de otimização:\n')
+        for skill, count in usage.items():
+            percentage = (count / total_uses) * 100
+            if percentage < 10:
+                self.update_output(f"Considere remover ou substituir a skill {skill} (uso: {percentage:.2f}%)\n")
+            elif percentage > 30:
+                self.update_output(f"A skill {skill} está sendo muito utilizada (uso: {percentage:.2f}%). Considere aumentar seu cooldown.\n")
 
     def update_output(self, message):
         self.output_text['state'] = tk.NORMAL
