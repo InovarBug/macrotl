@@ -98,6 +98,7 @@ class MacroGUI:
             edit_window.title(f'Editando perfil: {profile_name}')
             edit_window.grab_set()
 
+            entries = []
             for i, skill in enumerate(skills):
                 ttk.Label(edit_window, text=f'Skill {i+1}').grid(row=i, column=0, padx=5, pady=5)
                 key_entry = ttk.Entry(edit_window, width=5)
@@ -106,13 +107,20 @@ class MacroGUI:
                 cooldown_entry = ttk.Entry(edit_window, width=5)
                 cooldown_entry.insert(0, str(skill['cooldown']))
                 cooldown_entry.grid(row=i, column=2, padx=5, pady=5)
+                entries.append((key_entry, cooldown_entry))
 
             def save_profile():
-                for i, skill in enumerate(skills):
-                    key = edit_window.grid_slaves(row=i, column=1)[0].get()
-                    cooldown = float(edit_window.grid_slaves(row=i, column=2)[0].get())
+                for i, (key_entry, cooldown_entry) in enumerate(entries):
+                    key = key_entry.get()
+                    try:
+                        cooldown = float(cooldown_entry.get())
+                    except ValueError:
+                        messagebox.showerror('Erro', f'Cooldown inválido para Skill {i+1}')
+                        return
                     self.macro.update_skill(profile_name, i, key, cooldown)
+                self.macro.save_config()
                 self.update_output(f"Perfil '{profile_name}' atualizado.\n")
+                self.update_profile_list()
                 edit_window.destroy()
 
             ttk.Button(edit_window, text='Salvar', command=save_profile).grid(row=len(skills), column=1, pady=10)
@@ -130,7 +138,8 @@ class MacroGUI:
             new_profile_name = name_entry.get()
             if new_profile_name and new_profile_name not in self.macro.config['profiles']:
                 self.macro.create_profile(new_profile_name)
-                self.profile_combo['values'] = list(self.macro.config['profiles'].keys())
+                self.macro.save_config()
+                self.update_profile_list()
                 self.profile_combo.set(new_profile_name)
                 self.update_output(f"Novo perfil '{new_profile_name}' criado.\n")
                 new_window.destroy()
@@ -140,10 +149,15 @@ class MacroGUI:
         ttk.Button(new_window, text='Criar', command=create_profile).pack(pady=10)
 
     def start_recording(self):
+        current_profile = self.profile_combo.get()
+        if not current_profile:
+            messagebox.showerror('Erro', 'Selecione um perfil antes de iniciar a gravação.')
+            return
         self.macro.start_recording()
         self.record_button['state'] = tk.DISABLED
         self.stop_record_button['state'] = tk.NORMAL
-        self.update_output('Gravação iniciada. Pressione as teclas para gravar a sequência.\n')
+        self.update_output(f'Gravação iniciada para o perfil "{current_profile}". Pressione as teclas para gravar a sequência.\n')
+        self.root.after(100, self.check_recording)
 
     def stop_recording(self):
         recorded_skills = self.macro.stop_recording()
@@ -153,6 +167,16 @@ class MacroGUI:
         self.update_output('Skills gravadas:\n')
         for skill in recorded_skills:
             self.update_output(f"Tecla: {skill['key']}, Cooldown: {skill['cooldown']:.2f}s\n")
+        current_profile = self.profile_combo.get()
+        self.macro.config['profiles'][current_profile]['skills'] = recorded_skills
+        self.macro.save_config()
+        self.update_output(f"Skills atualizadas para o perfil '{current_profile}'.\n")
+
+    def check_recording(self):
+        if self.macro.recording:
+            self.root.after(100, self.check_recording)
+        else:
+            self.stop_recording()
 
     def show_current_skills(self):
         skills = self.macro.skills
@@ -221,6 +245,11 @@ class MacroGUI:
         self.output_text.insert(tk.END, message)
         self.output_text.see(tk.END)
         self.output_text['state'] = tk.DISABLED
+
+    def update_profile_list(self):
+        self.profile_combo['values'] = list(self.macro.config['profiles'].keys())
+        if self.profile_combo.get() not in self.macro.config['profiles']:
+            self.profile_combo.set(list(self.macro.config['profiles'].keys())[0] if self.macro.config['profiles'] else '')
 
 if __name__ == '__main__':
     gui = MacroGUI()
