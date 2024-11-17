@@ -2,23 +2,27 @@
 Ponto de Parada - Macro de Rotação de Skills para Throne and Liberty
 
 Passos Realizados:
-1-51. [Passos anteriores mantidos...]
-52. Criado plano de teste de usabilidade:
-    - Desenvolvido um plano detalhado para conduzir testes de usabilidade com usuários reais
-    - Definidas tarefas específicas para os usuários realizarem durante o teste
-    - Criado um questionário pós-teste para coletar feedback estruturado
-    - Estabelecida uma metodologia para análise dos resultados dos testes
+1-52. [Passos anteriores mantidos...]
+53. Criado documento de preparação para testes de usabilidade:
+    - Desenvolvido um guia detalhado para preparar o ambiente de testes
+    - Definidos critérios para seleção de participantes
+    - Estabelecidos requisitos de hardware e software para os testes
+    - Criada lista de materiais necessários para conduzir os testes
+    - Definida logística para agendamento e condução dos testes
+    - Incluídas instruções para um teste piloto e análise dos resultados
 
 Passos Pendentes:
 1. Implementar o plano de teste de usabilidade com um grupo de usuários reais
-2. Analisar os resultados dos testes de usabilidade e compilar um relatório
-3. Implementar melhorias baseadas no feedback dos usuários
-4. Atualizar a documentação conforme necessário com base no feedback dos usuários
-5. Considerar a tradução da documentação para outros idiomas
-6. Criar um instalador para o executável (por exemplo, usando NSIS para Windows)
-7. Realizar testes extensivos do tratamento de erros implementado
-8. Implementar um sistema de atualizações automáticas
-9. Considerar a implementação de recursos adicionais sugeridos pelos usuários
+2. Conduzir o teste piloto conforme definido no documento de preparação
+3. Realizar os testes de usabilidade completos
+4. Analisar os resultados dos testes de usabilidade e compilar um relatório
+5. Implementar melhorias baseadas no feedback dos usuários
+6. Atualizar a documentação conforme necessário com base no feedback dos usuários
+7. Considerar a tradução da documentação para outros idiomas
+8. Criar um instalador para o executável (por exemplo, usando NSIS para Windows)
+9. Realizar testes extensivos do tratamento de erros implementado
+10. Implementar um sistema de atualizações automáticas
+11. Considerar a implementação de recursos adicionais sugeridos pelos usuários
 
 Próximo passo:
-Preparar o ambiente para a execução dos testes de usabilidade, incluindo a seleção de participantes e a configuração do software necessário para a coleta de dados durante os testes.
+Iniciar o processo de recrutamento de participantes para os testes de usabilidade, seguindo os critérios estabelecidos no documento de preparação.
