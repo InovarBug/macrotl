@@ -8,12 +8,14 @@ Este projeto implementa um macro para rotação de habilidades em jogos, com sup
 - Logging detalhado das ações do macro
 - Suporte para múltiplos perfis de habilidades
 - Modo AI para PVE e PVP (em desenvolvimento)
+- Interface gráfica usando Tkinter
 
 ## Como usar
 
 1. Clone o repositório
 2. Instale as dependências: `pip install -r requirements.txt`
 3. Execute o script de teste: `python test_macro.py`
+4. Para a interface gráfica, execute: `python gui.py`
 
 ## Configuração do PyCharm
 
@@ -25,6 +27,18 @@ Para configurar este projeto no PyCharm:
 4. Clique na engrenagem e selecione "Add"
 5. Escolha "Virtual Environment" e crie um novo ambiente virtual
 6. Instale as dependências usando o terminal do PyCharm: `pip install -r requirements.txt`
+
+### Instalando Tkinter
+
+Se você estiver usando Windows ou macOS, o Tkinter geralmente já vem instalado com o Python. Para Linux, siga estas etapas:
+
+1. Abra o terminal no PyCharm (View > Tool Windows > Terminal)
+2. Execute o seguinte comando:
+   ```
+   sudo apt-get update
+   sudo apt-get install python3-tk
+   ```
+3. Reinicie o PyCharm após a instalação
 
 ## Contribuindo
 

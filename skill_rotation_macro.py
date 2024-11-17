@@ -27,6 +27,45 @@ class SkillRotationMacro:
         logging.basicConfig(filename='macro_log.txt', level=logging.INFO, 
                             format='%(asctime)s - %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
 
+    def load_config(self):
+        try:
+            with open('config.json', 'r') as f:
+                return json.load(f)
+        except FileNotFoundError:
+            return {'profiles': {}}
+
+    def load_profile(self, profile_name):
+        if profile_name in self.config['profiles']:
+            self.current_profile = profile_name
+            self.skills = self.config['profiles'][self.current_profile]['skills']
+            logging.info(f"Profile '{profile_name}' loaded")
+        else:
+            logging.error(f"Profile '{profile_name}' not found")
+
+    def create_profile(self, profile_name):
+        if profile_name not in self.config['profiles']:
+            self.config['profiles'][profile_name] = {'skills': []}
+            self.save_config()
+            logging.info(f"Profile '{profile_name}' created")
+        else:
+            logging.warning(f"Profile '{profile_name}' already exists")
+
+    def start_recording(self):
+        self.recording = True
+        self.recorded_skills = []
+        logging.info("Started recording skills")
+
+    def stop_recording(self):
+        self.recording = False
+        if self.recorded_skills:
+            self.config['profiles'][self.current_profile]['skills'] = self.recorded_skills
+            self.save_config()
+        logging.info("Stopped recording skills")
+
+    def save_config(self):
+        with open('config.json', 'w') as f:
+            json.dump(self.config, f, indent=4)
+
     def simulate_cooldown(self, skill):
         current_time = time.time()
         if skill['key'] not in self.skill_cooldowns:
@@ -60,13 +99,6 @@ class SkillRotationMacro:
             threading.Thread(target=self.run_macro, daemon=True).start()
         else:
             logging.info("Macro deactivated")
-
-    def load_config(self):
-        try:
-            with open('config.json', 'r') as f:
-                return json.load(f)
-        except FileNotFoundError:
-            return {'profiles': {}}
 
     def apply_buff_reduction(self, cooldown):
         if self.buff_active:
