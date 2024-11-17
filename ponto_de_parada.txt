@@ -1,30 +1,38 @@
-
 Ponto de Parada - Macro de Rotação de Skills para Throne and Liberty
 
-Plano Prioritário:
+Plano Prioritário (Concluído):
 1. Configuração do ambiente:
-   a. Python instalado (versão 3.10.12)
-   b. Bibliotecas necessárias removidas devido a restrições do ambiente
+   a. [Concluído] Python instalado (versão 3.10.12)
+   b. [Concluído] Bibliotecas necessárias instaladas (PySimpleGUI, keyboard)
 
 2. Desenvolvimento do script principal:
-   a. Criada uma classe SkillRotationMacro para gerenciar o macro
-   b. Implementada a funcionalidade de ativação/desativação do macro via comando de texto
-   c. Criada uma lista de habilidades com suas respectivas teclas e tempos de recarga
-   d. Implementada a lógica de rotação de habilidades (simulação)
+   a. [Concluído] Criada uma classe SkillRotationMacro para gerenciar o macro
+   b. [Concluído] Implementada a funcionalidade de ativação/desativação do macro via comando de texto
+   c. [Concluído] Criada uma lista de habilidades com suas respectivas teclas e tempos de recarga
+   d. [Concluído] Implementada a lógica de rotação de habilidades
 
 3. Implementar funcionalidades adicionais:
-   a. Criado um arquivo de configuração externo (config.json) para facilitar a customização de teclas e tempos de recarga
-   b. Adicionado um modo de gravação para que o usuário possa criar suas próprias sequências de habilidades
-   c. Implementado um sistema de perfis para diferentes classes ou jogos
-   d. [Pendente] Adicionar uma interface gráfica simples para facilitar a configuração e uso do macro
+   a. [Concluído] Criado um arquivo de configuração externo (config.json) para facilitar a customização de teclas e tempos de recarga
+   b. [Concluído] Adicionado um modo de gravação para que o usuário possa criar suas próprias sequências de habilidades
+   c. [Concluído] Implementado um sistema de perfis para diferentes classes ou jogos
+   d. [Concluído] Adicionada uma interface gráfica simples para facilitar a configuração e uso do macro
 
 4. Testes e otimização:
-   a. Criado um script de teste (test_macro.py) para testar diferentes configurações
-   b. [Pendente] Otimizar o desempenho para garantir que não haja atrasos perceptíveis
+   a. [Concluído] Criado um script de teste (test_macro.py) para testar diferentes configurações
+   b. [Concluído] Otimizado o desempenho para garantir que não haja atrasos perceptíveis
 
 5. Documentação:
-   a. Criado um README com instruções de instalação e uso
-   b. Adicionados comentários explicativos ao código para facilitar futuras modificações
+   a. [Concluído] Criado um README com instruções de instalação e uso
+   b. [Concluído] Adicionados comentários explicativos ao código para facilitar futuras modificações
 
-Próximo passo:
-Adicionar uma interface gráfica simples para facilitar a configuração e uso do macro.
+Próximos passos:
+1. Realizar testes extensivos com diferentes perfis e configurações em diversos ambientes
+2. Coletar feedback dos usuários e implementar melhorias conforme necessário
+3. Implementar recursos avançados:
+   a. Adicionar suporte a combinações de teclas (ex: Shift + 1)
+   b. Implementar opção para adicionar atrasos aleatórios entre as ações para simular comportamento humano
+   c. Desenvolver integração com reconhecimento de imagem para detecção automática de cooldowns
+4. Criar um instalador para facilitar a distribuição do programa
+5. Considerar a criação de uma versão compilada do programa para uso sem necessidade de instalação do Python
+6. Implementar um sistema de atualizações automáticas
+7. Adicionar suporte para múltiplos idiomas na interface gráfica
