@@ -2,27 +2,29 @@
 Ponto de Parada - Macro de Rotação de Skills para Throne and Liberty
 
 Passos Realizados:
-1-52. [Passos anteriores mantidos...]
-53. Criado documento de preparação para testes de usabilidade:
-    - Desenvolvido um guia detalhado para preparar o ambiente de testes
-    - Definidos critérios para seleção de participantes
-    - Estabelecidos requisitos de hardware e software para os testes
-    - Criada lista de materiais necessários para conduzir os testes
-    - Definida logística para agendamento e condução dos testes
-    - Incluídas instruções para um teste piloto e análise dos resultados
+1-53. [Passos anteriores mantidos...]
+54. Criado plano de recrutamento de participantes para testes de usabilidade:
+    - Desenvolvidas estratégias de recrutamento usando diversos canais online
+    - Estabelecidos critérios claros de seleção para participantes
+    - Definidos incentivos para encorajar a participação
+    - Criado um modelo detalhado de formulário de inscrição
+    - Delineados os próximos passos para o processo de recrutamento
 
 Passos Pendentes:
-1. Implementar o plano de teste de usabilidade com um grupo de usuários reais
-2. Conduzir o teste piloto conforme definido no documento de preparação
-3. Realizar os testes de usabilidade completos
-4. Analisar os resultados dos testes de usabilidade e compilar um relatório
-5. Implementar melhorias baseadas no feedback dos usuários
-6. Atualizar a documentação conforme necessário com base no feedback dos usuários
-7. Considerar a tradução da documentação para outros idiomas
-8. Criar um instalador para o executável (por exemplo, usando NSIS para Windows)
-9. Realizar testes extensivos do tratamento de erros implementado
-10. Implementar um sistema de atualizações automáticas
-11. Considerar a implementação de recursos adicionais sugeridos pelos usuários
+1. Criar e publicar o formulário de inscrição online (por exemplo, usando Google Forms)
+2. Distribuir o link do formulário através dos canais mencionados no plano de recrutamento
+3. Monitorar as respostas e selecionar os participantes que melhor se adequam aos critérios
+4. Entrar em contato com os participantes selecionados para agendar as sessões de teste
+5. Conduzir o teste piloto conforme definido no documento de preparação
+6. Realizar os testes de usabilidade completos
+7. Analisar os resultados dos testes de usabilidade e compilar um relatório
+8. Implementar melhorias baseadas no feedback dos usuários
+9. Atualizar a documentação conforme necessário com base no feedback dos usuários
+10. Considerar a tradução da documentação para outros idiomas
+11. Criar um instalador para o executável (por exemplo, usando NSIS para Windows)
+12. Realizar testes extensivos do tratamento de erros implementado
+13. Implementar um sistema de atualizações automáticas
+14. Considerar a implementação de recursos adicionais sugeridos pelos usuários
 
 Próximo passo:
-Iniciar o processo de recrutamento de participantes para os testes de usabilidade, seguindo os critérios estabelecidos no documento de preparação.
+Criar o formulário de inscrição online baseado no modelo desenvolvido e publicá-lo em uma plataforma adequada (como Google Forms).
