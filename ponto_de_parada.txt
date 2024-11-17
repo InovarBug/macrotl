@@ -2,22 +2,23 @@
 Ponto de Parada - Macro de Rotação de Skills para Throne and Liberty
 
 Passos Realizados:
-1-49. [Passos anteriores mantidos...]
-50. Implementado sistema de atalhos de teclado para funções comuns:
-    - Adicionados atalhos para salvar configuração, iniciar/parar gravação, alternar perfis, iniciar/parar macro, alternar detecção automática e alternar temas
-    - Criada uma nova aba na interface gráfica para exibir os atalhos disponíveis
-    - Implementado um listener de teclado para capturar os atalhos globalmente
-51. Atualizado o repositório GitHub com todas as alterações recentes
+1-51. [Passos anteriores mantidos...]
+52. Criado plano de teste de usabilidade:
+    - Desenvolvido um plano detalhado para conduzir testes de usabilidade com usuários reais
+    - Definidas tarefas específicas para os usuários realizarem durante o teste
+    - Criado um questionário pós-teste para coletar feedback estruturado
+    - Estabelecida uma metodologia para análise dos resultados dos testes
 
 Passos Pendentes:
-1. Realizar testes de usabilidade com um grupo de usuários e coletar feedback
-2. Implementar possíveis melhorias de desempenho adicionais com base nos resultados dos testes
-3. Atualizar a documentação conforme necessário com base no feedback dos usuários
-4. Considerar a tradução da documentação para outros idiomas
-5. Criar um instalador para o executável (por exemplo, usando NSIS para Windows)
-6. Realizar testes extensivos do tratamento de erros implementado
-7. Testar extensivamente as novas funcionalidades de temas e atalhos de teclado
+1. Implementar o plano de teste de usabilidade com um grupo de usuários reais
+2. Analisar os resultados dos testes de usabilidade e compilar um relatório
+3. Implementar melhorias baseadas no feedback dos usuários
+4. Atualizar a documentação conforme necessário com base no feedback dos usuários
+5. Considerar a tradução da documentação para outros idiomas
+6. Criar um instalador para o executável (por exemplo, usando NSIS para Windows)
+7. Realizar testes extensivos do tratamento de erros implementado
 8. Implementar um sistema de atualizações automáticas
+9. Considerar a implementação de recursos adicionais sugeridos pelos usuários
 
 Próximo passo:
-Realizar testes de usabilidade com um grupo de usuários e coletar feedback para identificar possíveis melhorias e problemas.
+Preparar o ambiente para a execução dos testes de usabilidade, incluindo a seleção de participantes e a configuração do software necessário para a coleta de dados durante os testes.
