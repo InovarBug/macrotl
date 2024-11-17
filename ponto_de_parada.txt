@@ -13,12 +13,13 @@ Passos Realizados:
 9. Implementado sistema de logging
 10. Implementado hotkeys para troca de perfis
 11. Atualizado README.md com as novas funcionalidades
+12. Implementado interface gráfica usando tkinter
+13. Atualizado README.md com informações sobre a interface gráfica
 
 Passos Pendentes:
 1. Implementar melhorias adicionais (opcional):
-   a. Interface gráfica
-   b. Ajuste dinâmico de cooldowns
-   c. Integração com OCR
+   a. Ajuste dinâmico de cooldowns
+   b. Integração com OCR
 
 Próximo passo:
 Fazer commit e push das alterações recentes para o repositório GitHub.
