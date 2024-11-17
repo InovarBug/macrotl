@@ -45,10 +45,11 @@ Este script fornece um macro de rotação de habilidades personalizável para o 
   - Algoritmo de rotação baseado em frequência e tempo desde o último uso
 - Seleção manual de modo PVP/PVE
 - Detecção automática de modo PVP/PVE (experimental)
+- Tratamento de erros robusto
 
 ## Sistema de IA Avançado
 
-O novo sistema de IA utiliza um algoritmo refinado para a rotação de habilidades:
+O sistema de IA utiliza um algoritmo refinado para a rotação de habilidades:
 
 1. Durante o aprendizado, a IA registra:
    - A frequência de uso de cada habilidade
@@ -73,9 +74,18 @@ Este sistema resulta em uma rotação de habilidades mais dinâmica e adaptável
 
 A funcionalidade de detecção automática usa processamento de imagem para tentar identificar se você está em modo PVP ou PVE. Esta é uma funcionalidade experimental e pode não ser 100% precisa. Use a seleção manual se preferir um controle mais preciso.
 
+## Tratamento de Erros
+
+O script agora inclui um sistema de tratamento de erros mais robusto:
+
+- Erros são registrados em detalhes no arquivo de log (macro_log.txt).
+- Mensagens de erro são exibidas na interface gráfica para informar o usuário sobre problemas.
+- O script tenta lidar graciosamente com erros comuns, como arquivos de configuração ausentes ou mal formatados.
+- Em caso de erro fatal, o script tenta salvar as configurações e fechar de forma segura.
+
 ## Logging
 
-O script cria um arquivo `macro_log.txt` no mesmo diretório, que registra vários eventos e ações para fins de depuração.
+O script cria um arquivo `macro_log.txt` no mesmo diretório, que registra vários eventos, ações e erros para fins de depuração e monitoramento.
 
 ## Cuidado
 
