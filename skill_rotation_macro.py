@@ -100,19 +100,31 @@ class SkillRotationMacro:
         
         return analysis
 
+    def get_current_skills(self):
+        return self.skills
+
+    def clear_skill_usage(self):
+        self.skill_usage.clear()
+
     def suggest_optimization(self):
         if not self.ai_active:
-            return "IA não está ativa."
+            return "IA não está ativa. Ative a IA para obter sugestões de otimização."
         
-        if not self.skill_usage:
-            return "Não há dados suficientes para sugerir otimizações."
+        total_uses = sum(self.skill_usage.values())
+        if total_uses == 0:
+            return "Nenhuma habilidade foi usada ainda. Use o macro por um tempo para coletar dados."
         
-        most_used = self.skill_usage.most_common(1)[0][0]
-        least_used = self.skill_usage.most_common()[-1][0]
+        avg_usage = total_uses / len(self.skill_usage)
+        suggestion = "Sugestões de otimização:\n"
         
-        suggestion = f"Considere reduzir o cooldown da habilidade {most_used} "
-        suggestion += f"e aumentar o cooldown da habilidade {least_used} "
-        suggestion += "para otimizar sua rotação."
+        for skill, count in self.skill_usage.items():
+            if count < avg_usage * 0.5:
+                suggestion += f"Considere usar a habilidade {skill} com mais frequência.\n"
+            elif count > avg_usage * 1.5:
+                suggestion += f"A habilidade {skill} está sendo usada muito frequentemente. Considere reduzir seu uso.\n"
+        
+        if not suggestion.endswith(":\n"):
+            suggestion += "A rotação atual parece bem balanceada.\n"
         
         return suggestion
 
