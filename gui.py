@@ -7,7 +7,7 @@ class MacroGUI:
         self.layout = [
             [sg.Text('Macro de Rotação de Skills', font=('Helvetica', 16))],
             [sg.Button('Iniciar Macro', key='-START-'), sg.Button('Parar Macro', key='-STOP-', disabled=True)],
-            [sg.Text('Perfil:'), sg.Combo(self.macro.config['profiles'], key='-PROFILE-', enable_events=True, readonly=True)],
+            [sg.Text('Perfil:'), sg.Combo(list(self.macro.config['profiles'].keys()), key='-PROFILE-', enable_events=True, readonly=True)],
             [sg.Button('Editar Perfil', key='-EDIT-'), sg.Button('Novo Perfil', key='-NEW-')],
             [sg.Button('Iniciar Gravação', key='-RECORD-'), sg.Button('Parar Gravação', key='-STOP-RECORD-', disabled=True)],
             [sg.Button('Mostrar Habilidades', key='-SHOW-')],
