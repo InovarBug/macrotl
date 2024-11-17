@@ -53,7 +53,7 @@ class SkillRotationMacro:
     def setup_gui(self):
         self.root = tk.Tk()
         self.root.title("Skill Rotation Macro")
-        self.root.geometry("400x300")
+        self.root.geometry("500x400")
 
         self.profile_var = tk.StringVar(value=self.current_profile)
         self.activation_key_var = tk.StringVar(value=self.profiles[self.current_profile]['activation_key'])
@@ -69,24 +69,41 @@ class SkillRotationMacro:
         ttk.Button(self.root, text="Start Recording", command=self.start_recording_gui).grid(row=2, column=0, padx=5, pady=5)
         ttk.Button(self.root, text="Stop Recording", command=self.stop_recording_gui).grid(row=2, column=1, padx=5, pady=5)
 
-        self.skill_listbox = tk.Listbox(self.root, width=40, height=10)
-        self.skill_listbox.grid(row=3, column=0, columnspan=3, padx=5, pady=5)
-        self.update_skill_listbox()
+        self.skill_frame = ttk.Frame(self.root)
+        self.skill_frame.grid(row=3, column=0, columnspan=3, padx=5, pady=5)
+        self.update_skill_frame()
 
         ttk.Button(self.root, text="Start Macro", command=self.start_macro_gui).grid(row=4, column=0, padx=5, pady=5)
         ttk.Button(self.root, text="Stop Macro", command=self.stop_macro_gui).grid(row=4, column=1, padx=5, pady=5)
 
-    def update_skill_listbox(self):
-        self.skill_listbox.delete(0, tk.END)
+    def update_skill_frame(self):
+        for widget in self.skill_frame.winfo_children():
+            widget.destroy()
+
+        ttk.Label(self.skill_frame, text="Key").grid(row=0, column=0, padx=5, pady=5)
+        ttk.Label(self.skill_frame, text="Cooldown").grid(row=0, column=1, padx=5, pady=5)
+
+        for i, skill in enumerate(self.profiles[self.current_profile]['skills']):
+            ttk.Label(self.skill_frame, text=skill['key']).grid(row=i+1, column=0, padx=5, pady=2)
+            cooldown_var = tk.DoubleVar(value=skill['cooldown'])
+            ttk.Entry(self.skill_frame, textvariable=cooldown_var, width=10).grid(row=i+1, column=1, padx=5, pady=2)
+            ttk.Button(self.skill_frame, text="Update", command=lambda k=skill['key'], cv=cooldown_var: self.update_cooldown(k, cv.get())).grid(row=i+1, column=2, padx=5, pady=2)
+
+    def update_cooldown(self, key, new_cooldown):
         for skill in self.profiles[self.current_profile]['skills']:
-            self.skill_listbox.insert(tk.END, f"Key: {skill['key']}, Cooldown: {skill['cooldown']}")
+            if skill['key'] == key:
+                skill['cooldown'] = new_cooldown
+                break
+        self.save_config()
+        self.logger.info(f"Updated cooldown for key {key} to {new_cooldown}")
+        messagebox.showinfo("Cooldown Updated", f"Updated cooldown for key {key} to {new_cooldown}")
 
     def switch_profile_gui(self):
         new_profile = self.profile_var.get()
         if new_profile in self.profiles:
             self.current_profile = new_profile
             self.activation_key_var.set(self.profiles[self.current_profile]['activation_key'])
-            self.update_skill_listbox()
+            self.update_skill_frame()
             self.logger.info(f"Switched to profile: {new_profile}")
             messagebox.showinfo("Profile Switched", f"Switched to profile: {new_profile}")
         else:
@@ -110,7 +127,7 @@ class SkillRotationMacro:
             self.recording = False
             self.profiles[self.current_profile]['skills'] = self.recorded_skills
             self.save_config()
-            self.update_skill_listbox()
+            self.update_skill_frame()
             self.logger.info("Recording stopped. New skill rotation saved.")
             messagebox.showinfo("Recording Stopped", "New skill rotation saved.")
         else:
