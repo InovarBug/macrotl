@@ -8,6 +8,9 @@ import tkinter as tk
 from tkinter import ttk, messagebox
 import random
 from collections import defaultdict
+import cv2
+import numpy as np
+from PIL import ImageGrab
 
 class SkillRotationMacro:
     def __init__(self):
@@ -21,6 +24,7 @@ class SkillRotationMacro:
                             "PVP": defaultdict(lambda: defaultdict(int))}
         self.last_action = None
         self.last_action_time = None
+        self.auto_detect_mode = False
         self.setup_logging()
         self.load_config()
         self.setup_gui()
@@ -30,85 +34,58 @@ class SkillRotationMacro:
     def setup_gui(self):
         # ... [previous GUI setup remains unchanged] ...
 
-        ttk.Label(self.root, text="AI Profile:").grid(row=6, column=0, padx=5, pady=5)
-        self.ai_profile_var = tk.StringVar(value=self.current_ai_profile)
-        ttk.Combobox(self.root, textvariable=self.ai_profile_var, values=["PVE", "PVP"]).grid(row=6, column=1, padx=5, pady=5)
-        ttk.Button(self.root, text="Switch AI Profile", command=self.switch_ai_profile).grid(row=6, column=2, padx=5, pady=5)
+        ttk.Checkbutton(self.root, text="Auto-detect PVP/PVE", variable=tk.BooleanVar(value=self.auto_detect_mode), command=self.toggle_auto_detect).grid(row=8, column=0, columnspan=3, padx=5, pady=5)
 
-        ttk.Button(self.root, text="Start AI Learning", command=self.start_ai_learning).grid(row=7, column=0, padx=5, pady=5)
-        ttk.Button(self.root, text="Stop AI Learning", command=self.stop_ai_learning).grid(row=7, column=1, padx=5, pady=5)
-        ttk.Button(self.root, text="Start AI Macro", command=self.start_ai_macro).grid(row=7, column=2, padx=5, pady=5)
-
-    def switch_ai_profile(self):
-        new_profile = self.ai_profile_var.get()
-        if new_profile in self.ai_profiles:
-            self.current_ai_profile = new_profile
-            self.logger.info(f"Switched to AI profile: {new_profile}")
-            messagebox.showinfo("AI Profile Switched", f"Switched to AI profile: {new_profile}")
+    def toggle_auto_detect(self):
+        self.auto_detect_mode = not self.auto_detect_mode
+        if self.auto_detect_mode:
+            self.start_auto_detect()
         else:
-            messagebox.showerror("Error", "AI profile not found")
+            self.stop_auto_detect()
 
-    def start_ai_learning(self):
-        self.learning = True
-        self.ai_profiles[self.current_ai_profile].clear()
-        self.last_action = None
-        self.last_action_time = None
-        self.logger.info(f"AI learning started for {self.current_ai_profile} profile")
-        messagebox.showinfo("AI Learning", f"AI learning mode started for {self.current_ai_profile} profile. Play normally and the AI will learn your skill rotation.")
+    def start_auto_detect(self):
+        self.logger.info("Auto-detect PVP/PVE mode started")
+        self.root.after(1000, self.detect_pvp_pve)
 
-    def stop_ai_learning(self):
-        self.learning = False
-        self.logger.info(f"AI learning stopped for {self.current_ai_profile} profile")
-        messagebox.showinfo("AI Learning", f"AI learning mode stopped for {self.current_ai_profile} profile. The AI model has been updated.")
+    def stop_auto_detect(self):
+        self.logger.info("Auto-detect PVP/PVE mode stopped")
 
-    def start_ai_macro(self):
-        self.running = True
-        self.logger.info(f"AI macro started using {self.current_ai_profile} profile")
-        messagebox.showinfo("AI Macro", f"AI-controlled macro started using {self.current_ai_profile} profile. The AI will now attempt to replicate your skill rotation.")
-        self.root.after(100, self.ai_rotate_skills)
+    def detect_pvp_pve(self):
+        if self.auto_detect_mode:
+            # Capture the screen
+            screenshot = np.array(ImageGrab.grab(bbox=(0, 0, 1920, 1080)))
+            screenshot = cv2.cvtColor(screenshot, cv2.COLOR_RGB2BGR)
 
-    def ai_rotate_skills(self):
-        if self.running:
-            ai_model = self.ai_profiles[self.current_ai_profile]
-            if self.last_action is None:
-                possible_actions = list(ai_model.keys())
+            # Define color ranges for PVP and PVE indicators
+            lower_pvp = np.array([0, 0, 100])  # Red color range for PVP
+            upper_pvp = np.array([50, 50, 255])
+            lower_pve = np.array([0, 100, 0])  # Green color range for PVE
+            upper_pve = np.array([50, 255, 50])
+
+            # Create masks
+            mask_pvp = cv2.inRange(screenshot, lower_pvp, upper_pvp)
+            mask_pve = cv2.inRange(screenshot, lower_pve, upper_pve)
+
+            # Count non-zero pixels in each mask
+            pvp_pixels = cv2.countNonZero(mask_pvp)
+            pve_pixels = cv2.countNonZero(mask_pve)
+
+            # Determine the mode based on pixel count
+            if pvp_pixels > pve_pixels and pvp_pixels > 1000:  # Adjust threshold as needed
+                new_profile = "PVP"
+            elif pve_pixels > pvp_pixels and pve_pixels > 1000:  # Adjust threshold as needed
+                new_profile = "PVE"
             else:
-                possible_actions = list(ai_model[self.last_action].keys())
+                new_profile = self.current_ai_profile  # Keep current profile if unsure
 
-            if possible_actions:
-                next_action = random.choices(
-                    possible_actions,
-                    weights=[ai_model[self.last_action][action] for action in possible_actions]
-                )[0]
-                pyautogui.press(next_action)
-                self.logger.debug(f"AI pressed key: {next_action} (Profile: {self.current_ai_profile})")
-                self.last_action = next_action
+            # Switch profile if needed
+            if new_profile != self.current_ai_profile:
+                self.current_ai_profile = new_profile
+                self.logger.info(f"Auto-switched to {new_profile} profile")
+                self.ai_profile_var.set(new_profile)
 
-            self.root.after(1000, self.ai_rotate_skills)  # Adjust timing as needed
-        else:
-            self.root.after(100, self.ai_rotate_skills)
-
-    def on_key_press(self, key):
-        if self.recording:
-            try:
-                self.recorded_skills.append({'key': key.char, 'cooldown': 1.0})
-                self.logger.debug(f"Recorded key: {key.char}")
-            except AttributeError:
-                pass
-
-        if self.learning:
-            try:
-                current_time = time.time()
-                if self.last_action is not None:
-                    time_diff = current_time - self.last_action_time
-                    self.ai_profiles[self.current_ai_profile][self.last_action][key.char] += 1
-                    # You could also store timing information here
-
-                self.last_action = key.char
-                self.last_action_time = current_time
-                self.logger.debug(f"AI learned key press: {key.char} (Profile: {self.current_ai_profile})")
-            except AttributeError:
-                pass
+            # Schedule next detection
+            self.root.after(5000, self.detect_pvp_pve)  # Check every 5 seconds
 
     # ... [rest of the class remains unchanged] ...
 
