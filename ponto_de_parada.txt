@@ -2,21 +2,22 @@
 Ponto de Parada - Macro de Rotação de Skills para Throne and Liberty
 
 Passos Realizados:
-1-42. [Passos anteriores mantidos...]
-43. Implementados tooltips para explicar as diferentes funcionalidades na interface:
-    - Adicionada uma classe ToolTip para gerenciar os tooltips
-    - Incluídos tooltips explicativos para todos os elementos principais da interface
-    - Melhorada a usabilidade e a compreensão das funcionalidades do macro
+1-43. [Passos anteriores mantidos...]
+44. Adicionadas opções de personalização visual (temas, cores) para a interface gráfica:
+    - Criada uma nova aba 'Customization' na interface
+    - Implementada a funcionalidade para escolher cores para diferentes elementos da interface
+    - Adicionado um sistema de temas que pode ser aplicado dinamicamente
+    - Melhorada a aparência geral da interface com estilos personalizáveis
 
 Passos Pendentes:
-1. Realizar testes manuais da interface gráfica, incluindo a nova funcionalidade de tooltips
-2. Adicionar opções de personalização visual (temas, cores) para a interface gráfica
-3. Otimizar o desempenho do macro, especialmente a detecção automática de PVP/PVE
-4. Criar documentação detalhada para usuários finais, incluindo instruções sobre todas as funcionalidades
-5. Considerar a criação de um instalador ou pacote distribuível
-6. Implementar tratamento de erros mais robusto para todas as funcionalidades
-7. Adicionar funcionalidade para salvar e carregar diferentes configurações de visualização
-8. Implementar um sistema de atalhos de teclado para funções comuns
+1. Realizar testes manuais da interface gráfica, incluindo as novas opções de personalização
+2. Otimizar o desempenho do macro, especialmente a detecção automática de PVP/PVE
+3. Criar documentação detalhada para usuários finais, incluindo instruções sobre todas as funcionalidades e opções de personalização
+4. Considerar a criação de um instalador ou pacote distribuível
+5. Implementar tratamento de erros mais robusto para todas as funcionalidades
+6. Adicionar funcionalidade para salvar e carregar diferentes configurações de visualização e temas
+7. Implementar um sistema de atalhos de teclado para funções comuns
+8. Realizar testes de usabilidade com um grupo de usuários e coletar feedback
 
 Próximo passo:
-Adicionar opções de personalização visual (temas, cores) para a interface gráfica, permitindo que os usuários customizem a aparência do macro de acordo com suas preferências.
+Otimizar o desempenho do macro, com foco especial na detecção automática de PVP/PVE, para garantir que o programa funcione de forma eficiente mesmo em sistemas menos potentes.
