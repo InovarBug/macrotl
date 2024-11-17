@@ -10,14 +10,15 @@ Passos Realizados:
 6. Feito commit das alterações
 7. Feito push para o novo repositório no GitHub
 8. Verificado que todos os arquivos foram enviados corretamente
+9. Implementado sistema de logging
+10. Implementado hotkeys para troca de perfis
+11. Atualizado README.md com as novas funcionalidades
 
 Passos Pendentes:
-1. Implementar melhorias sugeridas (opcional):
+1. Implementar melhorias adicionais (opcional):
    a. Interface gráfica
-   b. Sistema de logging
-   c. Hotkeys para troca de perfis
-   d. Ajuste dinâmico de cooldowns
-   e. Integração com OCR
+   b. Ajuste dinâmico de cooldowns
+   c. Integração com OCR
 
 Próximo passo:
-Decidir se deseja implementar alguma das melhorias sugeridas ou se o projeto está completo neste estágio.
+Fazer commit e push das alterações recentes para o repositório GitHub.
