@@ -126,11 +126,12 @@ class SkillRotationMacro:
         self.recorded_skills = []
         self.last_key_time = time.time()
         keyboard.on_press(self.on_key_press)
+        print("Gravação iniciada. Pressione as teclas para gravar.")
 
     def stop_recording(self):
         self.recording = False
         keyboard.unhook_all()
-        return self.recorded_skills if self.recorded_skills else []
+        print(f"Gravação finalizada. {len(self.recorded_skills)} teclas gravadas.")
 
     def on_key_press(self, event):
         if self.recording:
@@ -138,14 +139,16 @@ class SkillRotationMacro:
             cooldown = round(current_time - self.last_key_time, 2)
             self.recorded_skills.append({'key': event.name, 'cooldown': cooldown})
             self.last_key_time = current_time
+            print(f"Tecla gravada: {event.name}, Cooldown: {cooldown}s")
 
     def save_recorded_profile(self, profile_name):
         if self.recorded_skills:
             self.config['profiles'][profile_name] = {'skills': self.recorded_skills}
             self.save_config()
             self.load_profile(profile_name)
+            print(f"Perfil '{profile_name}' salvo com sucesso.")
         else:
-            print(f"No skills recorded for profile '{profile_name}'")
+            print("Nenhuma skill foi gravada para salvar.")
 
     def update_skill(self, profile_name, skill_index, key, cooldown):
         if profile_name in self.config['profiles'] and 'skills' in self.config['profiles'][profile_name]:
