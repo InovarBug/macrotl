@@ -164,13 +164,16 @@ class MacroGUI:
         self.record_button['state'] = tk.NORMAL
         self.stop_record_button['state'] = tk.DISABLED
         self.update_output('Gravação finalizada.\n')
-        self.update_output('Skills gravadas:\n')
-        for skill in recorded_skills:
-            self.update_output(f"Tecla: {skill['key']}, Cooldown: {skill['cooldown']:.2f}s\n")
-        current_profile = self.profile_combo.get()
-        self.macro.config['profiles'][current_profile]['skills'] = recorded_skills
-        self.macro.save_config()
-        self.update_output(f"Skills atualizadas para o perfil '{current_profile}'.\n")
+        if recorded_skills:
+            self.update_output('Skills gravadas:\n')
+            for skill in recorded_skills:
+                self.update_output(f"Tecla: {skill['key']}, Cooldown: {skill['cooldown']:.2f}s\n")
+            current_profile = self.profile_combo.get()
+            self.macro.config['profiles'][current_profile]['skills'] = recorded_skills
+            self.macro.save_config()
+            self.update_output(f"Skills atualizadas para o perfil '{current_profile}'.\n")
+        else:
+            self.update_output('Nenhuma skill foi gravada.\n')
 
     def check_recording(self):
         if self.macro.recording:
