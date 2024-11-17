@@ -14,17 +14,17 @@ Plano Prioritário:
 
 3. Implementar funcionalidades adicionais:
    a. Criado um arquivo de configuração externo (config.json) para facilitar a customização de teclas e tempos de recarga
-   b. [Pendente] Adicionar um modo de gravação para que o usuário possa criar suas próprias sequências de habilidades
-   c. [Pendente] Implementar um sistema de perfis para diferentes classes ou jogos
+   b. Adicionado um modo de gravação para que o usuário possa criar suas próprias sequências de habilidades
+   c. Implementado um sistema de perfis para diferentes classes ou jogos
    d. [Pendente] Adicionar uma interface gráfica simples para facilitar a configuração e uso do macro
 
 4. Testes e otimização:
-   a. [Pendente] Testar o macro com diferentes configurações
+   a. Criado um script de teste (test_macro.py) para testar diferentes configurações
    b. [Pendente] Otimizar o desempenho para garantir que não haja atrasos perceptíveis
 
 5. Documentação:
-   a. [Pendente] Criar um README com instruções de instalação e uso
-   b. [Pendente] Documentar o código para facilitar futuras modificações
+   a. Criado um README com instruções de instalação e uso
+   b. Adicionados comentários explicativos ao código para facilitar futuras modificações
 
 Próximo passo:
-Implementar o modo de gravação para que o usuário possa criar suas próprias sequências de habilidades.
+Adicionar uma interface gráfica simples para facilitar a configuração e uso do macro.
