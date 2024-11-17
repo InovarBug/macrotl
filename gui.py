@@ -1,66 +1,199 @@
-import PySimpleGUI as sg
+import tkinter as tk
+from tkinter import ttk, messagebox
 from skill_rotation_macro import SkillRotationMacro
 
 class MacroGUI:
     def __init__(self):
         self.macro = SkillRotationMacro()
-        self.layout = [
-            [sg.Text('Macro de Rotação de Skills com IA', font=('Helvetica', 16))],
-            [sg.Button('Iniciar Macro', key='-START-'), sg.Button('Parar Macro', key='-STOP-', disabled=True)],
-            [sg.Text('Perfil:'), sg.Combo(list(self.macro.config['profiles'].keys()), key='-PROFILE-', enable_events=True, readonly=True)],
-            [sg.Button('Editar Perfil', key='-EDIT-'), sg.Button('Novo Perfil', key='-NEW-')],
-            [sg.Button('Iniciar Gravação', key='-RECORD-'), sg.Button('Parar Gravação', key='-STOP-RECORD-', disabled=True)],
-            [sg.Button('Mostrar Habilidades', key='-SHOW-')],
-            [sg.Button('Ativar IA', key='-AI-TOGGLE-')],
-            [sg.Button('Analisar Uso', key='-AI-ANALYZE-'), sg.Button('Sugerir Otimização', key='-AI-SUGGEST-')],
-            [sg.Multiline(size=(60, 10), key='-OUTPUT-', disabled=True)],
-            [sg.Button('Sair')]
-        ]
-        self.window = sg.Window('Macro de Rotação de Skills com IA', self.layout)
+        self.root = tk.Tk()
+        self.root.title('Macro de Rotação de Skills com IA')
+        self.create_widgets()
+
+    def create_widgets(self):
+        frame = ttk.Frame(self.root, padding="10")
+        frame.grid(row=0, column=0, sticky=(tk.W, tk.E, tk.N, tk.S))
+        self.root.columnconfigure(0, weight=1)
+        self.root.rowconfigure(0, weight=1)
+
+        ttk.Label(frame, text='Macro de Rotação de Skills com IA', font=('Helvetica', 16)).grid(column=0, row=0, columnspan=2, pady=10)
+
+        self.start_button = ttk.Button(frame, text='Iniciar Macro', command=self.start_macro)
+        self.start_button.grid(column=0, row=1, pady=5, padx=5, sticky=tk.W)
+
+        self.stop_button = ttk.Button(frame, text='Parar Macro', command=self.stop_macro, state=tk.DISABLED)
+        self.stop_button.grid(column=1, row=1, pady=5, padx=5, sticky=tk.W)
+
+        ttk.Label(frame, text='Perfil:').grid(column=0, row=2, sticky=tk.W, pady=5)
+        self.profile_combo = ttk.Combobox(frame, values=list(self.macro.config['profiles'].keys()), state='readonly')
+        self.profile_combo.grid(column=1, row=2, sticky=(tk.W, tk.E), pady=5)
+        self.profile_combo.bind('<<ComboboxSelected>>', self.load_profile)
+
+        ttk.Button(frame, text='Editar Perfil', command=self.edit_profile).grid(column=0, row=3, pady=5, padx=5, sticky=tk.W)
+        ttk.Button(frame, text='Novo Perfil', command=self.new_profile).grid(column=1, row=3, pady=5, padx=5, sticky=tk.W)
+
+        self.record_button = ttk.Button(frame, text='Iniciar Gravação', command=self.start_recording)
+        self.record_button.grid(column=0, row=4, pady=5, padx=5, sticky=tk.W)
+
+        self.stop_record_button = ttk.Button(frame, text='Parar Gravação', command=self.stop_recording, state=tk.DISABLED)
+        self.stop_record_button.grid(column=1, row=4, pady=5, padx=5, sticky=tk.W)
+
+        ttk.Button(frame, text='Mostrar Habilidades', command=self.show_current_skills).grid(column=0, row=5, columnspan=2, pady=5)
+
+        self.ai_button = ttk.Button(frame, text='Ativar IA', command=self.toggle_ai)
+        self.ai_button.grid(column=0, row=6, pady=5, padx=5, sticky=tk.W)
+
+        ttk.Button(frame, text='Analisar Uso', command=self.analyze_skill_usage).grid(column=0, row=7, pady=5, padx=5, sticky=tk.W)
+        ttk.Button(frame, text='Sugerir Otimização', command=self.suggest_optimization).grid(column=1, row=7, pady=5, padx=5, sticky=tk.W)
+
+        self.output_text = tk.Text(frame, height=10, width=60, state=tk.DISABLED)
+        self.output_text.grid(column=0, row=8, columnspan=2, pady=10, sticky=(tk.W, tk.E))
+
+        ttk.Button(frame, text='Sair', command=self.root.quit).grid(column=0, row=9, columnspan=2, pady=5)
+
+        for child in frame.winfo_children(): 
+            child.grid_configure(padx=5, pady=5)
 
     def run(self):
-        while True:
-            event, values = self.window.read()
-            if event == sg.WINDOW_CLOSED or event == 'Sair':
-                break
-            elif event == '-START-':
-                self.macro.toggle_macro()
-                self.window['-START-'].update(disabled=True)
-                self.window['-STOP-'].update(disabled=False)
-                self.window['-OUTPUT-'].update('Macro iniciado.\n', append=True)
-            elif event == '-STOP-':
-                self.macro.toggle_macro()
-                self.window['-START-'].update(disabled=False)
-                self.window['-STOP-'].update(disabled=True)
-                self.window['-OUTPUT-'].update('Macro parado.\n', append=True)
-            elif event == '-PROFILE-':
-                self.macro.load_profile(values['-PROFILE-'])
-                self.window['-OUTPUT-'].update(f"Perfil '{values['-PROFILE-']}' carregado.\n", append=True)
-            elif event == '-EDIT-':
-                self.edit_profile(values['-PROFILE-'])
-            elif event == '-NEW-':
-                self.new_profile()
-            elif event == '-RECORD-':
-                self.macro.start_recording()
-                self.window['-RECORD-'].update(disabled=True)
-                self.window['-STOP-RECORD-'].update(disabled=False)
-                self.window['-OUTPUT-'].update('Gravação iniciada. Pressione as teclas das habilidades.\n', append=True)
-            elif event == '-STOP-RECORD-':
-                self.macro.stop_recording()
-                self.window['-RECORD-'].update(disabled=False)
-                self.window['-STOP-RECORD-'].update(disabled=True)
-                self.window['-OUTPUT-'].update('Gravação finalizada.\n', append=True)
-                self.save_recorded_profile()
-            elif event == '-SHOW-':
-                self.show_current_skills()
-            elif event == '-AI-TOGGLE-':
-                self.toggle_ai()
-            elif event == '-AI-ANALYZE-':
-                self.analyze_skill_usage()
-            elif event == '-AI-SUGGEST-':
-                self.suggest_optimization()
+        self.root.mainloop()
 
-        self.window.close()
+    def start_macro(self):
+        self.macro.toggle_macro()
+        self.start_button['state'] = tk.DISABLED
+        self.stop_button['state'] = tk.NORMAL
+        self.update_output('Macro iniciado.\n')
+
+    def stop_macro(self):
+        self.macro.toggle_macro()
+        self.start_button['state'] = tk.NORMAL
+        self.stop_button['state'] = tk.DISABLED
+        self.update_output('Macro parado.\n')
+
+    def load_profile(self, event):
+        profile_name = self.profile_combo.get()
+        self.macro.load_profile(profile_name)
+        self.update_output(f"Perfil '{profile_name}' carregado.\n")
+
+    def edit_profile(self):
+        profile_name = self.profile_combo.get()
+        if profile_name:
+            skills = self.macro.config['profiles'][profile_name]['skills']
+            edit_window = tk.Toplevel(self.root)
+            edit_window.title(f'Editando perfil: {profile_name}')
+            edit_window.grab_set()
+
+            for i, skill in enumerate(skills):
+                ttk.Label(edit_window, text=f'Skill {i+1}').grid(row=i, column=0, padx=5, pady=5)
+                key_entry = ttk.Entry(edit_window, width=5)
+                key_entry.insert(0, skill['key'])
+                key_entry.grid(row=i, column=1, padx=5, pady=5)
+                cooldown_entry = ttk.Entry(edit_window, width=5)
+                cooldown_entry.insert(0, str(skill['cooldown']))
+                cooldown_entry.grid(row=i, column=2, padx=5, pady=5)
+
+            def save_profile():
+                for i, skill in enumerate(skills):
+                    key = edit_window.grid_slaves(row=i, column=1)[0].get()
+                    cooldown = float(edit_window.grid_slaves(row=i, column=2)[0].get())
+                    self.macro.update_skill(profile_name, i, key, cooldown)
+                self.update_output(f"Perfil '{profile_name}' atualizado.\n")
+                edit_window.destroy()
+
+            ttk.Button(edit_window, text='Salvar', command=save_profile).grid(row=len(skills), column=1, pady=10)
+
+    def new_profile(self):
+        new_window = tk.Toplevel(self.root)
+        new_window.title('Novo Perfil')
+        new_window.grab_set()
+
+        ttk.Label(new_window, text='Nome do novo perfil:').pack(pady=5)
+        name_entry = ttk.Entry(new_window)
+        name_entry.pack(pady=5)
+
+        def create_profile():
+            new_profile_name = name_entry.get()
+            if new_profile_name and new_profile_name not in self.macro.config['profiles']:
+                self.macro.create_profile(new_profile_name)
+                self.profile_combo['values'] = list(self.macro.config['profiles'].keys())
+                self.profile_combo.set(new_profile_name)
+                self.update_output(f"Novo perfil '{new_profile_name}' criado.\n")
+                new_window.destroy()
+            else:
+                messagebox.showerror('Erro', 'Nome de perfil inválido ou já existente.')
+
+        ttk.Button(new_window, text='Criar', command=create_profile).pack(pady=10)
+
+    def start_recording(self):
+        self.macro.start_recording()
+        self.record_button['state'] = tk.DISABLED
+        self.stop_record_button['state'] = tk.NORMAL
+        self.update_output('Gravação iniciada. Pressione as teclas das habilidades.\n')
+
+    def stop_recording(self):
+        self.macro.stop_recording()
+        self.record_button['state'] = tk.NORMAL
+        self.stop_record_button['state'] = tk.DISABLED
+        self.update_output('Gravação finalizada.\n')
+        self.save_recorded_profile()
+        self.update_output('Gravação finalizada.\n')
+        self.save_recorded_profile()
+
+    def show_current_skills(self):
+        skills = self.macro.skills
+        if skills:
+            skill_info = "Habilidades atuais:\n"
+            for i, skill in enumerate(skills):
+                skill_info += f"Skill {i+1}: Tecla = {skill['key']}, Cooldown = {skill['cooldown']}s\n"
+            self.update_output(skill_info)
+        else:
+            self.update_output("Nenhuma habilidade configurada.\n")
+
+    def save_recorded_profile(self):
+        new_window = tk.Toplevel(self.root)
+        new_window.title('Salvar Perfil Gravado')
+
+        ttk.Label(new_window, text='Nome do perfil:').pack(pady=5)
+        name_entry = ttk.Entry(new_window)
+        name_entry.pack(pady=5)
+
+        def save_profile():
+            profile_name = name_entry.get()
+            if profile_name:
+                self.macro.save_recorded_profile(profile_name)
+                self.profile_combo['values'] = list(self.macro.config['profiles'].keys())
+                self.profile_combo.set(profile_name)
+                self.update_output(f"Perfil gravado '{profile_name}' salvo.\n")
+                new_window.destroy()
+            else:
+                messagebox.showerror('Erro', 'Nome de perfil inválido.')
+
+        ttk.Button(new_window, text='Salvar', command=save_profile).pack(pady=10)
+
+    def toggle_ai(self):
+        self.macro.toggle_ai()
+        if self.ai_button['text'] == 'Ativar IA':
+            self.ai_button['text'] = 'Desativar IA'
+            self.update_output("IA ativada\n")
+        else:
+            self.ai_button['text'] = 'Ativar IA'
+            self.update_output("IA desativada\n")
+
+    def analyze_skill_usage(self):
+        analysis = self.macro.analyze_skill_usage()
+        self.update_output(analysis)
+
+    def suggest_optimization(self):
+        suggestion = self.macro.suggest_optimization()
+        self.update_output(suggestion)
+
+    def update_output(self, message):
+        self.output_text['state'] = tk.NORMAL
+        self.output_text.insert(tk.END, message)
+        self.output_text.see(tk.END)
+        self.output_text['state'] = tk.DISABLED
+
+if __name__ == '__main__':
+    gui = MacroGUI()
+    gui.run()
 
     def toggle_ai(self):
         self.macro.toggle_ai()
