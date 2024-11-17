@@ -2,19 +2,22 @@
 Ponto de Parada - Macro de Rotação de Skills para Throne and Liberty
 
 Passos Realizados:
-1-39. [Passos anteriores mantidos...]
-40. Implementada a funcionalidade de detecção automática de PVP/PVE
-41. Adicionado controle na interface gráfica para ativar/desativar a detecção automática
+1-41. [Passos anteriores mantidos...]
+42. Refinada a visualização da rotação de habilidades:
+    - Implementada uma visualização circular das habilidades
+    - Adicionadas cores únicas para cada habilidade
+    - Incluída uma seção de informações detalhadas sobre cada habilidade
+    - Melhorada a apresentação visual geral da interface
 
 Passos Pendentes:
-1. Realizar testes manuais da interface gráfica, incluindo a nova funcionalidade de detecção automática
-2. Refinar a visualização da rotação de habilidades
-3. Implementar tooltips para explicar as diferentes funcionalidades na interface
-4. Adicionar opções de personalização visual (temas, cores) para a interface gráfica
-5. Otimizar o desempenho do macro, especialmente a detecção automática de PVP/PVE
-6. Criar documentação detalhada para usuários finais, incluindo instruções sobre a nova funcionalidade
-7. Considerar a criação de um instalador ou pacote distribuível
-8. Implementar tratamento de erros mais robusto para a detecção automática
+1. Realizar testes manuais da interface gráfica, incluindo a nova visualização de habilidades
+2. Implementar tooltips para explicar as diferentes funcionalidades na interface
+3. Adicionar opções de personalização visual (temas, cores) para a interface gráfica
+4. Otimizar o desempenho do macro, especialmente a detecção automática de PVP/PVE
+5. Criar documentação detalhada para usuários finais, incluindo instruções sobre a nova visualização
+6. Considerar a criação de um instalador ou pacote distribuível
+7. Implementar tratamento de erros mais robusto para a detecção automática e visualização
+8. Adicionar funcionalidade para salvar e carregar diferentes configurações de visualização
 
 Próximo passo:
-Refinar a visualização da rotação de habilidades para torná-la mais informativa e atraente.
+Implementar tooltips para explicar as diferentes funcionalidades na interface, melhorando assim a experiência do usuário e a facilidade de uso do macro.
