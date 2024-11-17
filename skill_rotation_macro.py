@@ -130,6 +130,7 @@ class SkillRotationMacro:
     def stop_recording(self):
         self.recording = False
         keyboard.unhook_all()
+        return self.recorded_skills if self.recorded_skills else []
 
     def on_key_press(self, event):
         if self.recording:
@@ -139,12 +140,22 @@ class SkillRotationMacro:
             self.last_key_time = current_time
 
     def save_recorded_profile(self, profile_name):
-        self.config['profiles'][profile_name] = {'skills': self.recorded_skills}
-        self.save_config()
-        self.load_profile(profile_name)
+        if self.recorded_skills:
+            self.config['profiles'][profile_name] = {'skills': self.recorded_skills}
+            self.save_config()
+            self.load_profile(profile_name)
+        else:
+            print(f"No skills recorded for profile '{profile_name}'")
 
     def update_skill(self, profile_name, skill_index, key, cooldown):
-        self.config['profiles'][profile_name]['skills'][skill_index] = {'key': key, 'cooldown': cooldown}
+        if profile_name in self.config['profiles'] and 'skills' in self.config['profiles'][profile_name]:
+            if 0 <= skill_index < len(self.config['profiles'][profile_name]['skills']):
+                self.config['profiles'][profile_name]['skills'][skill_index] = {'key': key, 'cooldown': cooldown}
+                self.save_config()
+            else:
+                print(f"Invalid skill index for profile '{profile_name}'")
+        else:
+            print(f"Profile '{profile_name}' not found or has no skills")
         self.save_config()
         if profile_name == self.current_profile:
             self.skills = self.config['profiles'][self.current_profile]['skills']
