@@ -1,6 +1,5 @@
-<<<<<<< HEAD
 
-# Skill Rotation Macro for Throne and Liberty
+# Skill Rotation Macro for Throne and Liberty (macrotl)
 
 This script provides a customizable skill rotation macro for the game Throne and Liberty, with support for multiple profiles and a recording feature.
 
@@ -39,6 +38,3 @@ Edit `config.json` to customize:
 ## Caution
 
 Use macros responsibly and in accordance with the game's terms of service.
-=======
-# macrotl
->>>>>>> 1619c93731a2b2f372ef7a4c68d06ebd959e8577
