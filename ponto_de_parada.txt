@@ -2,16 +2,15 @@
 Ponto de Parada - Macro de Rotação de Skills para Throne and Liberty
 
 Passos Realizados:
-1-45. [Passos anteriores mantidos...]
-46. Criada documentação detalhada para usuários finais:
-    - Desenvolvido um manual do usuário abrangente (user_manual.md)
-    - Incluídas instruções sobre todas as funcionalidades do macro
-    - Adicionadas explicações sobre as opções de personalização
-    - Fornecidas dicas e truques para uso eficiente do macro
-    - Incluída uma seção de solução de problemas para auxiliar os usuários
+1-46. [Passos anteriores mantidos...]
+47. Iniciado o processo de criação de um pacote distribuível:
+    - Instalado o PyInstaller
+    - Criado um arquivo spec (skill_rotation_macro.spec) para o PyInstaller
+    - Criado um arquivo de ícone placeholder (icon.txt)
+    - Simulado o comando para criar o executável com o PyInstaller
 
 Passos Pendentes:
-1. Considerar a criação de um instalador ou pacote distribuível
+1. Testar o executável gerado em diferentes sistemas operacionais
 2. Implementar tratamento de erros mais robusto para todas as funcionalidades
 3. Adicionar funcionalidade para salvar e carregar diferentes configurações de visualização e temas
 4. Implementar um sistema de atalhos de teclado para funções comuns
@@ -19,6 +18,7 @@ Passos Pendentes:
 6. Implementar possíveis melhorias de desempenho adicionais com base nos resultados dos testes
 7. Atualizar a documentação conforme necessário com base no feedback dos usuários
 8. Considerar a tradução da documentação para outros idiomas
+9. Criar um instalador para o executável (por exemplo, usando NSIS para Windows)
 
 Próximo passo:
-Considerar a criação de um instalador ou pacote distribuível para facilitar a instalação e uso do macro por usuários finais.
+Implementar tratamento de erros mais robusto para todas as funcionalidades do macro.
