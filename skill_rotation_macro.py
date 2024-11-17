@@ -90,6 +90,36 @@ class SkillRotationMacro:
 
     def simulate_interactions(self):
         print("Simulando interações com o macro:")
+        while True:
+            command = input("Digite um comando (iniciar, parar, gravar, finalizar, sair): ").lower()
+            if command == "iniciar":
+                self.toggle_macro()
+                self.run_macro()
+            elif command == "parar":
+                self.toggle_macro()
+            elif command == "gravar":
+                self.start_recording()
+                self.record_skills_realtime()
+            elif command == "finalizar":
+                self.stop_recording()
+            elif command == "sair":
+                break
+            else:
+                print("Comando não reconhecido.")
+
+    def record_skills_realtime(self):
+        print("Gravação em tempo real iniciada. Pressione 'q' para finalizar.")
+        while self.recording:
+            key = input("Pressione uma tecla (ou 'q' para finalizar): ")
+            if key.lower() == 'q':
+                self.stop_recording()
+                break
+            cooldown = input(f"Digite o cooldown para a tecla {key} (em segundos): ")
+            try:
+                cooldown = float(cooldown)
+                self.record_skill(key, cooldown)
+            except ValueError:
+                print("Cooldown inválido. Use um número decimal.")
         
         print("\n1. Mostrando habilidades atuais")
         self.show_current_skills()
@@ -116,4 +146,26 @@ class SkillRotationMacro:
 
 if __name__ == "__main__":
     macro = SkillRotationMacro()
-    macro.simulate_interactions()
+    
+    def auto_test():
+        print("Iniciando teste automático")
+        
+        print("1. Mostrando habilidades atuais")
+        macro.show_current_skills()
+        
+        print("\n2. Iniciando gravação")
+        macro.start_recording()
+        macro.record_skill("3", 1.5)
+        macro.record_skill("4", 2.0)
+        macro.stop_recording()
+        
+        print("\n3. Mostrando novas habilidades")
+        macro.show_current_skills()
+        
+        print("\n4. Executando macro com novas habilidades")
+        macro.toggle_macro()
+        macro.run_macro()
+        
+        print("\nTeste automático concluído")
+    
+    auto_test()
