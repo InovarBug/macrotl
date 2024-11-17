@@ -2,23 +2,24 @@
 Ponto de Parada - Macro de Rotação de Skills para Throne and Liberty
 
 Passos Realizados:
-1-46. [Passos anteriores mantidos...]
-47. Iniciado o processo de criação de um pacote distribuível:
-    - Instalado o PyInstaller
-    - Criado um arquivo spec (skill_rotation_macro.spec) para o PyInstaller
-    - Criado um arquivo de ícone placeholder (icon.txt)
-    - Simulado o comando para criar o executável com o PyInstaller
+1-47. [Passos anteriores mantidos...]
+48. Implementado tratamento de erros mais robusto:
+    - Adicionadas classes de exceções personalizadas (CustomError, ConfigError, DetectionError)
+    - Implementado tratamento de erros em todas as funções principais
+    - Adicionado logging detalhado para todos os erros
+    - Criada função show_error para exibir mensagens de erro ao usuário
+    - Melhorado o tratamento de erros no carregamento e salvamento de configurações
+    - Adicionado tratamento de erros na detecção de PVP/PVE
 
 Passos Pendentes:
-1. Testar o executável gerado em diferentes sistemas operacionais
-2. Implementar tratamento de erros mais robusto para todas as funcionalidades
-3. Adicionar funcionalidade para salvar e carregar diferentes configurações de visualização e temas
-4. Implementar um sistema de atalhos de teclado para funções comuns
-5. Realizar testes de usabilidade com um grupo de usuários e coletar feedback
-6. Implementar possíveis melhorias de desempenho adicionais com base nos resultados dos testes
-7. Atualizar a documentação conforme necessário com base no feedback dos usuários
-8. Considerar a tradução da documentação para outros idiomas
-9. Criar um instalador para o executável (por exemplo, usando NSIS para Windows)
+1. Adicionar funcionalidade para salvar e carregar diferentes configurações de visualização e temas
+2. Implementar um sistema de atalhos de teclado para funções comuns
+3. Realizar testes de usabilidade com um grupo de usuários e coletar feedback
+4. Implementar possíveis melhorias de desempenho adicionais com base nos resultados dos testes
+5. Atualizar a documentação conforme necessário com base no feedback dos usuários
+6. Considerar a tradução da documentação para outros idiomas
+7. Criar um instalador para o executável (por exemplo, usando NSIS para Windows)
+8. Realizar testes extensivos do tratamento de erros implementado
 
 Próximo passo:
-Implementar tratamento de erros mais robusto para todas as funcionalidades do macro.
+Adicionar funcionalidade para salvar e carregar diferentes configurações de visualização e temas.
