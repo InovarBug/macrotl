@@ -89,6 +89,10 @@ class MacroGUI:
         self.ai_button.grid(column=0, row=6, pady=5, padx=5, sticky=tk.W)
         ToolTip(self.ai_button, "Ativa/Desativa a IA para otimização automática")
 
+        self.ai_mode_button = ttk.Button(frame, text='Modo: PVE', command=self.toggle_ai_mode)
+        self.ai_mode_button.grid(column=1, row=6, pady=5, padx=5, sticky=tk.W)
+        ToolTip(self.ai_mode_button, "Alterna entre os modos PVE e PVP")
+
         analyze_usage_button = ttk.Button(frame, text='Analisar Uso', command=self.analyze_skill_usage)
         analyze_usage_button.grid(column=0, row=7, pady=5, padx=5, sticky=tk.W)
         ToolTip(analyze_usage_button, "Analisa o uso das habilidades")
@@ -225,6 +229,11 @@ class MacroGUI:
         else:
             self.ai_button['text'] = 'Ativar IA'
             self.update_output('IA desativada.\n')
+
+    def toggle_ai_mode(self):
+        new_mode = self.macro.toggle_ai_mode()
+        self.ai_mode_button['text'] = f'Modo: {new_mode}'
+        self.update_output(f'Modo IA alterado para {new_mode}\n')
 
     def analyze_skill_usage(self):
         analysis = self.macro.analyze_skill_usage()

@@ -15,6 +15,14 @@ class SkillRotationMacro:
         self.last_key_time = 0
         self.skill_usage = Counter()
         self.ai_active = False
+        self.ai_mode = 'PVE'  # Padrão para PVE
+
+    def toggle_ai_mode(self):
+        self.ai_mode = 'PVP' if self.ai_mode == 'PVE' else 'PVE'
+        return f"Modo IA alterado para {self.ai_mode}"
+
+    def get_ai_mode(self):
+        return self.ai_mode
 
     def load_config(self):
         try:
@@ -36,12 +44,28 @@ class SkillRotationMacro:
         while self.running:
             for skill in self.skills:
                 if self.running:
-                    keyboard.press_and_release(skill['key'])
                     if self.ai_active:
-                        self.skill_usage[skill['key']] += 1
-                    time.sleep(skill['cooldown'])
+                        if self.ai_mode == 'PVE':
+                            self.use_pve_skill(skill)
+                        else:
+                            self.use_pvp_skill(skill)
+                    else:
+                        keyboard.press_and_release(skill['key'])
+                        time.sleep(skill['cooldown'])
                 else:
                     break
+
+    def use_pve_skill(self, skill):
+        keyboard.press_and_release(skill['key'])
+        self.skill_usage[skill['key']] += 1
+        time.sleep(skill['cooldown'])
+
+    def use_pvp_skill(self, skill):
+        # Lógica mais complexa para PVP pode ser implementada aqui
+        # Por exemplo, verificar a saúde do jogador antes de usar uma habilidade defensiva
+        keyboard.press_and_release(skill['key'])
+        self.skill_usage[skill['key']] += 1
+        time.sleep(skill['cooldown'] * 0.8)  # Cooldown reduzido para PVP
 
     def load_profile(self, profile_name):
         if profile_name in self.config['profiles']:
