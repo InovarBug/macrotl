@@ -21,15 +21,16 @@ Passos Realizados:
 17. Implementado sistema de detecção automática de modo PVP/PVE usando processamento de imagem
 18. Adicionado botões para seleção manual de modo PVP/PVE
 19. Atualizado README.md com informações sobre seleção manual e detecção automática de PVP/PVE
+20. Refinado o algoritmo de IA para melhorar a precisão da rotação de habilidades
+21. Atualizado README.md com informações sobre o algoritmo de IA refinado
 
 Passos Pendentes:
-1. Testar extensivamente todas as funcionalidades, especialmente o sistema de IA com os perfis PVP e PVE, a detecção automática e a seleção manual
-2. Refinar o algoritmo de IA para melhorar a precisão da rotação de habilidades em diferentes cenários (PVP e PVE)
-3. Ajustar os parâmetros de detecção automática de PVP/PVE para maior precisão
-4. Adicionar mais opções de personalização para os perfis de IA
-5. Implementar tratamento de erros mais robusto
-6. Considerar a adição de uma funcionalidade de exportação/importação de perfis de IA treinados
-7. Coletar feedback de usuários e fazer ajustes conforme necessário
+1. Testar extensivamente todas as funcionalidades, especialmente o sistema de IA refinado com os perfis PVP e PVE
+2. Ajustar os parâmetros de detecção automática de PVP/PVE para maior precisão
+3. Adicionar mais opções de personalização para os perfis de IA
+4. Implementar tratamento de erros mais robusto
+5. Considerar a adição de uma funcionalidade de exportação/importação de perfis de IA treinados
+6. Coletar feedback de usuários e fazer ajustes conforme necessário
 
 Próximo passo:
 Fazer commit e push das alterações recentes para o repositório GitHub.
