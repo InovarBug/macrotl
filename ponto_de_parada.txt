@@ -17,12 +17,17 @@ Passos Realizados:
 13. Implementado ajuste dinâmico de cooldowns
 14. Implementado funcionalidade básica de IA para aprendizado e execução de rotação de habilidades
 15. Atualizado README.md com informações sobre a funcionalidade de IA
+16. Implementado perfis de IA separados para PVP e PVE
+17. Implementado sistema de detecção automática de modo PVP/PVE usando processamento de imagem
 
 Passos Pendentes:
-1. Testar extensivamente todas as funcionalidades, especialmente o sistema de IA
-2. Refinar o algoritmo de IA para melhorar a precisão da rotação de habilidades
-3. Implementar tratamento de erros mais robusto
-4. Considerar a adição de uma funcionalidade de exportação/importação de perfis de IA treinados
+1. Testar extensivamente todas as funcionalidades, especialmente o sistema de IA com os perfis PVP e PVE e a detecção automática
+2. Refinar o algoritmo de IA para melhorar a precisão da rotação de habilidades em diferentes cenários (PVP e PVE)
+3. Ajustar os parâmetros de detecção automática de PVP/PVE para maior precisão
+4. Adicionar mais opções de personalização para os perfis de IA
+5. Implementar tratamento de erros mais robusto
+6. Considerar a adição de uma funcionalidade de exportação/importação de perfis de IA treinados
+7. Coletar feedback de usuários e fazer ajustes conforme necessário
 
 Próximo passo:
-Fazer commit e push das alterações recentes para o repositório GitHub.
+Atualizar o README.md com informações sobre a nova funcionalidade de detecção automática de PVP/PVE e fazer commit e push das alterações recentes para o repositório GitHub.
