@@ -5,16 +5,18 @@ class MacroGUI:
     def __init__(self):
         self.macro = SkillRotationMacro()
         self.layout = [
-            [sg.Text('Macro de Rotação de Skills', font=('Helvetica', 16))],
+            [sg.Text('Macro de Rotação de Skills com IA', font=('Helvetica', 16))],
             [sg.Button('Iniciar Macro', key='-START-'), sg.Button('Parar Macro', key='-STOP-', disabled=True)],
             [sg.Text('Perfil:'), sg.Combo(list(self.macro.config['profiles'].keys()), key='-PROFILE-', enable_events=True, readonly=True)],
             [sg.Button('Editar Perfil', key='-EDIT-'), sg.Button('Novo Perfil', key='-NEW-')],
             [sg.Button('Iniciar Gravação', key='-RECORD-'), sg.Button('Parar Gravação', key='-STOP-RECORD-', disabled=True)],
             [sg.Button('Mostrar Habilidades', key='-SHOW-')],
+            [sg.Button('Ativar IA', key='-AI-TOGGLE-')],
+            [sg.Button('Analisar Uso', key='-AI-ANALYZE-'), sg.Button('Sugerir Otimização', key='-AI-SUGGEST-')],
             [sg.Multiline(size=(60, 10), key='-OUTPUT-', disabled=True)],
             [sg.Button('Sair')]
         ]
-        self.window = sg.Window('Macro de Rotação de Skills', self.layout)
+        self.window = sg.Window('Macro de Rotação de Skills com IA', self.layout)
 
     def run(self):
         while True:
@@ -51,8 +53,31 @@ class MacroGUI:
                 self.save_recorded_profile()
             elif event == '-SHOW-':
                 self.show_current_skills()
+            elif event == '-AI-TOGGLE-':
+                self.toggle_ai()
+            elif event == '-AI-ANALYZE-':
+                self.analyze_skill_usage()
+            elif event == '-AI-SUGGEST-':
+                self.suggest_optimization()
 
         self.window.close()
+
+    def toggle_ai(self):
+        self.macro.toggle_ai()
+        if self.window['-AI-TOGGLE-'].get_text() == 'Ativar IA':
+            self.window['-AI-TOGGLE-'].update('Desativar IA')
+            self.window['-OUTPUT-'].update("IA ativada\n", append=True)
+        else:
+            self.window['-AI-TOGGLE-'].update('Ativar IA')
+            self.window['-OUTPUT-'].update("IA desativada\n", append=True)
+
+    def analyze_skill_usage(self):
+        analysis = self.macro.analyze_skill_usage()
+        self.window['-OUTPUT-'].update(analysis, append=True)
+
+    def suggest_optimization(self):
+        suggestion = self.macro.suggest_optimization()
+        self.window['-OUTPUT-'].update(suggestion, append=True)
 
     def edit_profile(self, profile_name):
         if profile_name:

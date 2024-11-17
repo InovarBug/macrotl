@@ -2,6 +2,7 @@ import json
 import time
 import keyboard
 import threading
+from collections import Counter
 
 class SkillRotationMacro:
     def __init__(self):
@@ -12,6 +13,8 @@ class SkillRotationMacro:
         self.skills = self.config['profiles'].get(self.current_profile, {}).get('skills', [])
         self.recorded_skills = []
         self.last_key_time = 0
+        self.skill_usage = Counter()
+        self.ai_active = False
 
     def load_config(self):
         try:
@@ -34,6 +37,8 @@ class SkillRotationMacro:
             for skill in self.skills:
                 if self.running:
                     keyboard.press_and_release(skill['key'])
+                    if self.ai_active:
+                        self.skill_usage[skill['key']] += 1
                     time.sleep(skill['cooldown'])
                 else:
                     break
@@ -74,6 +79,42 @@ class SkillRotationMacro:
     def create_profile(self, profile_name):
         self.config['profiles'][profile_name] = {'skills': []}
         self.save_config()
+
+    def toggle_ai(self):
+        self.ai_active = not self.ai_active
+        if self.ai_active:
+            self.skill_usage.clear()
+
+    def analyze_skill_usage(self):
+        if not self.ai_active:
+            return "IA não está ativa."
+        
+        total_uses = sum(self.skill_usage.values())
+        if total_uses == 0:
+            return "Nenhuma habilidade foi usada ainda."
+        
+        analysis = "Análise de uso de habilidades:\n"
+        for skill, count in self.skill_usage.most_common():
+            percentage = (count / total_uses) * 100
+            analysis += f"Habilidade {skill}: {percentage:.2f}% de uso\n"
+        
+        return analysis
+
+    def suggest_optimization(self):
+        if not self.ai_active:
+            return "IA não está ativa."
+        
+        if not self.skill_usage:
+            return "Não há dados suficientes para sugerir otimizações."
+        
+        most_used = self.skill_usage.most_common(1)[0][0]
+        least_used = self.skill_usage.most_common()[-1][0]
+        
+        suggestion = f"Considere reduzir o cooldown da habilidade {most_used} "
+        suggestion += f"e aumentar o cooldown da habilidade {least_used} "
+        suggestion += "para otimizar sua rotação."
+        
+        return suggestion
 
 if __name__ == "__main__":
     print("Este arquivo não deve ser executado diretamente. Por favor, execute gui.py para usar a interface gráfica.")
