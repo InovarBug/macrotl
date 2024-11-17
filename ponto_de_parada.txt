@@ -2,23 +2,23 @@
 Ponto de Parada - Macro de Rotação de Skills para Throne and Liberty
 
 Passos Realizados:
-1-44. [Passos anteriores mantidos...]
-45. Otimizado o desempenho do macro, com foco na detecção automática de PVP/PVE:
-    - Implementado um sistema de threading para a detecção PVP/PVE, evitando bloqueios na interface do usuário
-    - Otimizada a captura de tela para analisar apenas uma região específica, reduzindo o processamento necessário
-    - Ajustados os parâmetros de detecção para maior precisão e eficiência
-    - Adicionado tratamento de erros para maior robustez na detecção
-    - Implementada atualização assíncrona da interface do usuário após a detecção
+1-45. [Passos anteriores mantidos...]
+46. Criada documentação detalhada para usuários finais:
+    - Desenvolvido um manual do usuário abrangente (user_manual.md)
+    - Incluídas instruções sobre todas as funcionalidades do macro
+    - Adicionadas explicações sobre as opções de personalização
+    - Fornecidas dicas e truques para uso eficiente do macro
+    - Incluída uma seção de solução de problemas para auxiliar os usuários
 
 Passos Pendentes:
-1. Realizar testes de desempenho para verificar a eficácia das otimizações implementadas
-2. Criar documentação detalhada para usuários finais, incluindo instruções sobre todas as funcionalidades e opções de personalização
-3. Considerar a criação de um instalador ou pacote distribuível
-4. Implementar tratamento de erros mais robusto para todas as funcionalidades
-5. Adicionar funcionalidade para salvar e carregar diferentes configurações de visualização e temas
-6. Implementar um sistema de atalhos de teclado para funções comuns
-7. Realizar testes de usabilidade com um grupo de usuários e coletar feedback
-8. Implementar possíveis melhorias de desempenho adicionais com base nos resultados dos testes
+1. Considerar a criação de um instalador ou pacote distribuível
+2. Implementar tratamento de erros mais robusto para todas as funcionalidades
+3. Adicionar funcionalidade para salvar e carregar diferentes configurações de visualização e temas
+4. Implementar um sistema de atalhos de teclado para funções comuns
+5. Realizar testes de usabilidade com um grupo de usuários e coletar feedback
+6. Implementar possíveis melhorias de desempenho adicionais com base nos resultados dos testes
+7. Atualizar a documentação conforme necessário com base no feedback dos usuários
+8. Considerar a tradução da documentação para outros idiomas
 
 Próximo passo:
-Criar documentação detalhada para usuários finais, incluindo instruções sobre todas as funcionalidades e opções de personalização do macro.
+Considerar a criação de um instalador ou pacote distribuível para facilitar a instalação e uso do macro por usuários finais.
