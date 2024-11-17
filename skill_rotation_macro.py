@@ -134,3 +134,52 @@ if __name__ == "__main__":
         print(f"Fatal error: {e}")
         logging.error(f"Fatal error: {e}")
         sys.exit(1)
+
+import cv2
+import numpy as np
+from PIL import ImageGrab
+
+# ... [rest of the imports and class definition] ...
+
+class SkillRotationMacro:
+    # ... [previous methods] ...
+
+    def detect_pvp_pve(self):
+        if self.auto_detect_mode:
+            # Capture the screen
+            screenshot = np.array(ImageGrab.grab(bbox=(0, 0, 1920, 1080)))
+            screenshot = cv2.cvtColor(screenshot, cv2.COLOR_RGB2BGR)
+
+            # Define color ranges for PVP and PVE indicators
+            lower_pvp = np.array([0, 0, 150])  # Adjusted red color range for PVP
+            upper_pvp = np.array([50, 50, 255])
+            lower_pve = np.array([0, 150, 0])  # Adjusted green color range for PVE
+            upper_pve = np.array([50, 255, 50])
+
+            # Create masks
+            mask_pvp = cv2.inRange(screenshot, lower_pvp, upper_pvp)
+            mask_pve = cv2.inRange(screenshot, lower_pve, upper_pve)
+
+            # Count non-zero pixels in each mask
+            pvp_pixels = cv2.countNonZero(mask_pvp)
+            pve_pixels = cv2.countNonZero(mask_pve)
+
+            # Determine the mode based on pixel count and a threshold
+            threshold = 2000  # Adjusted threshold
+            if pvp_pixels > pve_pixels and pvp_pixels > threshold:
+                new_profile = "PVP"
+            elif pve_pixels > pvp_pixels and pve_pixels > threshold:
+                new_profile = "PVE"
+            else:
+                new_profile = self.current_ai_profile  # Keep current profile if unsure
+
+            # Switch profile if needed
+            if new_profile != self.current_ai_profile:
+                self.current_ai_profile = new_profile
+                self.logger.info(f"Auto-switched to {new_profile} profile")
+                self.ai_profile_var.set(new_profile)
+
+            # Schedule next detection
+            self.root.after(2000, self.detect_pvp_pve)  # Check every 2 seconds
+
+    # ... [rest of the class methods] ...
