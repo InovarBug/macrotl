@@ -27,15 +27,26 @@ Passos Realizados:
 23. Atualizado README.md com informações sobre o tratamento de erros robusto
 24. Adicionadas opções avançadas de personalização para os perfis de IA (agressividade, defesa, prioridades de habilidades)
 25. Atualizado README.md com informações sobre as novas opções de personalização da IA
-26. Criado arquivo de testes automatizados (test_skill_rotation_macro.py)
+26. Criado arquivo de testes automatizados (comprehensive_test.py)
 27. Ajustados os parâmetros de detecção automática de PVP/PVE para maior precisão
 28. Implementada funcionalidade de exportação/importação de perfis de IA treinados
 29. Atualizado README.md com informações sobre as novas funcionalidades e instruções de uso
+30. Criado arquivo pycharm_instructions.md com instruções detalhadas para configuração e execução do projeto no PyCharm
+31. Implementada uma interface gráfica mais elaborada e amigável usando tkinter, incluindo:
+    - Abas para diferentes funcionalidades (Perfis, Configurações de IA, Gravação, Visualização)
+    - Visualização em tempo real da rotação de habilidades
+    - Melhorias na organização e apresentação das configurações
 
 Passos Pendentes:
-1. Realizar testes extensivos de todas as funcionalidades implementadas
-2. Coletar feedback de usuários e fazer ajustes conforme necessário
-3. Considerar a implementação de novas funcionalidades baseadas no feedback dos usuários
+1. Realizar testes extensivos da nova interface gráfica e todas as funcionalidades implementadas
+2. Atualizar os testes unitários para cobrir as novas funcionalidades da interface gráfica
+3. Refinar a visualização da rotação de habilidades para torná-la mais informativa e atraente
+4. Implementar tooltips para explicar as diferentes funcionalidades na interface
+5. Adicionar opções de personalização visual (temas, cores) para a interface gráfica
+6. Otimizar o desempenho do macro, especialmente para jogos de alta intensidade
+7. Criar uma documentação mais detalhada, possivelmente incluindo um wiki no GitHub
+8. Considerar a criação de um instalador ou pacote distribuível para facilitar a instalação para usuários finais
+9. Coletar feedback de usuários sobre a nova interface e fazer ajustes conforme necessário
 
 Próximo passo:
-Fazer commit e push das alterações recentes para o repositório GitHub.
+Atualizar o README.md para refletir as mudanças na interface gráfica e as novas funcionalidades implementadas.
