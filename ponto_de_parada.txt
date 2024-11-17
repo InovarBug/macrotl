@@ -2,24 +2,24 @@
 Ponto de Parada - Macro de Rotação de Skills para Throne and Liberty
 
 Passos Realizados:
-1-47. [Passos anteriores mantidos...]
-48. Implementado tratamento de erros mais robusto:
-    - Adicionadas classes de exceções personalizadas (CustomError, ConfigError, DetectionError)
-    - Implementado tratamento de erros em todas as funções principais
-    - Adicionado logging detalhado para todos os erros
-    - Criada função show_error para exibir mensagens de erro ao usuário
-    - Melhorado o tratamento de erros no carregamento e salvamento de configurações
-    - Adicionado tratamento de erros na detecção de PVP/PVE
+1-48. [Passos anteriores mantidos...]
+49. Implementada funcionalidade para salvar e carregar diferentes configurações de visualização e temas:
+    - Adicionado sistema de temas com capacidade de salvar e carregar
+    - Criada interface para escolher cores personalizadas para cada elemento do tema
+    - Implementada funcionalidade para salvar temas personalizados
+    - Adicionada opção para carregar temas salvos
+    - Criado arquivo themes.json para armazenar os temas salvos
+    - Atualizada a aba de customização na interface gráfica para incluir as novas funcionalidades
 
 Passos Pendentes:
-1. Adicionar funcionalidade para salvar e carregar diferentes configurações de visualização e temas
-2. Implementar um sistema de atalhos de teclado para funções comuns
-3. Realizar testes de usabilidade com um grupo de usuários e coletar feedback
-4. Implementar possíveis melhorias de desempenho adicionais com base nos resultados dos testes
-5. Atualizar a documentação conforme necessário com base no feedback dos usuários
-6. Considerar a tradução da documentação para outros idiomas
-7. Criar um instalador para o executável (por exemplo, usando NSIS para Windows)
-8. Realizar testes extensivos do tratamento de erros implementado
+1. Implementar um sistema de atalhos de teclado para funções comuns
+2. Realizar testes de usabilidade com um grupo de usuários e coletar feedback
+3. Implementar possíveis melhorias de desempenho adicionais com base nos resultados dos testes
+4. Atualizar a documentação conforme necessário com base no feedback dos usuários
+5. Considerar a tradução da documentação para outros idiomas
+6. Criar um instalador para o executável (por exemplo, usando NSIS para Windows)
+7. Realizar testes extensivos do tratamento de erros implementado
+8. Testar extensivamente as novas funcionalidades de temas
 
 Próximo passo:
-Adicionar funcionalidade para salvar e carregar diferentes configurações de visualização e temas.
+Implementar um sistema de atalhos de teclado para funções comuns, melhorando assim a eficiência e a facilidade de uso do macro.
