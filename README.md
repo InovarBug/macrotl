@@ -1,7 +1,7 @@
 
 # Skill Rotation Macro for Throne and Liberty (macrotl)
 
-Este script fornece um macro de rotação de habilidades personalizável para o jogo Throne and Liberty, com suporte para múltiplos perfis, recurso de gravação, logging, hotkeys para troca de perfis, interface gráfica do usuário e um sistema de aprendizado de IA com perfis específicos para PVP e PVE.
+Este script fornece um macro de rotação de habilidades personalizável para o jogo Throne and Liberty, com suporte para múltiplos perfis, recurso de gravação, logging, hotkeys para troca de perfis, interface gráfica do usuário e um sistema de aprendizado de IA avançado com perfis específicos para PVP e PVE.
 
 ## Instalação
 
@@ -38,12 +38,28 @@ Este script fornece um macro de rotação de habilidades personalizável para o 
 - Ajuste dinâmico de cooldown
 - Sistema de logging para depuração e rastreamento de uso
 - Interface gráfica do usuário para fácil configuração e controle
-- Sistema de aprendizado de IA:
+- Sistema de aprendizado de IA avançado:
   - Aprende padrões de rotação de habilidades a partir da jogabilidade do usuário
   - Pode executar padrões aprendidos automaticamente
   - Perfis separados para PVP e PVE
+  - Algoritmo de rotação baseado em frequência e tempo desde o último uso
 - Seleção manual de modo PVP/PVE
 - Detecção automática de modo PVP/PVE (experimental)
+
+## Sistema de IA Avançado
+
+O novo sistema de IA utiliza um algoritmo refinado para a rotação de habilidades:
+
+1. Durante o aprendizado, a IA registra:
+   - A frequência de uso de cada habilidade
+   - O tempo desde o último uso de cada habilidade
+   - O cooldown mínimo observado para cada habilidade
+
+2. Durante a execução, a IA seleciona a próxima habilidade baseada em:
+   - A disponibilidade da habilidade (respeitando o cooldown)
+   - Um peso calculado considerando a frequência de uso e o tempo desde o último uso
+
+Este sistema resulta em uma rotação de habilidades mais dinâmica e adaptável, que tenta imitar mais de perto o estilo de jogo do usuário.
 
 ## Aprendizado de IA
 
