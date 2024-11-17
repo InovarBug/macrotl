@@ -2,20 +2,19 @@
 Ponto de Parada - Macro de Rotação de Skills para Throne and Liberty
 
 Passos Realizados:
-1-36. [Passos anteriores mantidos...]
-37. Implementada a interface gráfica real usando tkinter
-38. Integrada a interface gráfica com a lógica existente
-39. Adicionadas funcionalidades para salvar e carregar configurações
+1-39. [Passos anteriores mantidos...]
+40. Implementada a funcionalidade de detecção automática de PVP/PVE
+41. Adicionado controle na interface gráfica para ativar/desativar a detecção automática
 
 Passos Pendentes:
-1. Realizar testes manuais da interface gráfica
-2. Implementar a funcionalidade de detecção automática de PVP/PVE
-3. Refinar a visualização da rotação de habilidades
-4. Implementar tooltips para explicar as diferentes funcionalidades na interface
-5. Adicionar opções de personalização visual (temas, cores) para a interface gráfica
-6. Otimizar o desempenho do macro
-7. Criar documentação detalhada para usuários finais
-8. Considerar a criação de um instalador ou pacote distribuível
+1. Realizar testes manuais da interface gráfica, incluindo a nova funcionalidade de detecção automática
+2. Refinar a visualização da rotação de habilidades
+3. Implementar tooltips para explicar as diferentes funcionalidades na interface
+4. Adicionar opções de personalização visual (temas, cores) para a interface gráfica
+5. Otimizar o desempenho do macro, especialmente a detecção automática de PVP/PVE
+6. Criar documentação detalhada para usuários finais, incluindo instruções sobre a nova funcionalidade
+7. Considerar a criação de um instalador ou pacote distribuível
+8. Implementar tratamento de erros mais robusto para a detecção automática
 
 Próximo passo:
-Realizar testes manuais da interface gráfica para garantir que todas as funcionalidades estão operando corretamente.
+Refinar a visualização da rotação de habilidades para torná-la mais informativa e atraente.
