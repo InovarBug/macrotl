@@ -10,7 +10,7 @@ Este script fornece um macro de rotação de habilidades personalizável para o 
    ```
    pip install pynput pyautogui opencv-python pillow numpy
    ```
-3. Baixe `skill_rotation_macro.py` e `config.json` para o mesmo diretório.
+3. Clone este repositório ou baixe os arquivos `skill_rotation_macro.py` e `config.json`.
 
 ## Uso
 
@@ -53,62 +53,30 @@ Este script fornece um macro de rotação de habilidades personalizável para o 
 
 ## Sistema de IA Avançado
 
-O sistema de IA utiliza um algoritmo refinado para a rotação de habilidades:
+O sistema de IA utiliza um algoritmo refinado para a rotação de habilidades, considerando:
+- Frequência de uso de cada habilidade
+- Tempo desde o último uso de cada habilidade
+- Prioridade definida para cada habilidade
+- Configurações de agressividade e defesa do perfil atual
 
-1. Durante o aprendizado, a IA registra:
-   - A frequência de uso de cada habilidade
-   - O tempo desde o último uso de cada habilidade
-   - O cooldown mínimo observado para cada habilidade
+## Testes
 
-2. Durante a execução, a IA seleciona a próxima habilidade baseada em:
-   - A disponibilidade da habilidade (respeitando o cooldown)
-   - Um peso calculado considerando a frequência de uso, o tempo desde o último uso e a prioridade da habilidade
-   - As configurações de agressividade e defesa do perfil atual
-
-3. Configurações personalizáveis:
-   - Agressividade: Aumenta a probabilidade de usar habilidades ofensivas
-   - Defesa: Aumenta a probabilidade de usar habilidades defensivas
-   - Prioridade de habilidades: Permite definir a importância relativa de cada habilidade
-
-## Aprendizado de IA
-
-1. Selecione o perfil de IA desejado (PVP ou PVE) na interface ou use os botões de seleção manual.
-2. Clique em "Start AI Learning" e jogue normalmente.
-3. A IA aprenderá seus padrões de rotação de habilidades para o perfil selecionado.
-4. Clique em "Stop AI Learning" quando terminar.
-5. Use o botão "AI Settings" para ajustar as configurações de agressividade, defesa e prioridades de habilidades.
-6. Clique em "Start AI Macro" para deixar a IA executar os padrões aprendidos para o perfil atual.
-
-## Detecção Automática de PVP/PVE
-
-A funcionalidade de detecção automática usa processamento de imagem para tentar identificar se você está em modo PVP ou PVE. Esta funcionalidade foi aprimorada para maior precisão, mas ainda pode ser considerada experimental. Use a seleção manual se preferir um controle mais preciso.
-
-## Exportação e Importação de Perfis de IA
-
-- Para exportar um perfil de IA treinado, clique no botão "Export AI Profile". O perfil será salvo como um arquivo JSON.
-- Para importar um perfil de IA, clique no botão "Import AI Profile" e selecione o arquivo JSON do perfil que deseja importar.
-
-## Tratamento de Erros
-
-O script inclui um sistema de tratamento de erros robusto:
-
-- Erros são registrados em detalhes no arquivo de log (macro_log.txt).
-- Mensagens de erro são exibidas na interface gráfica para informar o usuário sobre problemas.
-- O script tenta lidar graciosamente com erros comuns, como arquivos de configuração ausentes ou mal formatados.
-- Em caso de erro fatal, o script tenta salvar as configurações e fechar de forma segura.
-
-## Testes Automatizados
-
-O projeto inclui um conjunto de testes automatizados para garantir o funcionamento correto das principais funcionalidades. Para executar os testes:
+O projeto inclui um conjunto de testes unitários para garantir o funcionamento correto das principais funcionalidades. Para executar os testes:
 
 ```
-python test_skill_rotation_macro.py
+python comprehensive_test.py
 ```
+
+Note que alguns testes podem requerer um ambiente gráfico simulado (como Xvfb) para funcionar corretamente em ambientes sem interface gráfica.
 
 ## Logging
 
 O script cria um arquivo `macro_log.txt` no mesmo diretório, que registra vários eventos, ações e erros para fins de depuração e monitoramento.
 
-## Cuidado
+## Contribuindo
+
+Contribuições são bem-vindas! Por favor, sinta-se à vontade para submeter pull requests ou abrir issues para reportar bugs ou sugerir novas funcionalidades.
+
+## Aviso Legal
 
 Use macros de forma responsável e de acordo com os termos de serviço do jogo. O recurso de IA é experimental e pode não replicar perfeitamente a jogabilidade humana.
