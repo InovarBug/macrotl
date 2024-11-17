@@ -34,7 +34,15 @@ class SkillRotationMacro:
     def setup_gui(self):
         # ... [previous GUI setup remains unchanged] ...
 
-        ttk.Checkbutton(self.root, text="Auto-detect PVP/PVE", variable=tk.BooleanVar(value=self.auto_detect_mode), command=self.toggle_auto_detect).grid(row=8, column=0, columnspan=3, padx=5, pady=5)
+        ttk.Button(self.root, text="Set PVP Mode", command=lambda: self.set_mode("PVP")).grid(row=8, column=0, padx=5, pady=5)
+        ttk.Button(self.root, text="Set PVE Mode", command=lambda: self.set_mode("PVE")).grid(row=8, column=1, padx=5, pady=5)
+        ttk.Checkbutton(self.root, text="Auto-detect PVP/PVE", variable=tk.BooleanVar(value=self.auto_detect_mode), command=self.toggle_auto_detect).grid(row=8, column=2, padx=5, pady=5)
+
+    def set_mode(self, mode):
+        self.current_ai_profile = mode
+        self.ai_profile_var.set(mode)
+        self.logger.info(f"Manually switched to {mode} profile")
+        messagebox.showinfo("Mode Changed", f"Switched to {mode} mode")
 
     def toggle_auto_detect(self):
         self.auto_detect_mode = not self.auto_detect_mode
