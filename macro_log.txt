@@ -1,1 +1,12 @@
 2024-11-17 15:15:34,559 - INFO - Configuration loaded successfully
+2024-11-17 15:15:34,586 - INFO - Configuration loaded successfully
+2024-11-17 15:15:34,592 - INFO - Configuration loaded successfully
+2024-11-17 15:15:34,597 - INFO - Configuration loaded successfully
+2024-11-17 15:15:34,601 - INFO - Configuration loaded successfully
+2024-11-17 15:15:34,604 - INFO - Recording started
+2024-11-17 15:15:34,605 - INFO - Configuration saved successfully
+2024-11-17 15:15:34,607 - INFO - Recording stopped. New skill rotation saved.
+2024-11-17 15:15:34,607 - INFO - Configuration loaded successfully
+2024-11-17 15:15:34,616 - INFO - Configuration loaded successfully
+2024-11-17 15:15:34,619 - INFO - Macro activated for profile: default
+2024-11-17 15:15:34,619 - INFO - Macro deactivated
