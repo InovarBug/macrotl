@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
 # Skill Rotation Macro for Throne and Liberty
 
@@ -38,3 +39,6 @@ Edit `config.json` to customize:
 ## Caution
 
 Use macros responsibly and in accordance with the game's terms of service.
+=======
+# macrotl
+>>>>>>> 1619c93731a2b2f372ef7a4c68d06ebd959e8577
