@@ -4,117 +4,114 @@ import json
 import logging
 from collections import defaultdict
 import tkinter as tk
-from tkinter import ttk, messagebox, colorchooser, filedialog
+from tkinter import ttk, messagebox, colorchooser, filedialog, simpledialog
 import random
 import cv2
 import numpy as np
 from PIL import ImageGrab, ImageTk
 import threading
 import sys
+from pynput import keyboard
 
 # ... [previous code remains unchanged] ...
 
 class SkillRotationMacro:
     def __init__(self):
         # ... [previous initialization code remains unchanged] ...
-        self.themes = {
-            'default': {
-                'bg': '#f0f0f0',
-                'fg': '#000000',
-                'button': '#e1e1e1',
-                'highlight': '#0078d7'
-            }
+        self.shortcuts = {
+            '<ctrl>+s': self.save_config,
+            '<ctrl>+r': self.toggle_recording,
+            '<ctrl>+p': self.toggle_profile,
+            '<ctrl>+m': self.toggle_macro,
+            '<ctrl>+d': self.toggle_auto_detect,
+            '<ctrl>+t': self.cycle_theme
         }
-        self.current_theme = 'default'
-        self.load_themes()
+        self.keyboard_listener = None
         # ... [rest of the initialization code] ...
 
     # ... [previous methods remain unchanged] ...
 
-    def setup_customization_tab(self):
-        custom_frame = ttk.Frame(self.notebook)
-        self.notebook.add(custom_frame, text='Customization')
+    def setup_gui(self):
+        # ... [previous GUI setup code] ...
+        self.setup_shortcuts_tab()
+        # ... [rest of the GUI setup code] ...
 
-        ttk.Label(custom_frame, text="Theme Colors").grid(row=0, column=0, padx=5, pady=5, columnspan=2)
+    def setup_shortcuts_tab(self):
+        shortcuts_frame = ttk.Frame(self.notebook)
+        self.notebook.add(shortcuts_frame, text='Shortcuts')
 
-        color_options = [('Background', 'bg'), ('Foreground', 'fg'), ('Button', 'button'), ('Highlight', 'highlight')]
-        
-        for i, (label, key) in enumerate(color_options):
-            ttk.Label(custom_frame, text=f"{label}:").grid(row=i+1, column=0, padx=5, pady=5)
-            color_btn = ttk.Button(custom_frame, text="Choose Color", 
-                                   command=lambda k=key: self.choose_color(k))
-            color_btn.grid(row=i+1, column=1, padx=5, pady=5)
-            ToolTip(color_btn, f"Choose {label.lower()} color")
+        ttk.Label(shortcuts_frame, text="Keyboard Shortcuts").grid(row=0, column=0, padx=5, pady=5, columnspan=2)
 
-        apply_btn = ttk.Button(custom_frame, text="Apply Theme", command=self.apply_theme)
-        apply_btn.grid(row=len(color_options)+1, column=0, columnspan=2, padx=5, pady=5)
-        ToolTip(apply_btn, "Apply the selected color theme")
+        for i, (shortcut, function) in enumerate(self.shortcuts.items()):
+            ttk.Label(shortcuts_frame, text=f"{shortcut}:").grid(row=i+1, column=0, padx=5, pady=5)
+            ttk.Label(shortcuts_frame, text=function.__name__).grid(row=i+1, column=1, padx=5, pady=5)
 
-        save_theme_btn = ttk.Button(custom_frame, text="Save Theme", command=self.save_theme)
-        save_theme_btn.grid(row=len(color_options)+2, column=0, padx=5, pady=5)
-        ToolTip(save_theme_btn, "Save current theme")
+    def toggle_recording(self):
+        if self.recording:
+            self.stop_recording_gui()
+        else:
+            self.start_recording_gui()
 
-        load_theme_btn = ttk.Button(custom_frame, text="Load Theme", command=self.load_theme)
-        load_theme_btn.grid(row=len(color_options)+2, column=1, padx=5, pady=5)
-        ToolTip(load_theme_btn, "Load a saved theme")
+    def toggle_profile(self):
+        profiles = list(self.profiles.keys())
+        current_index = profiles.index(self.current_profile)
+        next_index = (current_index + 1) % len(profiles)
+        self.current_profile = profiles[next_index]
+        self.logger.info(f"Switched to profile: {self.current_profile}")
+        self.update_profile_display()
 
-    def choose_color(self, key):
-        color = colorchooser.askcolor(title=f"Choose {key} color")[1]
-        if color:
-            self.themes[self.current_theme][key] = color
-            self.apply_theme()
+    def toggle_macro(self):
+        if self.running:
+            self.stop_macro_gui()
+        else:
+            self.start_macro_gui()
 
-    def apply_theme(self):
-        theme = self.themes[self.current_theme]
-        self.style.configure('TFrame', background=theme['bg'])
-        self.style.configure('TLabel', background=theme['bg'], foreground=theme['fg'])
-        self.style.configure('TButton', background=theme['button'], foreground=theme['fg'])
-        self.style.map('TButton', background=[('active', theme['highlight'])])
-        self.style.configure('TNotebook', background=theme['bg'])
-        self.style.configure('TNotebook.Tab', background=theme['button'], foreground=theme['fg'])
-        self.style.map('TNotebook.Tab', background=[('selected', theme['highlight'])])
+    def toggle_auto_detect(self):
+        self.auto_detect_mode = not self.auto_detect_mode
+        if self.auto_detect_mode:
+            self.start_detection_thread()
+        else:
+            self.stop_detection_thread()
+        self.logger.info(f"Auto-detect PVP/PVE mode: {'ON' if self.auto_detect_mode else 'OFF'}")
 
-    def save_theme(self):
+    def cycle_theme(self):
+        themes = list(self.themes.keys())
+        current_index = themes.index(self.current_theme)
+        next_index = (current_index + 1) % len(themes)
+        self.current_theme = themes[next_index]
+        self.apply_theme()
+        self.logger.info(f"Switched to theme: {self.current_theme}")
+
+    def on_key_press(self, key):
         try:
-            theme_name = simpledialog.askstring("Save Theme", "Enter a name for this theme:")
-            if theme_name:
-                self.themes[theme_name] = self.themes[self.current_theme].copy()
-                self.current_theme = theme_name
-                self.save_themes()
-                messagebox.showinfo("Theme Saved", f"Theme '{theme_name}' saved successfully.")
+            if key == keyboard.Key.esc:
+                return False  # Stop listener
+            try:
+                k = key.char  # single-char keys
+            except:
+                k = key.name  # other keys
+            if key in self.shortcuts:
+                self.shortcuts[key]()
         except Exception as e:
-            self.show_error("Save Theme Error", f"Failed to save theme: {str(e)}")
+            self.logger.error(f"Error in key press handler: {str(e)}")
 
-    def load_theme(self):
+    def start_keyboard_listener(self):
+        self.keyboard_listener = keyboard.Listener(on_press=self.on_key_press)
+        self.keyboard_listener.start()
+
+    def stop_keyboard_listener(self):
+        if self.keyboard_listener:
+            self.keyboard_listener.stop()
+
+    def run(self):
         try:
-            theme_name = simpledialog.askstring("Load Theme", "Enter the name of the theme to load:")
-            if theme_name in self.themes:
-                self.current_theme = theme_name
-                self.apply_theme()
-                messagebox.showinfo("Theme Loaded", f"Theme '{theme_name}' loaded successfully.")
-            else:
-                messagebox.showerror("Theme Not Found", f"Theme '{theme_name}' does not exist.")
+            self.start_keyboard_listener()
+            self.root.mainloop()
         except Exception as e:
-            self.show_error("Load Theme Error", f"Failed to load theme: {str(e)}")
-
-    def save_themes(self):
-        try:
-            with open('themes.json', 'w') as f:
-                json.dump(self.themes, f)
-            self.logger.info("Themes saved successfully")
-        except Exception as e:
-            self.show_error("Save Themes Error", f"Failed to save themes: {str(e)}")
-
-    def load_themes(self):
-        try:
-            with open('themes.json', 'r') as f:
-                loaded_themes = json.load(f)
-                self.themes.update(loaded_themes)
-            self.logger.info("Themes loaded successfully")
-        except FileNotFoundError:
-            self.logger.warning("Themes file not found. Using default theme.")
-        except json.JSONDecodeError as e:
-            raise ConfigError(f"Error decoding themes file: {str(e)}")
+            self.show_error("Runtime Error", f"An unexpected error occurred: {str(e)}")
+        finally:
+            self.stop_keyboard_listener()
+            sys.exit(1)
 
     # ... [rest of the class implementation] ...
 
