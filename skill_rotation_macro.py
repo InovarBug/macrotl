@@ -18,8 +18,10 @@ class SkillRotationMacro:
                 profile = config.get('profiles', {}).get(current_profile, {})
                 self.skills = profile.get('skills', [])
                 if not self.skills:
-                    print("Nenhuma habilidade encontrada no perfil atual. Usando configurações padrão.")
+                    print(f"Nenhuma habilidade encontrada no perfil '{current_profile}'. Usando configurações padrão.")
                     self.skills = [{"key": "1", "cooldown": 1.0}, {"key": "2", "cooldown": 2.0}]
+                else:
+                    print(f"Perfil '{current_profile}' carregado com sucesso.")
         except FileNotFoundError:
             print("Arquivo de configuração não encontrado. Usando configurações padrão.")
             self.skills = [{"key": "1", "cooldown": 1.0}, {"key": "2", "cooldown": 2.0}]
@@ -88,10 +90,79 @@ class SkillRotationMacro:
         for skill in self.skills:
             print(f"Tecla: {skill['key']}, Cooldown: {skill['cooldown']}s")
 
+    def create_profile(self, profile_name):
+        try:
+            with open('config.json', 'r') as config_file:
+                config = json.load(config_file)
+            
+            if 'profiles' not in config:
+                config['profiles'] = {}
+            
+            if profile_name in config['profiles']:
+                print(f"O perfil '{profile_name}' já existe.")
+            else:
+                config['profiles'][profile_name] = {'skills': []}
+                config['current_profile'] = profile_name
+                with open('config.json', 'w') as config_file:
+                    json.dump(config, config_file, indent=4)
+                print(f"Perfil '{profile_name}' criado e selecionado com sucesso.")
+                self.load_config()
+        except Exception as e:
+            print(f"Erro ao criar o perfil: {str(e)}")
+
+    def list_profiles(self):
+        try:
+            with open('config.json', 'r') as config_file:
+                config = json.load(config_file)
+            
+            profiles = config.get('profiles', {})
+            if profiles:
+                print("Perfis disponíveis:")
+                for profile in profiles:
+                    print(f"- {profile}")
+            else:
+                print("Nenhum perfil encontrado.")
+        except Exception as e:
+            print(f"Erro ao listar os perfis: {str(e)}")
+
+    def select_profile(self, profile_name):
+        try:
+            with open('config.json', 'r') as config_file:
+                config = json.load(config_file)
+            
+            if 'profiles' in config and profile_name in config['profiles']:
+                config['current_profile'] = profile_name
+                with open('config.json', 'w') as config_file:
+                    json.dump(config, config_file, indent=4)
+                print(f"Perfil '{profile_name}' selecionado com sucesso.")
+                self.load_config()
+            else:
+                print(f"Perfil '{profile_name}' não encontrado.")
+        except Exception as e:
+            print(f"Erro ao selecionar o perfil: {str(e)}")
+
+    def delete_profile(self, profile_name):
+        try:
+            with open('config.json', 'r') as config_file:
+                config = json.load(config_file)
+            
+            if 'profiles' in config and profile_name in config['profiles']:
+                del config['profiles'][profile_name]
+                if config.get('current_profile') == profile_name:
+                    config['current_profile'] = next(iter(config['profiles']), 'default')
+                with open('config.json', 'w') as config_file:
+                    json.dump(config, config_file, indent=4)
+                print(f"Perfil '{profile_name}' excluído com sucesso.")
+                self.load_config()
+            else:
+                print(f"Perfil '{profile_name}' não encontrado.")
+        except Exception as e:
+            print(f"Erro ao excluir o perfil: {str(e)}")
+
     def simulate_interactions(self):
         print("Simulando interações com o macro:")
         while True:
-            command = input("Digite um comando (iniciar, parar, gravar, finalizar, sair): ").lower()
+            command = input("Digite um comando (iniciar, parar, gravar, finalizar, perfil, sair): ").lower()
             if command == "iniciar":
                 self.toggle_macro()
                 self.run_macro()
@@ -99,13 +170,35 @@ class SkillRotationMacro:
                 self.toggle_macro()
             elif command == "gravar":
                 self.start_recording()
-                self.record_skills_realtime()
+                while True:
+                    skill_input = input("Digite a tecla e o cooldown da habilidade (ou 'finalizar' para terminar): ")
+                    if skill_input.lower() == "finalizar":
+                        break
+                    key, cooldown = skill_input.split()
+                    self.record_skill(key, float(cooldown))
+                self.stop_recording()
             elif command == "finalizar":
                 self.stop_recording()
+            elif command == "perfil":
+                profile_command = input("Digite uma ação de perfil (criar, listar, selecionar, excluir): ").lower()
+                if profile_command == "criar":
+                    profile_name = input("Digite o nome do novo perfil: ")
+                    self.create_profile(profile_name)
+                elif profile_command == "listar":
+                    self.list_profiles()
+                elif profile_command == "selecionar":
+                    profile_name = input("Digite o nome do perfil a ser selecionado: ")
+                    self.select_profile(profile_name)
+                elif profile_command == "excluir":
+                    profile_name = input("Digite o nome do perfil a ser excluído: ")
+                    self.delete_profile(profile_name)
+                else:
+                    print("Comando de perfil inválido.")
             elif command == "sair":
+                print("Encerrando o programa.")
                 break
             else:
-                print("Comando não reconhecido.")
+                print("Comando inválido.")
 
     def record_skills_realtime(self):
         print("Gravação em tempo real iniciada. Pressione 'q' para finalizar.")
