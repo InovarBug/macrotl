@@ -1,42 +1,30 @@
 
-
 Ponto de Parada - Macro de Rotação de Skills para Throne and Liberty
 
-Passos Realizados:
-1-53. [Passos anteriores mantidos...]
-54. Criado plano de recrutamento de participantes para testes de usabilidade:
-    - Desenvolvidas estratégias de recrutamento usando diversos canais online
-    - Estabelecidos critérios claros de seleção para participantes
-    - Definidos incentivos para encorajar a participação
-    - Criado um modelo detalhado de formulário de inscrição
-    - Delineados os próximos passos para o processo de recrutamento
+Plano Prioritário:
+1. Configuração do ambiente:
+   a. Python instalado (versão 3.10.12)
+   b. Bibliotecas necessárias removidas devido a restrições do ambiente
 
-Passos Pendentes:
-1. Criar e publicar o formulário de inscrição online (por exemplo, usando Google Forms)
-2. Distribuir o link do formulário através dos canais mencionados no plano de recrutamento
-3. Monitorar as respostas e selecionar os participantes que melhor se adequam aos critérios
-4. Entrar em contato com os participantes selecionados para agendar as sessões de teste
-5. Conduzir o teste piloto conforme definido no documento de preparação
-6. Realizar os testes de usabilidade completos
-7. Analisar os resultados dos testes de usabilidade e compilar um relatório
-8. Implementar melhorias baseadas no feedback dos usuários
-9. Atualizar a documentação conforme necessário com base no feedback dos usuários
-10. Considerar a tradução da documentação para outros idiomas
-11. Criar um instalador para o executável (por exemplo, usando NSIS para Windows)
-12. Realizar testes extensivos do tratamento de erros implementado
-13. Implementar um sistema de atualizações automáticas
-14. Considerar a implementação de recursos adicionais sugeridos pelos usuários
-15. Implementar priorização dinâmica de habilidades baseada na situação do jogo
-16. Adicionar detecção visual de cooldowns das habilidades
-17. Permitir que o usuário defina condições específicas para o uso de certas habilidades
-18. Implementar reconhecimento de padrões de boss ou mecânicas específicas do jogo
-19. Adicionar capacidade de criar e alternar entre diferentes perfis de rotação situacionais
-20. Implementar sistema de aprendizado de máquina para otimizar rotações ao longo do tempo
-21. Permitir customização avançada de sequências de habilidades (condicionais, loops)
-22. Adicionar overlay com feedback visual em tempo real das habilidades usadas
-23. Implementar sincronização com recursos específicos do jogo (mana, energia, etc.)
-24. Criar modo de treinamento para praticar e memorizar rotações ideais
+2. Desenvolvimento do script principal:
+   a. Criada uma classe SkillRotationMacro para gerenciar o macro
+   b. Implementada a funcionalidade de ativação/desativação do macro via comando de texto
+   c. Criada uma lista de habilidades com suas respectivas teclas e tempos de recarga
+   d. Implementada a lógica de rotação de habilidades (simulação)
+
+3. Implementar funcionalidades adicionais:
+   a. Criado um arquivo de configuração externo (config.json) para facilitar a customização de teclas e tempos de recarga
+   b. [Pendente] Adicionar um modo de gravação para que o usuário possa criar suas próprias sequências de habilidades
+   c. [Pendente] Implementar um sistema de perfis para diferentes classes ou jogos
+   d. [Pendente] Adicionar uma interface gráfica simples para facilitar a configuração e uso do macro
+
+4. Testes e otimização:
+   a. [Pendente] Testar o macro com diferentes configurações
+   b. [Pendente] Otimizar o desempenho para garantir que não haja atrasos perceptíveis
+
+5. Documentação:
+   a. [Pendente] Criar um README com instruções de instalação e uso
+   b. [Pendente] Documentar o código para facilitar futuras modificações
 
 Próximo passo:
-Criar o formulário de inscrição online baseado no modelo desenvolvido e publicá-lo em uma plataforma adequada (como Google Forms).
-
+Implementar o modo de gravação para que o usuário possa criar suas próprias sequências de habilidades.
