@@ -16,6 +16,9 @@ class SkillRotationMacro:
                             "PVP": defaultdict(lambda: {"count": 0, "last_use": 0, "cooldown": 1.0, "priority": 1})}
         self.ai_settings = {"PVE": {"aggression": 5, "defense": 5}, "PVP": {"aggression": 5, "defense": 5}}
         self.setup_logging()
+        self.root = None  # Placeholder for the root window
+        self.notebook = None  # Placeholder for the notebook
+        self.profile_var = None  # Placeholder for the profile variable
 
     def setup_logging(self):
         logging.basicConfig(filename='macro_log.txt', level=logging.INFO,
@@ -58,7 +61,25 @@ class SkillRotationMacro:
         self.running = False
 
     def ai_rotate_skills(self):
-        # Placeholder for ai_rotate_skills method
-        pass
+        if self.running:
+            current_time = time.time()
+            possible_actions = []
+            weights = []
+
+            for key, data in self.ai_profiles[self.current_ai_profile].items():
+                if current_time - data["last_use"] >= data["cooldown"]:
+                    possible_actions.append(key)
+                    weight = data["count"] * (current_time - data["last_use"]) * data["priority"]
+                    weights.append(weight)
+
+            if possible_actions:
+                import random
+                next_action = random.choices(possible_actions, weights=weights)[0]
+                self.press_key(next_action)
+                self.ai_profiles[self.current_ai_profile][next_action]["last_use"] = current_time
+
+    def press_key(self, key):
+        # This method would normally use pyautogui.press(key), but for testing we'll just log it
+        self.logger.info(f"Pressed key: {key}")
 
 # ... [rest of the class implementation] ...
