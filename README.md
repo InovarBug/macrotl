@@ -1,7 +1,7 @@
 
 # Skill Rotation Macro for Throne and Liberty (macrotl)
 
-This script provides a customizable skill rotation macro for the game Throne and Liberty, with support for multiple profiles, a recording feature, logging, hotkeys for profile switching, and a graphical user interface.
+This script provides a customizable skill rotation macro for the game Throne and Liberty, with support for multiple profiles, a recording feature, logging, hotkeys for profile switching, a graphical user interface, and a basic AI learning system.
 
 ## Installation
 
@@ -23,10 +23,9 @@ This script provides a customizable skill rotation macro for the game Throne and
    - Set activation keys
    - Record skill sequences
    - Start and stop the macro
-
-## Configuration
-
-The `config.json` file is automatically managed through the GUI, but you can also edit it manually if needed.
+   - Adjust cooldowns dynamically
+   - Start and stop AI learning
+   - Start AI-controlled macro
 
 ## Features
 
@@ -34,8 +33,19 @@ The `config.json` file is automatically managed through the GUI, but you can als
 - Multiple profiles support
 - Recording mode for easy skill sequence creation
 - Configurable activation key and skill cooldowns
+- Dynamic cooldown adjustment
 - Logging system for debugging and usage tracking
 - Graphical user interface for easy configuration and control
+- Basic AI learning system:
+  - Learns skill rotation patterns from user gameplay
+  - Can execute learned patterns automatically
+
+## AI Learning
+
+1. Click "Start AI Learning" and play the game normally.
+2. The AI will learn your skill rotation patterns.
+3. Click "Stop AI Learning" when you're done.
+4. Click "Start AI Macro" to let the AI execute the learned patterns.
 
 ## Logging
 
@@ -43,4 +53,4 @@ The script creates a `macro_log.txt` file in the same directory, which logs vari
 
 ## Caution
 
-Use macros responsibly and in accordance with the game's terms of service.
+Use macros responsibly and in accordance with the game's terms of service. The AI feature is experimental and may not perfectly replicate human gameplay.
