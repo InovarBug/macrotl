@@ -27,12 +27,15 @@ Passos Realizados:
 23. Atualizado README.md com informações sobre o tratamento de erros robusto
 24. Adicionadas opções avançadas de personalização para os perfis de IA (agressividade, defesa, prioridades de habilidades)
 25. Atualizado README.md com informações sobre as novas opções de personalização da IA
+26. Criado arquivo de testes automatizados (test_skill_rotation_macro.py)
+27. Ajustados os parâmetros de detecção automática de PVP/PVE para maior precisão
+28. Implementada funcionalidade de exportação/importação de perfis de IA treinados
+29. Atualizado README.md com informações sobre as novas funcionalidades e instruções de uso
 
 Passos Pendentes:
-1. Testar extensivamente todas as funcionalidades, especialmente o sistema de IA refinado com as novas opções de personalização
-2. Ajustar os parâmetros de detecção automática de PVP/PVE para maior precisão
-3. Considerar a adição de uma funcionalidade de exportação/importação de perfis de IA treinados
-4. Coletar feedback de usuários e fazer ajustes conforme necessário
+1. Realizar testes extensivos de todas as funcionalidades implementadas
+2. Coletar feedback de usuários e fazer ajustes conforme necessário
+3. Considerar a implementação de novas funcionalidades baseadas no feedback dos usuários
 
 Próximo passo:
 Fazer commit e push das alterações recentes para o repositório GitHub.
