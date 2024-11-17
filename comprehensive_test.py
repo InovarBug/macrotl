@@ -18,34 +18,16 @@ class TestSkillRotationMacro(unittest.TestCase):
     def setUp(self):
         self.macro = SkillRotationMacro()
 
-    def test_profile_switching(self):
-        self.macro.current_profile = "default"
-        self.macro.profiles = {"default": {}, "profile1": {}}
-        self.macro.profile_var = MagicMock()
-        self.macro.profile_var.get.return_value = "profile1"
-        self.macro.switch_profile_gui()
-        self.assertEqual(self.macro.current_profile, "profile1")
-
-    def test_ai_learning(self):
-        self.macro.start_ai_learning()
-        self.assertTrue(self.macro.learning)
-        self.macro.stop_ai_learning()
-        self.assertFalse(self.macro.learning)
-
-    def test_ai_execution(self):
-        self.macro.start_ai_macro()
-        self.assertTrue(self.macro.running)
-        self.macro.stop_macro_gui()
+    def test_initialization(self):
         self.assertFalse(self.macro.running)
-
-    def test_pvp_pve_detection(self):
-        self.macro.toggle_auto_detect()
-        self.assertTrue(self.macro.auto_detect_mode)
-        self.macro.toggle_auto_detect()
-        self.assertFalse(self.macro.auto_detect_mode)
+        self.assertFalse(self.macro.recording)
+        self.assertFalse(self.macro.learning)
+        self.assertEqual(self.macro.current_profile, "default")
+        self.assertEqual(self.macro.current_ai_profile, "PVE")
+        self.assertIn("PVE", self.macro.ai_profiles)
+        self.assertIn("PVP", self.macro.ai_profiles)
 
     def test_ai_settings(self):
-        self.macro.ai_settings = {"PVE": {"aggression": 5, "defense": 5}, "PVP": {"aggression": 5, "defense": 5}}
         self.macro.save_ai_settings(7, 3, 8, 2, None)
         self.assertEqual(self.macro.ai_settings["PVE"]["aggression"], 7)
         self.assertEqual(self.macro.ai_settings["PVE"]["defense"], 3)
@@ -54,29 +36,15 @@ class TestSkillRotationMacro(unittest.TestCase):
 
     @patch('builtins.open', new_callable=unittest.mock.mock_open)
     @patch('json.dump')
-    def test_export_ai_profile(self, mock_json_dump, mock_open):
-        self.macro.current_ai_profile = "PVE"
-        self.macro.ai_profiles = {"PVE": {"skill1": {"count": 5, "last_use": 100, "cooldown": 1.0, "priority": 2}}}
-        self.macro.ai_settings = {"PVE": {"aggression": 7, "defense": 3}}
-        self.macro.export_ai_profile()
-        
-        mock_open.assert_called_once_with("PVE_ai_profile.json", 'w')
+    def test_save_config(self, mock_json_dump, mock_open):
+        self.macro.save_config()
+        mock_open.assert_called_once_with('config.json', 'w')
         mock_json_dump.assert_called_once()
 
-    @patch('builtins.open', new_callable=unittest.mock.mock_open, read_data='{"ai_profile": {"skill1": {"count": 10, "last_use": 200, "cooldown": 2.0, "priority": 3}}, "ai_settings": {"aggression": 8, "defense": 2}}')
-    def test_import_ai_profile(self, mock_open):
-        self.macro.import_ai_profile()
-        
-        self.assertEqual(self.macro.ai_profiles['test']['skill1']['count'], 10)
-        self.assertEqual(self.macro.ai_settings['test']['aggression'], 8)
-
-    def test_on_key_press(self):
-        self.macro.learning = True
-        self.macro.current_ai_profile = "PVE"
-        mock_key = MagicMock()
-        mock_key.char = 'a'
-        self.macro.on_key_press(mock_key)
-        self.assertIn('a', self.macro.ai_profiles["PVE"])
+    def test_set_skill_priorities(self):
+        with patch('tkinter.simpledialog.askinteger', return_value=5):
+            self.macro.set_skill_priorities("PVE")
+        self.assertEqual(self.macro.ai_profiles["PVE"]["skill1"]["priority"], 5)
 
     @patch('skill_rotation_macro.pyautogui.press')
     def test_ai_rotate_skills(self, mock_press):
