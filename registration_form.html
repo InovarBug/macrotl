@@ -1,0 +1,106 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inscrição para Testes de Usabilidade - Macro de Rotação de Skills para Throne and Liberty</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; padding: 20px; }
+        form { max-width: 600px; margin: 0 auto; }
+        label { display: block; margin-top: 10px; }
+        input[type="text"], input[type="email"], select, textarea { width: 100%; padding: 8px; margin-top: 5px; }
+        input[type="submit"] { background-color: #4CAF50; color: white; padding: 10px 15px; border: none; cursor: pointer; margin-top: 20px; }
+        input[type="submit"]:hover { background-color: #45a049; }
+    </style>
+</head>
+<body>
+    <h1>Inscrição para Testes de Usabilidade</h1>
+    <h2>Macro de Rotação de Skills para Throne and Liberty</h2>
+    <form action="#" method="post">
+        <label for="nome">Nome completo:</label>
+        <input type="text" id="nome" name="nome" required>
+
+        <label for="idade">Idade:</label>
+        <input type="number" id="idade" name="idade" required>
+
+        <label for="genero">Gênero:</label>
+        <select id="genero" name="genero" required>
+            <option value="">Selecione...</option>
+            <option value="masculino">Masculino</option>
+            <option value="feminino">Feminino</option>
+            <option value="outro">Outro</option>
+            <option value="prefiro_nao_dizer">Prefiro não dizer</option>
+        </select>
+
+        <label for="localizacao">Localização (Cidade/País):</label>
+        <input type="text" id="localizacao" name="localizacao" required>
+
+        <label for="email">Endereço de e-mail:</label>
+        <input type="email" id="email" name="email" required>
+
+        <label for="tempo_jogo">Há quanto tempo você joga Throne and Liberty?</label>
+        <select id="tempo_jogo" name="tempo_jogo" required>
+            <option value="">Selecione...</option>
+            <option value="menos_1_mes">Menos de 1 mês</option>
+            <option value="1_6_meses">1-6 meses</option>
+            <option value="6_12_meses">6-12 meses</option>
+            <option value="mais_1_ano">Mais de 1 ano</option>
+        </select>
+
+        <label for="horas_semana">Em média, quantas horas por semana você joga Throne and Liberty?</label>
+        <select id="horas_semana" name="horas_semana" required>
+            <option value="">Selecione...</option>
+            <option value="menos_5">Menos de 5 horas</option>
+            <option value="5_10">5-10 horas</option>
+            <option value="10_20">10-20 horas</option>
+            <option value="mais_20">Mais de 20 horas</option>
+        </select>
+
+        <label for="nivel_habilidade">Como você classificaria seu nível de habilidade em Throne and Liberty?</label>
+        <select id="nivel_habilidade" name="nivel_habilidade" required>
+            <option value="">Selecione...</option>
+            <option value="iniciante">Iniciante</option>
+            <option value="intermediario">Intermediário</option>
+            <option value="avancado">Avançado</option>
+            <option value="expert">Expert</option>
+        </select>
+
+        <label for="uso_macros">Você já usou macros em jogos antes?</label>
+        <select id="uso_macros" name="uso_macros" required>
+            <option value="">Selecione...</option>
+            <option value="sim">Sim</option>
+            <option value="nao">Não</option>
+        </select>
+
+        <label for="tipo_macros">Se sim, que tipo de macros você usou?</label>
+        <textarea id="tipo_macros" name="tipo_macros" rows="3"></textarea>
+
+        <label for="experiencia_rotacao">Você tem experiência com rotação de skills em Throne and Liberty?</label>
+        <select id="experiencia_rotacao" name="experiencia_rotacao" required>
+            <option value="">Selecione...</option>
+            <option value="sim">Sim</option>
+            <option value="nao">Não</option>
+        </select>
+
+        <label for="interesse">Qual é o seu interesse em participar destes testes de usabilidade?</label>
+        <textarea id="interesse" name="interesse" rows="3" required></textarea>
+
+        <label for="disponibilidade">Você está disponível para uma sessão de teste de 1-2 horas nas próximas duas semanas?</label>
+        <select id="disponibilidade" name="disponibilidade" required>
+            <option value="">Selecione...</option>
+            <option value="sim">Sim</option>
+            <option value="nao">Não</option>
+        </select>
+
+        <label for="feedback">Se selecionado, você concorda em fornecer feedback honesto e detalhado sobre sua experiência com o macro?</label>
+        <select id="feedback" name="feedback" required>
+            <option value="">Selecione...</option>
+            <option value="sim">Sim</option>
+            <option value="nao">Não</option>
+        </select>
+
+        <input type="submit" value="Enviar Inscrição">
+    </form>
+</body>
+</html>
