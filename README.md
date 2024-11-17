@@ -28,6 +28,7 @@ Este script fornece um macro de rotação de habilidades personalizável para o 
    - Iniciar o macro controlado pela IA
    - Selecionar manualmente o modo PVP ou PVE
    - Ativar/desativar a detecção automática de PVP/PVE
+   - Configurar as opções avançadas de IA
 
 ## Recursos
 
@@ -42,7 +43,8 @@ Este script fornece um macro de rotação de habilidades personalizável para o 
   - Aprende padrões de rotação de habilidades a partir da jogabilidade do usuário
   - Pode executar padrões aprendidos automaticamente
   - Perfis separados para PVP e PVE
-  - Algoritmo de rotação baseado em frequência e tempo desde o último uso
+  - Algoritmo de rotação baseado em frequência, tempo desde o último uso e prioridade da habilidade
+  - Configurações ajustáveis de agressividade e defesa
 - Seleção manual de modo PVP/PVE
 - Detecção automática de modo PVP/PVE (experimental)
 - Tratamento de erros robusto
@@ -58,9 +60,15 @@ O sistema de IA utiliza um algoritmo refinado para a rotação de habilidades:
 
 2. Durante a execução, a IA seleciona a próxima habilidade baseada em:
    - A disponibilidade da habilidade (respeitando o cooldown)
-   - Um peso calculado considerando a frequência de uso e o tempo desde o último uso
+   - Um peso calculado considerando a frequência de uso, o tempo desde o último uso e a prioridade da habilidade
+   - As configurações de agressividade e defesa do perfil atual
 
-Este sistema resulta em uma rotação de habilidades mais dinâmica e adaptável, que tenta imitar mais de perto o estilo de jogo do usuário.
+3. Configurações personalizáveis:
+   - Agressividade: Aumenta a probabilidade de usar habilidades ofensivas
+   - Defesa: Aumenta a probabilidade de usar habilidades defensivas
+   - Prioridade de habilidades: Permite definir a importância relativa de cada habilidade
+
+Este sistema resulta em uma rotação de habilidades mais dinâmica e adaptável, que tenta imitar mais de perto o estilo de jogo do usuário, enquanto permite ajustes finos para diferentes situações de jogo.
 
 ## Aprendizado de IA
 
@@ -68,7 +76,8 @@ Este sistema resulta em uma rotação de habilidades mais dinâmica e adaptável
 2. Clique em "Start AI Learning" e jogue normalmente.
 3. A IA aprenderá seus padrões de rotação de habilidades para o perfil selecionado.
 4. Clique em "Stop AI Learning" quando terminar.
-5. Clique em "Start AI Macro" para deixar a IA executar os padrões aprendidos para o perfil atual.
+5. Use o botão "AI Settings" para ajustar as configurações de agressividade, defesa e prioridades de habilidades.
+6. Clique em "Start AI Macro" para deixar a IA executar os padrões aprendidos para o perfil atual.
 
 ## Detecção Automática de PVP/PVE
 
@@ -76,7 +85,7 @@ A funcionalidade de detecção automática usa processamento de imagem para tent
 
 ## Tratamento de Erros
 
-O script agora inclui um sistema de tratamento de erros mais robusto:
+O script inclui um sistema de tratamento de erros robusto:
 
 - Erros são registrados em detalhes no arquivo de log (macro_log.txt).
 - Mensagens de erro são exibidas na interface gráfica para informar o usuário sobre problemas.
