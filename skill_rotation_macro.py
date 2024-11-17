@@ -10,78 +10,111 @@ import cv2
 import numpy as np
 from PIL import ImageGrab, ImageTk
 
+class ToolTip:
+    def __init__(self, widget, text):
+        self.widget = widget
+        self.text = text
+        self.tooltip = None
+        self.widget.bind("<Enter>", self.show_tooltip)
+        self.widget.bind("<Leave>", self.hide_tooltip)
+
+    def show_tooltip(self, event=None):
+        x, y, _, _ = self.widget.bbox("insert")
+        x += self.widget.winfo_rootx() + 25
+        y += self.widget.winfo_rooty() + 25
+
+        self.tooltip = tk.Toplevel(self.widget)
+        self.tooltip.wm_overrideredirect(True)
+        self.tooltip.wm_geometry(f"+{x}+{y}")
+
+        label = tk.Label(self.tooltip, text=self.text, background="#ffffe0", relief="solid", borderwidth=1)
+        label.pack()
+
+    def hide_tooltip(self, event=None):
+        if self.tooltip:
+            self.tooltip.destroy()
+            self.tooltip = None
+
 class SkillRotationMacro:
     def __init__(self):
         # ... [previous initialization code] ...
-        self.skill_colors = {}  # To store unique colors for each skill
+        self.skill_colors = {}
         self.setup_logging()
         self.setup_gui()
 
     # ... [previous methods] ...
 
+    def setup_profiles_tab(self):
+        profiles_frame = ttk.Frame(self.notebook)
+        self.notebook.add(profiles_frame, text='Profiles')
+
+        ttk.Label(profiles_frame, text="Current Profile:").grid(row=0, column=0, padx=5, pady=5)
+        self.profile_var = tk.StringVar(value=self.current_profile)
+        profile_combo = ttk.Combobox(profiles_frame, textvariable=self.profile_var, values=list(self.profiles.keys()))
+        profile_combo.grid(row=0, column=1, padx=5, pady=5)
+        switch_profile_btn = ttk.Button(profiles_frame, text="Switch Profile", command=self.switch_profile_gui)
+        switch_profile_btn.grid(row=0, column=2, padx=5, pady=5)
+
+        ttk.Label(profiles_frame, text="Activation Key:").grid(row=1, column=0, padx=5, pady=5)
+        self.activation_key_var = tk.StringVar(value=self.profiles[self.current_profile].get('activation_key', ''))
+        activation_key_entry = ttk.Entry(profiles_frame, textvariable=self.activation_key_var)
+        activation_key_entry.grid(row=1, column=1, padx=5, pady=5)
+        set_key_btn = ttk.Button(profiles_frame, text="Set Key", command=self.set_activation_key)
+        set_key_btn.grid(row=1, column=2, padx=5, pady=5)
+
+        # Add tooltips
+        ToolTip(switch_profile_btn, "Switch to the selected profile")
+        ToolTip(activation_key_entry, "Enter the key that will activate this profile")
+        ToolTip(set_key_btn, "Save the entered activation key for this profile")
+
+    def setup_ai_settings_tab(self):
+        ai_frame = ttk.Frame(self.notebook)
+        self.notebook.add(ai_frame, text='AI Settings')
+
+        for i, profile in enumerate(["PVE", "PVP"]):
+            ttk.Label(ai_frame, text=f"{profile} Settings").grid(row=i*3, column=0, columnspan=2, padx=5, pady=5)
+            
+            ttk.Label(ai_frame, text="Aggression:").grid(row=i*3+1, column=0, padx=5, pady=5)
+            aggression_scale = ttk.Scale(ai_frame, from_=1, to=10, orient=tk.HORIZONTAL, 
+                                         value=self.ai_settings[profile]["aggression"])
+            aggression_scale.grid(row=i*3+1, column=1, padx=5, pady=5)
+            
+            ttk.Label(ai_frame, text="Defense:").grid(row=i*3+2, column=0, padx=5, pady=5)
+            defense_scale = ttk.Scale(ai_frame, from_=1, to=10, orient=tk.HORIZONTAL, 
+                                      value=self.ai_settings[profile]["defense"])
+            defense_scale.grid(row=i*3+2, column=1, padx=5, pady=5)
+
+            # Add tooltips
+            ToolTip(aggression_scale, f"Set the aggression level for {profile} (1-10)")
+            ToolTip(defense_scale, f"Set the defense level for {profile} (1-10)")
+
+        save_ai_btn = ttk.Button(ai_frame, text="Save AI Settings", 
+                   command=lambda: self.save_ai_settings(aggression_scale.get(), defense_scale.get(), None))
+        save_ai_btn.grid(row=6, column=0, columnspan=2, padx=5, pady=5)
+        ToolTip(save_ai_btn, "Save the current AI settings for both PVE and PVP")
+
+    def setup_recording_tab(self):
+        recording_frame = ttk.Frame(self.notebook)
+        self.notebook.add(recording_frame, text='Recording')
+
+        start_rec_btn = ttk.Button(recording_frame, text="Start Recording", command=self.start_recording_gui)
+        start_rec_btn.grid(row=0, column=0, padx=5, pady=5)
+        stop_rec_btn = ttk.Button(recording_frame, text="Stop Recording", command=self.stop_recording_gui)
+        stop_rec_btn.grid(row=0, column=1, padx=5, pady=5)
+
+        self.recorded_skills_list = tk.Listbox(recording_frame, width=40, height=10)
+        self.recorded_skills_list.grid(row=1, column=0, columnspan=2, padx=5, pady=5)
+
+        # Add tooltips
+        ToolTip(start_rec_btn, "Start recording a new skill sequence")
+        ToolTip(stop_rec_btn, "Stop recording and save the skill sequence")
+        ToolTip(self.recorded_skills_list, "List of recorded skills in the current sequence")
+
     def setup_visualization_tab(self):
-        viz_frame = ttk.Frame(self.notebook)
-        self.notebook.add(viz_frame, text='Visualization')
+        # ... [previous visualization setup code] ...
 
-        self.canvas = tk.Canvas(viz_frame, width=400, height=400, bg='white')
-        self.canvas.pack(pady=10)
-
-        control_frame = ttk.Frame(viz_frame)
-        control_frame.pack(fill=tk.X, padx=10, pady=5)
-
-        ttk.Button(control_frame, text="Start Macro", command=self.start_macro_gui).pack(side=tk.LEFT, padx=5)
-        ttk.Button(control_frame, text="Stop Macro", command=self.stop_macro_gui).pack(side=tk.LEFT, padx=5)
-        
-        self.auto_detect_var = tk.BooleanVar(value=self.auto_detect_mode)
-        ttk.Checkbutton(control_frame, text="Auto-detect PVP/PVE", variable=self.auto_detect_var, 
-                        command=self.toggle_auto_detect).pack(side=tk.LEFT, padx=5)
-
-        self.current_profile_label = ttk.Label(viz_frame, text=f"Current Profile: {self.current_ai_profile}")
-        self.current_profile_label.pack(pady=5)
-
-        self.skill_info_frame = ttk.Frame(viz_frame)
-        self.skill_info_frame.pack(fill=tk.X, padx=10, pady=5)
-
-    def visualize_skill_use(self, skill):
-        self.canvas.delete("all")
-        
-        # Create a circular layout for skills
-        center_x, center_y = 200, 200
-        radius = 150
-        num_skills = len(self.ai_profiles[self.current_ai_profile])
-        angle_step = 360 / num_skills
-
-        for i, (skill_name, skill_data) in enumerate(self.ai_profiles[self.current_ai_profile].items()):
-            angle = i * angle_step
-            x = center_x + radius * np.cos(np.radians(angle))
-            y = center_y + radius * np.sin(np.radians(angle))
-            
-            # Assign a unique color to each skill if not already assigned
-            if skill_name not in self.skill_colors:
-                self.skill_colors[skill_name] = f'#{random.randint(0, 0xFFFFFF):06x}'
-
-            color = self.skill_colors[skill_name]
-            
-            # Draw skill circle
-            self.canvas.create_oval(x-20, y-20, x+20, y+20, fill=color)
-            self.canvas.create_text(x, y, text=skill_name, font=("Arial", 10, "bold"))
-
-            # Highlight the used skill
-            if skill_name == skill:
-                self.canvas.create_oval(x-25, y-25, x+25, y+25, outline="red", width=3)
-
-        # Update skill info
-        for widget in self.skill_info_frame.winfo_children():
-            widget.destroy()
-
-        for skill_name, skill_data in self.ai_profiles[self.current_ai_profile].items():
-            color = self.skill_colors[skill_name]
-            ttk.Label(self.skill_info_frame, text=f"{skill_name}: ", foreground=color).pack(side=tk.LEFT, padx=2)
-            ttk.Label(self.skill_info_frame, text=f"Count: {skill_data['count']}, ").pack(side=tk.LEFT)
-            ttk.Label(self.skill_info_frame, text=f"Priority: {skill_data['priority']}").pack(side=tk.LEFT, padx=(0, 10))
-
-    def update_profile_display(self):
-        self.current_profile_label.config(text=f"Current Profile: {self.current_ai_profile}")
+        ToolTip(self.canvas, "Visual representation of skill rotation")
+        ToolTip(self.auto_detect_var, "Automatically switch between PVP and PVE profiles based on screen detection")
 
     # ... [rest of the class implementation] ...
 
