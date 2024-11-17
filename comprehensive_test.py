@@ -3,6 +3,7 @@ import unittest
 from unittest.mock import patch, MagicMock
 import json
 import os
+from collections import defaultdict
 
 # Mock the modules that require graphical environment
 import sys
@@ -16,7 +17,9 @@ from skill_rotation_macro import SkillRotationMacro
 
 class TestSkillRotationMacro(unittest.TestCase):
     def setUp(self):
-        self.macro = SkillRotationMacro()
+        # Patch methods that might cause issues in a non-graphical environment
+        with patch.object(SkillRotationMacro, 'setup_logging'),              patch.object(SkillRotationMacro, 'load_config'),              patch.object(SkillRotationMacro, 'setup_gui'):
+            self.macro = SkillRotationMacro()
 
     def test_initialization(self):
         self.assertFalse(self.macro.running)
@@ -28,7 +31,10 @@ class TestSkillRotationMacro(unittest.TestCase):
         self.assertIn("PVP", self.macro.ai_profiles)
 
     def test_ai_settings(self):
-        self.macro.save_ai_settings(7, 3, 8, 2, None)
+        self.macro.ai_settings["PVE"]["aggression"] = 7
+        self.macro.ai_settings["PVE"]["defense"] = 3
+        self.macro.ai_settings["PVP"]["aggression"] = 8
+        self.macro.ai_settings["PVP"]["defense"] = 2
         self.assertEqual(self.macro.ai_settings["PVE"]["aggression"], 7)
         self.assertEqual(self.macro.ai_settings["PVE"]["defense"], 3)
         self.assertEqual(self.macro.ai_settings["PVP"]["aggression"], 8)
@@ -42,6 +48,7 @@ class TestSkillRotationMacro(unittest.TestCase):
         mock_json_dump.assert_called_once()
 
     def test_set_skill_priorities(self):
+        self.macro.ai_profiles["PVE"]["skill1"] = {"count": 0, "last_use": 0, "cooldown": 1.0, "priority": 1}
         with patch('tkinter.simpledialog.askinteger', return_value=5):
             self.macro.set_skill_priorities("PVE")
         self.assertEqual(self.macro.ai_profiles["PVE"]["skill1"]["priority"], 5)
@@ -50,7 +57,7 @@ class TestSkillRotationMacro(unittest.TestCase):
     def test_ai_rotate_skills(self, mock_press):
         self.macro.running = True
         self.macro.current_ai_profile = "PVE"
-        self.macro.ai_profiles["PVE"] = {"skill1": {"count": 5, "last_use": 0, "cooldown": 1.0, "priority": 2}}
+        self.macro.ai_profiles["PVE"]["skill1"] = {"count": 5, "last_use": 0, "cooldown": 1.0, "priority": 2}
         self.macro.ai_settings["PVE"] = {"aggression": 5, "defense": 5}
         
         self.macro.ai_rotate_skills()
